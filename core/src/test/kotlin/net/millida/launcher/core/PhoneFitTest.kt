@@ -211,9 +211,9 @@ class PhoneFitTest {
     }
 
     @Test
-    fun `отказ объясняет, где играть, и подсказывает бету только там, где она поможет`() {
+    fun `the refusal suggests desktop play and beta only when it helps`() {
         val text = PhoneFit.message(PhoneBlock.OLD_FORGE, "TechnoMagic", "1.12.2", legacyRuntime = false)
-        assertTrue(text.contains("компьютере") && text.contains("1.12.2") && text.contains("TechnoMagic"))
+        assertTrue(text.contains("computer") && text.contains("1.12.2") && text.contains("TechnoMagic"))
         assertTrue("выключенная бета названа по пути в настройках", text.contains(PhoneFit.BETA_HINT))
         assertTrue(PhoneFit.message(PhoneBlock.OWN_LAUNCH, "OneBlock", "1.7.10", legacyRuntime = false).contains(PhoneFit.BETA_HINT))
         assertFalse(

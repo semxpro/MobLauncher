@@ -1,7 +1,5 @@
 # Where the APK comes from and how to verify it
 
-Russian version: [SAFETY.ru.md](SAFETY.ru.md)
-
 ## In short
 
 ```

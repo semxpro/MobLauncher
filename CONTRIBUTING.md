@@ -1,8 +1,6 @@
 # How to contribute
 
-Russian version: [CONTRIBUTING.ru.md](CONTRIBUTING.ru.md)
-
-Millida Launcher for Android is a Minecraft Java Edition launcher written in Kotlin with
+Mob Launcher for Android is a Minecraft Java Edition launcher written in Kotlin with
 Jetpack Compose. `core` installs and starts the game and knows nothing about Android,
 `runtime` hosts the Java machine on the phone, and `app` is the interface on top of them.
 

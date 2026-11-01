@@ -59,7 +59,7 @@ class TelemetryKindTest {
                 "refused_memory", "отказ по памяти — решение лаунчера, а не сбой; раньше уходил в other"),
             Case(PhoneUnsupported(PhoneBlock.OLD_FORGE, "Сборка", "1.12.2"),
                 "refused_device", "сборка не для телефона — отказ по устройству"),
-            Case(IllegalStateException("«Сборка» не поместится в память этого телефона. Играй в неё через Millida Launcher на компьютере"),
+            Case(IllegalStateException("\"Build\" needs more memory than this phone can provide. Play it with Mob Launcher on a computer."),
                 "refused_device", "тот же отказ текстом, когда исключение пересоздано экраном запуска"),
             Case(IllegalStateException("GL4ES 1.1.4 не запустит 1.21.5: GL4ES тянет версии только до 1.21.4. Подходящего рендерера в пакете рантайма нет — обнови пакет рантайма."),
                 "refused_renderer", "без своего правила отказ рендерера попадал в graphics, как настоящий сбой драйвера"),

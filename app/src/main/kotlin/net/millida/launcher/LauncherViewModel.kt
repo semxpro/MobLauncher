@@ -718,7 +718,7 @@ class LauncherViewModel(application: Application) : AndroidViewModel(application
                 notice("На телефоне это по ссылке пока не надевается — выбери во вкладке «Персонаж»", tone = ToastTone.Info)
             }
             else -> notice(
-                "«${link.slug}» на телефоне не ставится — поставь через Millida Launcher на компьютере",
+                "${link.slug} cannot be installed on a phone. Install it with Mob Launcher on a computer.",
                 isError = true,
             )
         }

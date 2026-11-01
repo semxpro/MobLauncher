@@ -1,7 +1,5 @@
 # Contributor Covenant Code of Conduct
 
-Russian version: [CODE_OF_CONDUCT.ru.md](CODE_OF_CONDUCT.ru.md)
-
 ## Our Pledge
 
 We as members, contributors, and leaders pledge to make participation in our

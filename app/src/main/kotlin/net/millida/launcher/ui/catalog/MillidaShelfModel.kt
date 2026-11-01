@@ -362,7 +362,7 @@ class MillidaShelfModel(
                 return@launch
             }
             if (modrinth == null) {
-                host.notice("«$title» на телефоне не ставится — поставь через Millida Launcher на компьютере", true)
+                   host.notice("$title cannot be installed on a phone. Install it with Mob Launcher on a computer.", true)
                 return@launch
             }
             show(

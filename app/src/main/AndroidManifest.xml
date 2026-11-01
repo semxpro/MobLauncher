@@ -61,7 +61,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <!--
-              The site's "Играть" and "Установить в Millida Launcher" buttons open
+              The site's "Play" and "Install in Mob Launcher" buttons open
               millida:// addresses. Of the https links to millida.net only pack
               codes are claimed; every other page stays in the browser.
             -->

@@ -254,7 +254,7 @@ class UpdatesTest {
         assertFalse("пусто — окно не показываем", ReleaseNotesParser.parse("").hasContent)
         assertFalse(
             "строка-заглушка релизного конвейера ничего не говорит игроку",
-            ReleaseNotesParser.parse("Обновление Millida Launcher 1.4.0").hasContent,
+            ReleaseNotesParser.parse("Mob Launcher update 1.4.0").hasContent,
         )
         assertFalse(
             "заголовок без пунктов — пустой раздел",

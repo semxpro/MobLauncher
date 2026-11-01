@@ -65,82 +65,82 @@ data class MillidaColors(
     val tickRead: Color,
 )
 
-private val InkOnAccent = Color(0xFF06200E)
+private val InkOnAccent = Color(0xFF18220B)
 
 private val TickRead = Color(0xFF4C9FFE)
 
 private val darkTokens = MillidaColors(
-    bg = Color(0xFF161718),
-    surface = Color(0xFF1E1F20),
-    surface2 = Color(0xFF26272A),
-    raised = Color(0xFF2A2B2E),
-    inset = Color(0xFF131314),
-    fg = Color(0xFFEDEFEE),
-    fgMuted = Color(0xCCEDEFEE),
-    fgSubtle = Color(0xA8EDEFEE),
-    fgFaint = Color(0x85EDEFEE),
-    accent = Color(0xFF5EC64D),
-    accentSoft = Color(0x215EC64D),
+    bg = Color(0xFF111613),
+    surface = Color(0xFF1A211D),
+    surface2 = Color(0xFF232C26),
+    raised = Color(0xFF2B3730),
+    inset = Color(0xFF0B100D),
+    fg = Color(0xFFF1F5EF),
+    fgMuted = Color(0xCCF1F5EF),
+    fgSubtle = Color(0xA8F1F5EF),
+    fgFaint = Color(0x85F1F5EF),
+    accent = Color(0xFFB7E14A),
+    accentSoft = Color(0x28B7E14A),
     danger = Color(0xFFFF6B5E),
     dangerSoft = Color(0x21FF6B5E),
     warning = Color(0xFFF5AA38),
     warningSoft = Color(0x24F5AA38),
     info = Color(0xFF6AA9E9),
     infoSoft = Color(0x246AA9E9),
-    success = Color(0xFF5EC64D),
+    success = Color(0xFFB7E14A),
     dark = true,
     onAccent = InkOnAccent,
-    accentText = Color(0xFF5EC64D),
-    accentToday = Color(0xFF334D32),
-    accentDeep = Color(0xFF11240E),
+    accentText = Color(0xFFB7E14A),
+    accentToday = Color(0xFF39472B),
+    accentDeep = Color(0xFF1B260F),
     border = Color(0x12FFFFFF),
     borderStrong = Color(0x24FFFFFF),
     plateTop = Color(0x0AFFFFFF),
     plateBottom = Color(0x42000000),
-    wellOutline = Color(0x17EDEFEE),
+    wellOutline = Color(0x17F1F5EF),
     wellTop = Color(0x42000000),
-    chipFill = Color(0x0FEDEFEE),
-    segmentFill = Color(0x0AEDEFEE),
-    segmentFillOn = Color(0x1FEDEFEE),
-    skeletonShine = Color(0x0DEDEFEE),
+    chipFill = Color(0x0FF1F5EF),
+    segmentFill = Color(0x0AF1F5EF),
+    segmentFillOn = Color(0x1FF1F5EF),
+    skeletonShine = Color(0x0DF1F5EF),
     dockOutline = Color(0x66000000),
     tickRead = TickRead,
 )
 
 private val lightTokens = MillidaColors(
-    bg = Color(0xFFF2F3F1),
+    bg = Color(0xFFF0F3ED),
     surface = Color(0xFFFFFFFF),
-    surface2 = Color(0xFFF5F6F4),
+    surface2 = Color(0xFFF4F7F1),
     raised = Color(0xFFFFFFFF),
-    inset = Color(0xFFE9EBE8),
-    fg = Color(0xFF181D1A),
-    fgMuted = Color(0xCC181D1A),
-    fgSubtle = Color(0xA8181D1A),
-    fgFaint = Color(0x8A181D1A),
-    accent = Color(0xFF3B9A34),
-    accentSoft = Color(0x1C3B9A34),
+    inset = Color(0xFFE6EDE2),
+    fg = Color(0xFF172018),
+    fgMuted = Color(0xCC172018),
+    fgSubtle = Color(0xA8172018),
+    fgFaint = Color(0x8A172018),
+    accent = Color(0xFF789A21),
+    accentSoft = Color(0x1C789A21),
     danger = Color(0xFFDD4A3E),
     dangerSoft = Color(0x24DD4A3E),
     warning = Color(0xFFB97511),
     warningSoft = Color(0x29B97511),
     info = Color(0xFF3572B8),
     infoSoft = Color(0x263572B8),
-    success = Color(0xFF3B9A34),
+    success = Color(0xFF789A21),
     dark = false,
     onAccent = InkOnAccent,
-    accentText = Color(0xFF346D2A),
-    accentToday = Color(0xFFD6E9D3),
-    accentDeep = Color(0xFF11240E),
-    border = Color(0x14181D1A),
-    borderStrong = Color(0x29181D1A),
+    accentText = Color(0xFF496014),
+    accentToday = Color(0xFFE2ECCB),
+    accentDeep = Color(0xFF293817),
+    border = Color(0x14172018),
+    borderStrong = Color(0x29172018),
     plateTop = Color(0x00000000),
     plateBottom = Color(0x1F0F1711),
-    wellOutline = Color(0x4D0F1711),
+    wellOutline = Color(0x4D111A12),
     wellTop = Color(0x14000000),
-    chipFill = Color(0x0F181D1A),
-    segmentFill = Color(0x0A181D1A),
-    segmentFillOn = Color(0x1F181D1A),
-    skeletonShine = Color(0x0D181D1A),
+    chipFill = Color(0x0F172018),
+    segmentFill = Color(0x0A172018),
+    segmentFillOn = Color(0x1F172018),
+    skeletonShine = Color(0x0D172018),
     dockOutline = Color(0x1F0F1711),
     tickRead = TickRead,
 )
@@ -154,17 +154,17 @@ data class MillidaAccent(
 )
 
 val MillidaAccents: List<MillidaAccent> = listOf(
-    MillidaAccent("green", "Зелёный", Color(0xFF5EC64D), Color(0x215EC64D)),
-    MillidaAccent("lime", "Лайм", Color(0xFF9BD628), Color(0x249BD628)),
-    MillidaAccent("teal", "Бирюзовый", Color(0xFF22C7A9), Color(0x2422C7A9)),
-    MillidaAccent("cyan", "Голубой", Color(0xFF2CB6E8), Color(0x242CB6E8)),
-    MillidaAccent("blue", "Синий", Color(0xFF4C8DFF), Color(0x244C8DFF)),
-    MillidaAccent("indigo", "Индиго", Color(0xFF6C6BFF), Color(0x246C6BFF)),
-    MillidaAccent("purple", "Фиолетовый", Color(0xFF9B6BFF), Color(0x249B6BFF)),
-    MillidaAccent("pink", "Розовый", Color(0xFFFF6BAA), Color(0x24FF6BAA)),
-    MillidaAccent("red", "Красный", Color(0xFFFF6B5E), Color(0x24FF6B5E)),
-    MillidaAccent("orange", "Оранжевый", Color(0xFFF5923B), Color(0x24F5923B)),
-    MillidaAccent("yellow", "Жёлтый", Color(0xFFF5C93B), Color(0x24F5C93B)),
+    MillidaAccent("green", "Green", Color(0xFFB7E14A), Color(0x28B7E14A)),
+    MillidaAccent("lime", "Lime", Color(0xFF9BD628), Color(0x249BD628)),
+    MillidaAccent("teal", "Teal", Color(0xFF22C7A9), Color(0x2422C7A9)),
+    MillidaAccent("cyan", "Cyan", Color(0xFF2CB6E8), Color(0x242CB6E8)),
+    MillidaAccent("blue", "Blue", Color(0xFF4C8DFF), Color(0x244C8DFF)),
+    MillidaAccent("indigo", "Indigo", Color(0xFF6C6BFF), Color(0x246C6BFF)),
+    MillidaAccent("purple", "Purple", Color(0xFF9B6BFF), Color(0x249B6BFF)),
+    MillidaAccent("pink", "Pink", Color(0xFFFF6BAA), Color(0x24FF6BAA)),
+    MillidaAccent("red", "Red", Color(0xFFFF6B5E), Color(0x24FF6B5E)),
+    MillidaAccent("orange", "Orange", Color(0xFFF5923B), Color(0x24F5923B)),
+    MillidaAccent("yellow", "Yellow", Color(0xFFF5C93B), Color(0x24F5C93B)),
 )
 
 private val CUSTOM_ACCENT = Regex("^#[0-9a-fA-F]{6}$")
@@ -177,7 +177,7 @@ fun isKnownAccent(id: String): Boolean = isCustomAccent(id) || MillidaAccents.an
 
 fun accentFromHex(hex: String): MillidaAccent {
     val color = Color(0xFF000000 or hex.removePrefix("#").toLong(16))
-    return MillidaAccent(hex.lowercase(), "Свой цвет", color, color.copy(alpha = CUSTOM_ACCENT_SOFT_ALPHA))
+    return MillidaAccent(hex.lowercase(), "Custom", color, color.copy(alpha = CUSTOM_ACCENT_SOFT_ALPHA))
 }
 
 fun accentById(id: String): MillidaAccent =
@@ -354,13 +354,13 @@ object MillidaPixel {
 }
 
 enum class Rarity(val color: Color, val plate: String, val title: String) {
-    COMMON(Color(0xFF98A0A4), "Обычная", "Обычная"),
-    UNCOMMON(Color(0xFF5AC445), "Необычная", "Необычная"),
-    RARE(Color(0xFF4994E9), "Редкая", "Редкая"),
-    EPIC(Color(0xFFB466DB), "Эпическая", "Эпическая"),
-    LEGENDARY(Color(0xFFF2BA36), "Легенда", "Легендарная"),
-    MYTHIC(Color(0xFFF14159), "Миф", "Мифическая"),
-    RELIC(Color(0xFFEDEDF3), "Невозможная", "Невозможная");
+    COMMON(Color(0xFF98A0A4), "Common", "Common"),
+    UNCOMMON(Color(0xFF5AC445), "Uncommon", "Uncommon"),
+    RARE(Color(0xFF4994E9), "Rare", "Rare"),
+    EPIC(Color(0xFFB466DB), "Epic", "Epic"),
+    LEGENDARY(Color(0xFFF2BA36), "Legendary", "Legendary"),
+    MYTHIC(Color(0xFFF14159), "Mythic", "Mythic"),
+    RELIC(Color(0xFFEDEDF3), "Relic", "Relic");
 
     val sparkles: Boolean get() = this >= EPIC
     val animated: Boolean get() = this >= MYTHIC

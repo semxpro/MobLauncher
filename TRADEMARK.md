@@ -1,8 +1,6 @@
-# Millida trademarks and brand
+# Original Millida trademarks and brand
 
-Russian version: [TRADEMARK.ru.md](TRADEMARK.ru.md)
-
-The source code of Millida Launcher for Android is distributed under the **GPL-3.0-only**
+The source code of the original Android launcher is distributed under the **GPL-3.0-only**
 license (the file [LICENSE](LICENSE)). This license **does not cover the brand**. Copyright
 and trademark rights are different things, and the GPL grants rights to the code only.
 
@@ -10,7 +8,7 @@ and trademark rights are different things, and the GPL grants rights to the code
 
 The following materials remain the property of Millida. The code license does not grant rights to them:
 
-- the name **"Millida"**, "Millida Launcher", "Millida Skins", "Millida Trade" and any
+- the name **"Millida"**, the original launcher name, "Millida Skins", "Millida Trade" and any
   word or graphic marks that are confusingly similar to them;
 - the logo and the app icons: `app/src/main/res/mipmap-*/`, the logo images in
   `app/src/main/res/drawable/` and the alternative app icons in `app/src/main/assets/`;
@@ -28,7 +26,7 @@ to use them in derived products.
 If you fork the project and distribute your own builds, you can use and modify
 the code under the terms of GPL-3.0. But you must also do this:
 
-1. **Change the name.** Your product must not be called "Millida", "Millida Launcher"
+1. **Change the name.** Your product must not be called "Millida" or use any Millida mark
    or anything similar. This applies to the app name (`app_name` in
    `app/src/main/res/values/strings.xml`), the application ID (`applicationId` in
    `app/build.gradle.kts`) and the name under which you publish the APK.
@@ -36,9 +34,9 @@ the code under the terms of GPL-3.0. But you must also do this:
    the Millida cape and the design images from the list above with your own.
 3. **Do not claim affiliation.** You must not say or hint that your build
    was released by Millida, approved by Millida, supported by Millida or is
-   "official". A phrase like "a fork of the Millida Launcher project" is fine.
+  "official". A phrase like "a fork of the original project" is fine.
    It is a statement of fact about where the code comes from, and we do not object to it.
-   But "Millida Launcher Pro" or the Millida logo on a landing page is not fine.
+  But an unauthorized extension of the Millida name or use of its logo is not fine.
 4. **Use your own keys and endpoints.** The identifiers and service addresses
    of Millida belong to us and are meant for official builds:
    - `DEFAULT_CLIENT_ID` in `core/src/main/kotlin/net/millida/launcher/core/account/MicrosoftAuth.kt`
@@ -61,7 +59,7 @@ the code under the terms of GPL-3.0. But you must also do this:
 
 ## What you can do without separate permission
 
-- Mention Millida in texts: "based on Millida Launcher", "compatible with
+- Mention Millida in texts: "based on the original project", "compatible with
   Millida", comparisons, reviews, discussions, bug reports.
 - Link to the official repository and site.
 - Build the unchanged code for personal use, including builds for yourself

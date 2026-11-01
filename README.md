@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/readme/banner-en.png" alt="Millida Launcher for Android: Minecraft Java on your phone with mods, skins and friends">
+  <img src=".github/readme/banner-en.png" alt="Mob Launcher for Android: Minecraft Java on your phone with mods, skins and friends">
 </p>
 
 <p align="center">
@@ -25,7 +25,7 @@
 | **New instance** | **Character** | **More** |
 | <img src="screenshots/new-build.png" alt="Any version and loader: Fabric, Quilt, Forge, NeoForge"> | <img src="screenshots/character.png" alt="Skins and capes on a 3D figure"> | <img src="screenshots/more.png" alt="Friends, servers, hosting and account"> |
 
-*English | Russian version: [README.ru.md](README.ru.md)*
+*English*
 
 ## Install
 
@@ -116,4 +116,4 @@ The launcher handles your Microsoft sign-in, the game files and network requests
 - GPL-3.0 gives you the right to fork. The brand, the keys and our services are not covered by it. See [TRADEMARK.md](TRADEMARK.md).
 </details>
 
-<sub>Millida Launcher is not affiliated with Mojang AB or Microsoft. Minecraft is a trademark of Mojang AB. Android is a trademark of Google LLC.</sub>
+<sub>Mob Launcher is not affiliated with Mojang AB or Microsoft. Minecraft is a trademark of Mojang AB. Android is a trademark of Google LLC.</sub>

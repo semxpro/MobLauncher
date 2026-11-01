@@ -1,7 +1,5 @@
 # Security
 
-Russian version: [SECURITY.ru.md](SECURITY.ru.md)
-
 Thank you for taking the time to report a problem. The launcher starts the game, uses the
 network, unpacks archives from external catalogs, downloads native libraries and stores the
 user's tokens. A bug in any of these places can cost a person their account or files, so

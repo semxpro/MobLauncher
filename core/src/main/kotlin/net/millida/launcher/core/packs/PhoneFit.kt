@@ -143,26 +143,26 @@ object PhoneFit {
     ): String {
         val text = when (block) {
             PhoneBlock.OLD_FORGE ->
-                "«$title» на Forge ${gameVersion.ifBlank { "до 1.13" }} — на телефоне такие сборки не запускаются." +
-                    "Играй в неё через Millida Launcher на компьютере"
+                "\"$title\" on Forge ${gameVersion.ifBlank { "before 1.13" }} cannot run on a phone. " +
+                    "Play it with Mob Launcher on a computer."
             PhoneBlock.OWN_LAUNCH ->
-                "У «$title» свой запуск, написанный для компьютера. Играй в неё через Millida Launcher на компьютере"
+                "\"$title\" uses a desktop-only launcher. Play it with Mob Launcher on a computer."
             PhoneBlock.BROKEN_LAUNCH ->
-                "У «$title» свой запуск, телефон его не поддерживает. Играй в неё через Millida Launcher на компьютере"
+                "\"$title\" uses a launcher that is not supported on phones. Play it with Mob Launcher on a computer."
             PhoneBlock.PAID_OWN_LAUNCH ->
-                "«$title» запускается своим способом, написанным для компьютера, — на телефоне она не работает. " +
-                    "Играй в неё через Millida Launcher на компьютере"
+                "\"$title\" uses a desktop-only launcher and cannot run on a phone. " +
+                    "Play it with Mob Launcher on a computer."
             PhoneBlock.SDL_WINDOW -> if (sdlRuntime) {
-                "«$title» открывает окно игры через SDL3 — на телефоне такие сборки идут только в бете"
+                "\"$title\" opens the game window with SDL3. Builds like this are currently in beta on phones."
             } else {
-                "«$title» открывает окно игры через SDL3, а на телефоне этой библиотеки нет. " +
-                    "Играй в неё через Millida Launcher на компьютере"
+                "\"$title\" opens the game window with SDL3, which is not available on this phone. " +
+                    "Play it with Mob Launcher on a computer."
             }
             PhoneBlock.DESKTOP_NATIVE ->
-                "В «$title» есть библиотеки, собранные только для компьютера. " +
-                    "Играй в неё через Millida Launcher на компьютере"
+                "\"$title\" includes libraries built only for desktop computers. " +
+                    "Play it with Mob Launcher on a computer."
             PhoneBlock.TOO_HEAVY ->
-                "«$title» не поместится в память этого телефона. Играй в неё через Millida Launcher на компьютере"
+                "\"$title\" needs more memory than this phone can provide. Play it with Mob Launcher on a computer."
         }
         val unlockable = block == PhoneBlock.OLD_FORGE || block == PhoneBlock.OWN_LAUNCH ||
             (block == PhoneBlock.SDL_WINDOW && sdlRuntime)

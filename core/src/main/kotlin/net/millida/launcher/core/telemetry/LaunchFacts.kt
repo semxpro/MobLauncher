@@ -67,7 +67,7 @@ object FailureKind {
     private val RULES: List<Pair<Regex, String>> = listOf(
         Regex("""Свободно всего \d+""", RegexOption.IGNORE_CASE) to "refused_memory",
         Regex("""не запустит \S+:|нет подходящего рендерера""", RegexOption.IGNORE_CASE) to "refused_renderer",
-        Regex("""Millida Launcher на компьютере|на телефоне такие сборки|телефон его не поддерживает""", RegexOption.IGNORE_CASE) to "refused_device",
+        Regex("""Mob Launcher on a computer|cannot run on a phone|not supported on phones|needs more memory than this phone can provide""", RegexOption.IGNORE_CASE) to "refused_device",
         Regex("""OutOfMemoryError|Could not reserve enough space|не хватает (?:свободной )?памяти|lowmemorykiller""", RegexOption.IGNORE_CASE) to "out_of_memory",
         Regex("""No space left|ENOSPC|освободи место""", RegexOption.IGNORE_CASE) to "disk_full",
         Regex("""UnsatisfiedLinkError|dlopen failed|cannot locate symbol|SIGSEGV|SIGABRT|libc\.so""", RegexOption.IGNORE_CASE) to "native_crash",

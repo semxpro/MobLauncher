@@ -1,8 +1,6 @@
 # Third-party components
 
-Russian version: [THIRD-PARTY.ru.md](THIRD-PARTY.ru.md)
-
-Millida Launcher for Android is distributed under [GPL-3.0-only](LICENSE). Below are the
+Mob Launcher for Android is distributed under [GPL-3.0-only](LICENSE). Below are the
 components of third parties that end up in the app or in the game runtime it downloads,
 together with their licenses.
 

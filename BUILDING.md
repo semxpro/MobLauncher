@@ -1,6 +1,4 @@
-# How to build Millida Launcher for Android yourself
-
-Russian version: [BUILDING.ru.md](BUILDING.ru.md)
+# How to build Mob Launcher for Android yourself
 
 Three commands. The first build takes longer: Gradle downloads the dependencies once. After that, a couple of minutes.
 
