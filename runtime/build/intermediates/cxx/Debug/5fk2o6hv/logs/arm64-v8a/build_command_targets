@@ -1,0 +1,5 @@
+/home/codespace/Android/Sdk/cmake/3.22.1/bin/ninja \
+  -C \
+  /workspaces/MobLauncher/runtime/.cxx/Debug/5fk2o6hv/arm64-v8a \
+  millida_bridge \
+  millida_gles

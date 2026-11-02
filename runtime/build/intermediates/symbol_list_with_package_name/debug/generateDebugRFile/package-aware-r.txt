@@ -1,0 +1,2 @@
+net.millida.launcher.runtime
+drawable ic_stat_millida

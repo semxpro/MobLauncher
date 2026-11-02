@@ -1,0 +1,110 @@
+[
+    {
+        "merged": "net.millida.launcher.app-debug-53:/font_geist_regular.ttf.flat",
+        "source": "net.millida.launcher.app-main-55:/font/geist_regular.ttf"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/font_geist_extrabold.ttf.flat",
+        "source": "net.millida.launcher.app-main-55:/font/geist_extrabold.ttf"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/xml_file_paths.xml.flat",
+        "source": "net.millida.launcher.app-main-55:/xml/file_paths.xml"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/drawable_ic_launcher_glyph.xml.flat",
+        "source": "net.millida.launcher.app-main-55:/drawable/ic_launcher_glyph.xml"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-xhdpi_ic_launcher_adaptive_fore.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-xhdpi/ic_launcher_adaptive_fore.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-xhdpi_ic_launcher_adaptive_back.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-xhdpi/ic_launcher_adaptive_back.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-xxxhdpi_ic_launcher_adaptive_fore.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-xxxhdpi/ic_launcher_adaptive_fore.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-xxxhdpi_ic_launcher_adaptive_back.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-xxxhdpi/ic_launcher_adaptive_back.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/font_geist_black.ttf.flat",
+        "source": "net.millida.launcher.app-main-55:/font/geist_black.ttf"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/font_unbounded_black.ttf.flat",
+        "source": "net.millida.launcher.app-main-55:/font/unbounded_black.ttf"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-xxhdpi_ic_launcher_adaptive_fore.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-xxhdpi/ic_launcher_adaptive_fore.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/font_geist_medium.ttf.flat",
+        "source": "net.millida.launcher.app-main-55:/font/geist_medium.ttf"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-mdpi_ic_launcher_adaptive_back.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-mdpi/ic_launcher_adaptive_back.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-hdpi_ic_launcher_adaptive_fore.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-hdpi/ic_launcher_adaptive_fore.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/font_geist_semibold.ttf.flat",
+        "source": "net.millida.launcher.app-main-55:/font/geist_semibold.ttf"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/font_geist_bold.ttf.flat",
+        "source": "net.millida.launcher.app-main-55:/font/geist_bold.ttf"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-mdpi_ic_launcher_adaptive_fore.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-mdpi/ic_launcher_adaptive_fore.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-xxhdpi_ic_launcher_adaptive_back.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-xxhdpi/ic_launcher_adaptive_back.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-hdpi_ic_launcher_adaptive_back.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-hdpi/ic_launcher_adaptive_back.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/font_unbounded_bold.ttf.flat",
+        "source": "net.millida.launcher.app-main-55:/font/unbounded_bold.ttf"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "net.millida.launcher.app-main-55:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "net.millida.launcher.app-debug-53:/font_monocraft.ttf.flat",
+        "source": "net.millida.launcher.app-main-55:/font/monocraft.ttf"
+    }
+]
