@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.ContentUpdatesTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:14" hostname="codespaces-d0fe97" time="0.51">
+  <properties/>
+  <testcase name="план делит файлы на свежие, обновляемые и неопознанные" classname="net.millida.launcher.core.ContentUpdatesTest" time="0.188"/>
+  <testcase name="пакетное обновление переживает один мёртвый файл" classname="net.millida.launcher.core.ContentUpdatesTest" time="0.184"/>
+  <testcase name="выключенный мод после обновления остаётся выключенным" classname="net.millida.launcher.core.ContentUpdatesTest" time="0.138"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

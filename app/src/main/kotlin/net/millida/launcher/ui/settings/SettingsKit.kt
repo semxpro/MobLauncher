@@ -192,7 +192,7 @@ private fun CustomSwatch(color: Color?, onClick: () -> Unit) {
             .size(44.dp)
             .pixelSurface(color ?: colors.surface2, MillidaCut.badge, swatchFrame(colors, selected))
             .selectable(selected, interaction, null, role = Role.RadioButton, onClick = onClick)
-            .semantics { contentDescription = "Свой цвет" },
+            .semantics { contentDescription = "Custom color" },
         contentAlignment = Alignment.Center,
     ) {
         if (color == null) MIcon(MIcons.plus, size = 20.dp, color = colors.fgMuted)
@@ -218,7 +218,7 @@ private fun swatchFrame(colors: MillidaColors, selected: Boolean): PixelFrame = 
 
 private const val HUE_STEPS = 12
 private const val HUE_TURN = 360f
-private const val DEFAULT_CUSTOM_HUE = 130f
+private const val DEFAULT_CUSTOM_HUE = 215f
 
 private val TONES = listOf(
     0.45f to 1f,
@@ -251,15 +251,15 @@ private fun CustomAccentSheet(initial: String, onPick: (String) -> Unit, onDismi
         typed = hex.removePrefix("#")
         onPick(hex)
     }
-    MBottomSheet(onDismiss = onDismiss, title = "Свой цвет") {
-        SettingHead("Оттенок")
+    MBottomSheet(onDismiss = onDismiss, title = "Custom color") {
+        SettingHead("Hue")
         Spacer(Modifier.height(8.dp))
         MButtonRow {
             for (step in 0 until HUE_STEPS) {
                 val stepHue = HUE_TURN * step / HUE_STEPS
                 ColorSwatch(
                     color = Color.hsv(stepHue, 0.8f, 0.9f),
-                    label = "Оттенок ${step + 1}",
+                    label = "Hue ${step + 1}",
                     selected = stepHue == hue,
                     size = 36.dp,
                 ) { hue = stepHue }

@@ -65,7 +65,6 @@ import net.millida.launcher.core.skins.TexturePng
 import net.millida.launcher.ui.character.CharacterPanel
 import net.millida.launcher.ui.character.CharacterStage
 import net.millida.launcher.ui.character.CharacterTab
-import net.millida.launcher.ui.character.CosmeticFittingBar
 import net.millida.launcher.ui.character.OutfitEditDialog
 import net.millida.launcher.ui.character.ConfirmAsk
 import net.millida.launcher.ui.character.Fitting
@@ -216,7 +215,7 @@ fun SkinsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = M
                         outfit.cape.url.isEmpty() -> model.takeOffCape { done = true }
                         cards.any { it.id == outfit.cape.wardrobeId && it.isCape } -> model.applyWardrobeItem(outfit.cape.wardrobeId) { done = true }
                         else -> {
-                            model.notice("Плаща из образа больше нет в гардеробе — надень плащ заново и пересохрани образ", isError = true)
+                            model.notice("The outfit's cape is no longer in your wardrobe. Equip a cape and save the outfit again.", isError = true)
                             null
                         }
                     }
@@ -314,7 +313,7 @@ fun SkinsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = M
     val stageSlim = if (shown != null && shownSkin != null) shown.slim ?: guessedSlim ?: look.slim else look.slim
     val readyRewards = state.rewards.count { it.done && !it.claimed }
     val stageOutfit by rememberStageOutfit(cosmetics.dressed, stageSlim, wardrobe) { lost ->
-        model.notice("Не удалось показать на фигуре: " + lost.joinToString(", ") + " — обнови гардероб", isError = true)
+        model.notice("Could not display these items: " + lost.joinToString(", ") + ". Refresh your wardrobe.", isError = true)
     }
 
     val density = LocalDensity.current
@@ -329,7 +328,7 @@ fun SkinsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = M
 
     val wide = LocalWideLayout.current
     val shownTabs = remember(cosmetics.catalog.items) {
-        val present = CosmeticSections.of(cosmetics.catalog.items.map { it.slot }.toSet()).map { it.key }.toSet()
+        val present = CosmeticSections.of(cosmetics.catalog.items.filter { it.free }.map { it.slot }.toSet()).map { it.key }.toSet()
         CharacterTab.entries.filter {
             it in setOf(CharacterTab.SKIN, CharacterTab.CAPE, CharacterTab.LOOKS, CharacterTab.REWARDS, CharacterTab.IMPORT) &&
                 (it.section == null || it.section in present)
@@ -425,8 +424,8 @@ fun SkinsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = M
                 title = null,
                 onBack = null,
                 actions = {
-                    MSecondaryButton("Импорт", onClick = { pickToLibrary.launch("image/png") }, icon = MIcons.download, size = MButtonSize.Small)
-                    MPrimaryButton("Загрузить скин", onClick = { pickSkin.launch("image/png") }, icon = MIcons.upload, size = MButtonSize.Small)
+                    MSecondaryButton("Import", onClick = { pickToLibrary.launch("image/png") }, icon = MIcons.download, size = MButtonSize.Small)
+                    MPrimaryButton("Upload skin", onClick = { pickSkin.launch("image/png") }, icon = MIcons.upload, size = MButtonSize.Small)
                 },
             )
             Row(Modifier.weight(1f)) {
@@ -505,17 +504,17 @@ private class PickedSkin(val bytes: ByteArray, val name: String, val slim: Boole
 private class SkinPick(val skin: PickedSkin?, val problem: String = "")
 
 private fun readSkin(context: Context, uri: Uri, stage: Boolean): SkinPick {
-    val bytes = readPicked(context, uri) ?: return SkinPick(null, "Файл не прочитался — выбери PNG со скином")
+    val bytes = readPicked(context, uri) ?: return SkinPick(null, "Could not read the file. Choose a skin PNG.")
     val problem = try {
         TexturePng.validate(TextureKind.SKIN, bytes)
         null
     } catch (bad: Exception) {
-        bad.message?.takeIf { it.isNotBlank() } ?: "Это не скин — нужен PNG 64×64"
+        bad.message?.takeIf { it.isNotBlank() } ?: "This is not a skin. A 64×64 PNG is required."
     }
     if (problem != null) return SkinPick(null, problem)
     val preview = if (stage) stageFile(context, bytes) else null
     if (stage && preview == null) {
-        return SkinPick(null, "Не хватило места для примерки — освободи память телефона")
+        return SkinPick(null, "Not enough storage to preview the skin. Free up space on your device.")
     }
-    return SkinPick(PickedSkin(bytes, pickedName(context, uri, "Скин"), slimArms(bytes), preview))
+    return SkinPick(PickedSkin(bytes, pickedName(context, uri, "Skin"), slimArms(bytes), preview))
 }

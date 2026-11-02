@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.LocalContentImportTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:24" hostname="codespaces-d0fe97" time="0.082">
+  <properties/>
+  <testcase name="имя файла чистится перед копированием" classname="net.millida.launcher.core.LocalContentImportTest" time="0.006"/>
+  <testcase name="подозрительный мод ставится только с согласия" classname="net.millida.launcher.core.LocalContentImportTest" time="0.004"/>
+  <testcase name="ручной выбор папки и пропавший исходник" classname="net.millida.launcher.core.LocalContentImportTest" time="0.004"/>
+  <testcase name="в сборку вне хранилища ничего не копируется" classname="net.millida.launcher.core.LocalContentImportTest" time="0.003"/>
+  <testcase name="название из каталога подтягивается по хешу" classname="net.millida.launcher.core.LocalContentImportTest" time="0.051"/>
+  <testcase name="непонятный архив отклоняется с причиной" classname="net.millida.launcher.core.LocalContentImportTest" time="0.003"/>
+  <testcase name="паки раскладываются по своим папкам без лишних вопросов" classname="net.millida.launcher.core.LocalContentImportTest" time="0.007"/>
+  <testcase name="Fabric-мод в сборке Quilt ставится молча" classname="net.millida.launcher.core.LocalContentImportTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

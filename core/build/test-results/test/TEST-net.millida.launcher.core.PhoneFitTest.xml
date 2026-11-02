@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.PhoneFitTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:26" hostname="codespaces-d0fe97" time="0.008">
+  <properties/>
+  <testcase name="свой запуск виден по оглавлению архива" classname="net.millida.launcher.core.PhoneFitTest" time="0.001"/>
+  <testcase name="оглавление архива переводится в форму запуска" classname="net.millida.launcher.core.PhoneFitTest" time="0.0"/>
+  <testcase name="что внутри своего запуска телефон не потянет" classname="net.millida.launcher.core.PhoneFitTest" time="0.001"/>
+  <testcase name="сборка с окном SDL3 идёт только с бетой и опубликованным SDL3" classname="net.millida.launcher.core.PhoneFitTest" time="0.001"/>
+  <testcase name="бета выключена, пока приложение её не включило, и читается на каждом вопросе" classname="net.millida.launcher.core.PhoneFitTest" time="0.001"/>
+  <testcase name="какие сборки телефон не запустит" classname="net.millida.launcher.core.PhoneFitTest" time="0.003"/>
+  <testcase name="карточка каталога решает до скачивания" classname="net.millida.launcher.core.PhoneFitTest" time="0.001"/>
+  <testcase name="the refusal suggests desktop play and beta only when it helps" classname="net.millida.launcher.core.PhoneFitTest" time="0.0"/>
+  <testcase name="свой запуск узнаётся по карточке" classname="net.millida.launcher.core.PhoneFitTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.BuildOpsTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:08" hostname="codespaces-d0fe97" time="0.819">
+  <properties/>
+  <testcase name="план переноса честно показывает, что не переедет" classname="net.millida.launcher.core.BuildOpsTest" time="0.438"/>
+  <testcase name="перенос не трогает исходную сборку" classname="net.millida.launcher.core.BuildOpsTest" time="0.277"/>
+  <testcase name="наигранное копится по кусочкам и переживает перезапись файла" classname="net.millida.launcher.core.BuildOpsTest" time="0.025"/>
+  <testcase name="битый файл статистики читается как пустая статистика" classname="net.millida.launcher.core.BuildOpsTest" time="0.01"/>
+  <testcase name="дубликат не делит файлы с оригиналом" classname="net.millida.launcher.core.BuildOpsTest" time="0.018"/>
+  <testcase name="группа сборки сохраняется и читается" classname="net.millida.launcher.core.BuildOpsTest" time="0.021"/>
+  <testcase name="обложка копируется в папку сборки и снимается" classname="net.millida.launcher.core.BuildOpsTest" time="0.014"/>
+  <testcase name="дубликат без контента берёт только настройки сборки" classname="net.millida.launcher.core.BuildOpsTest" time="0.011"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

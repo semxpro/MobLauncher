@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.PortalClientTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:26" hostname="codespaces-d0fe97" time="0.687">
+  <properties/>
+  <testcase name="проверка ника понимает все три формы ответа" classname="net.millida.launcher.core.PortalClientTest" time="0.13"/>
+  <testcase name="смена ника по умолчанию разрешена, а мусор в сроке — ноль" classname="net.millida.launcher.core.PortalClientTest" time="0.006"/>
+  <testcase name="ссылки привязки берутся из url или link" classname="net.millida.launcher.core.PortalClientTest" time="0.045"/>
+  <testcase name="список значений приглашений согласован с проверкой" classname="net.millida.launcher.core.PortalClientTest" time="0.001"/>
+  <testcase name="неизвестное значение приглашений не уходит на сервер" classname="net.millida.launcher.core.PortalClientTest" time="0.005"/>
+  <testcase name="сессии читаются из любой обёртки ответа" classname="net.millida.launcher.core.PortalClientTest" time="0.127"/>
+  <testcase name="переключатель приватности отправляет одно поле PATCH" classname="net.millida.launcher.core.PortalClientTest" time="0.004"/>
+  <testcase name="профиль показывается и без кошелька" classname="net.millida.launcher.core.PortalClientTest" time="0.129"/>
+  <testcase name="смена ника отправляет ник и перечитывает аккаунт" classname="net.millida.launcher.core.PortalClientTest" time="0.046"/>
+  <testcase name="баланс в копейках пишется рублями" classname="net.millida.launcher.core.PortalClientTest" time="0.001"/>
+  <testcase name="сессия без своих полей берёт запасные" classname="net.millida.launcher.core.PortalClientTest" time="0.004"/>
+  <testcase name="выход из сессий идёт нужным методом" classname="net.millida.launcher.core.PortalClientTest" time="0.045"/>
+  <testcase name="приватность по умолчанию открыта, а приглашения только из списка" classname="net.millida.launcher.core.PortalClientTest" time="0.131"/>
+  <testcase name="данные аккаунта переносятся все, включая Telegram под своими именами" classname="net.millida.launcher.core.PortalClientTest" time="0.012"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

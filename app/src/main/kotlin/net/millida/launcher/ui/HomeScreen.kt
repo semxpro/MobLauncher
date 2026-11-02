@@ -53,11 +53,6 @@ import net.millida.launcher.ui.home.loaderGate
 import net.millida.launcher.ui.home.rememberLobbyTourScroll
 import net.millida.launcher.ui.home.serverShelf
 import net.millida.launcher.ui.servers.ServerDetailSheet
-import net.millida.launcher.ui.catalog.CatalogTab
-import net.millida.launcher.core.servers.OwnServers
-import net.millida.launcher.ui.home.HubActions
-import net.millida.launcher.ui.home.HubFeed
-import net.millida.launcher.ui.home.ModeServersSheet
 import net.millida.launcher.ui.home.hubSections
 import net.millida.launcher.ui.social.LobbyParty
 
@@ -101,11 +96,6 @@ fun HomeScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
         openCreate(ask.version)
     }
     val active = activeBuild(state, lobby)
-    val playOwn: () -> Unit = {
-        val own = OwnServers.ONEBLOCK
-        model.playServer(own.address, own.title, emptyList(), own.slug)
-    }
-
     val topRow: @Composable () -> Unit = {
         LobbyTopRow(
             state = state,
@@ -169,20 +159,8 @@ fun HomeScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
     }
     val sections: LazyListScope.() -> Unit = {
         hubSections(
-            feed = HubFeed(
-                hub = hub,
-                ownPlayable = OwnServers.playable(OwnServers.ONEBLOCK),
-            ),
-            actions = HubActions(
-                playOwn = playOwn,
-                openCatalog = {
-                    model.open(Screen.CATALOG)
-                    model.catalogModel.setTab(CatalogTab.MODPACKS)
-                },
-                openMode = model.hub::openMode,
-                createVersion = { version -> openCreate(version) },
-                retry = model.hub::retry,
-            ),
+            hub = hub,
+            createVersion = { version -> openCreate(version) },
             hasBuilds = state.profiles.isNotEmpty(),
             party = { LobbyParty(state, model, modeTitle = active?.name) },
         )
@@ -263,22 +241,6 @@ fun HomeScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
         }
     }
 
-    hub.mode?.let { sheet ->
-        ModeServersSheet(
-            sheet = sheet,
-            joining = lobby.joining,
-            onPlay = { server ->
-                model.hub.closeMode()
-                model.playServer(server.joinAddress, server.name, server.versionMajors, server.slug)
-            },
-            onOpen = { server ->
-                model.hub.closeMode()
-                openedServer = server
-            },
-            onRetry = model.hub::retryMode,
-            onDismiss = model.hub::closeMode,
-        )
-    }
     openedServer?.let { server ->
         ServerDetailSheet(
             server = server,

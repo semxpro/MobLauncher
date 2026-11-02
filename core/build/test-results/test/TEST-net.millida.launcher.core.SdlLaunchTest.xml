@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.SdlLaunchTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:28" hostname="codespaces-d0fe97" time="0.026">
+  <properties/>
+  <testcase name="выбор оконного слоя" classname="net.millida.launcher.core.SdlLaunchTest" time="0.001"/>
+  <testcase name="графика SDL3 по версии Angelica" classname="net.millida.launcher.core.SdlLaunchTest" time="0.002"/>
+  <testcase name="библиотеки компонента SDL3 идут первыми" classname="net.millida.launcher.core.SdlLaunchTest" time="0.001"/>
+  <testcase name="сборка с SDL3 узнаётся по своим файлам" classname="net.millida.launcher.core.SdlLaunchTest" time="0.004"/>
+  <testcase name="версия игры с окном SDL3 узнаётся по библиотекам" classname="net.millida.launcher.core.SdlLaunchTest" time="0.001"/>
+  <testcase name="окружение SDL3 указывает на рендерер" classname="net.millida.launcher.core.SdlLaunchTest" time="0.0"/>
+  <testcase name="загрузчик Vulkan скрыт от игры на пути SDL3" classname="net.millida.launcher.core.SdlLaunchTest" time="0.001"/>
+  <testcase name="доступность SDL3 читается без сети" classname="net.millida.launcher.core.SdlLaunchTest" time="0.003"/>
+  <testcase name="старый манифест без SDL3 читается, новый говорит о SDL3" classname="net.millida.launcher.core.SdlLaunchTest" time="0.001"/>
+  <testcase name="библиотеки LWJGL сборки уходят из списка классов, SDL3 замечен до этого" classname="net.millida.launcher.core.SdlLaunchTest" time="0.003"/>
+  <testcase name="прослойка GLES подставляется только на прямом GLES" classname="net.millida.launcher.core.SdlLaunchTest" time="0.002"/>
+  <testcase name="shaderc и spirv-cross берутся из компонента SDL3" classname="net.millida.launcher.core.SdlLaunchTest" time="0.002"/>
+  <testcase name="Fabric поверх ванили с SDL3 тоже идёт через SDL3" classname="net.millida.launcher.core.SdlLaunchTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

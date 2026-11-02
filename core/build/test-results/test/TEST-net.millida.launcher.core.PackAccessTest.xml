@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.PackAccessTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:25" hostname="codespaces-d0fe97" time="0.031">
+  <properties/>
+  <testcase name="свой сервер узнаётся по слагу и по адресу" classname="net.millida.launcher.core.PackAccessTest" time="0.002"/>
+  <testcase name="ключ запуска проходит тот же фильтр, что и флаги сборки" classname="net.millida.launcher.core.PackAccessTest" time="0.002"/>
+  <testcase name="только явный отказ API забирает сборку" classname="net.millida.launcher.core.PackAccessTest" time="0.001"/>
+  <testcase name="слаг не уводит папку хранения" classname="net.millida.launcher.core.PackAccessTest" time="0.0"/>
+  <testcase name="какие сборки каталога видны на телефоне" classname="net.millida.launcher.core.PackAccessTest" time="0.002"/>
+  <testcase name="уходят только файлы игрока и возвращаются при новой установке" classname="net.millida.launcher.core.PackAccessTest" time="0.009"/>
+  <testcase name="проверка во время игры идёт, пока жива игра, и останавливается на отказе" classname="net.millida.launcher.core.PackAccessTest" time="0.004"/>
+  <testcase name="ворота перед запуском" classname="net.millida.launcher.core.PackAccessTest" time="0.01"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

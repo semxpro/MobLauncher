@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.RendererBlackScreenTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:27" hostname="codespaces-d0fe97" time="0.002">
+  <properties/>
+  <testcase name="после чёрного экрана на MobileGlues берётся другой" classname="net.millida.launcher.core.RendererBlackScreenTest" time="0.0"/>
+  <testcase name="сбой инициализации GL ловится у Zink и MobileGlues" classname="net.millida.launcher.core.RendererBlackScreenTest" time="0.001"/>
+  <testcase name="без сбоев выбор прежний, после чёрного экрана Krypton уступает MobileGlues" classname="net.millida.launcher.core.RendererBlackScreenTest" time="0.001"/>
+  <testcase name="Unexpected error на Zink запоминается, на Krypton нет" classname="net.millida.launcher.core.RendererBlackScreenTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

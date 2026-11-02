@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.AuthlibAgentTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:07" hostname="codespaces-d0fe97" time="0.795">
+  <properties/>
+  <testcase name="недоступные источники перечислены в ошибке, а старый файл не тронут" classname="net.millida.launcher.core.AuthlibAgentTest" time="0.758"/>
+  <testcase name="агент берётся только закреплённой сборки по https" classname="net.millida.launcher.core.AuthlibAgentTest" time="0.001"/>
+  <testcase name="файл агента лежит в рантаймах и без верного хеша не готов" classname="net.millida.launcher.core.AuthlibAgentTest" time="0.004"/>
+  <testcase name="скачанный файл с чужим хешем не подменяет агента" classname="net.millida.launcher.core.AuthlibAgentTest" time="0.029"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

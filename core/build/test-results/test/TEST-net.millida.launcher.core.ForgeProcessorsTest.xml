@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.ForgeProcessorsTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:20" hostname="codespaces-d0fe97" time="0.463">
+  <properties/>
+  <testcase name="без сверки хеша программа шага не запускается, а версия не записывается" classname="net.millida.launcher.core.ForgeProcessorsTest" time="0.285"/>
+  <testcase name="современный Forge собирается шагами и записывает версию только после проверки выхода" classname="net.millida.launcher.core.ForgeProcessorsTest" time="0.139"/>
+  <testcase name="поля data берутся для клиента и различаются по виду" classname="net.millida.launcher.core.ForgeProcessorsTest" time="0.012"/>
+  <testcase name="шаг скачивания маппингов узнаётся по задаче" classname="net.millida.launcher.core.ForgeProcessorsTest" time="0.012"/>
+  <testcase name="аргументы шагов подставляются по правилам установщика" classname="net.millida.launcher.core.ForgeProcessorsTest" time="0.015"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.ViaProxyTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:29" hostname="codespaces-d0fe97" time="0.018">
+  <properties/>
+  <testcase name="недокачанный переводчик не считается установленным" classname="net.millida.launcher.core.ViaProxyTest" time="0.004"/>
+  <testcase name="переводчик слушает только сам телефон и знает, куда переводить" classname="net.millida.launcher.core.ViaProxyTest" time="0.0"/>
+  <testcase name="нечитаемый пакет не выдаёт себя за рабочий" classname="net.millida.launcher.core.ViaProxyTest" time="0.004"/>
+  <testcase name="имя версии Bedrock читается из того jar, который стоит на телефоне" classname="net.millida.launcher.core.ViaProxyTest" time="0.01"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

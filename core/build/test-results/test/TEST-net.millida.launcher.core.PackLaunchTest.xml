@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.PackLaunchTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:25" hostname="codespaces-d0fe97" time="0.047">
+  <properties/>
+  <testcase name="описание без формы запуска отклоняется целиком" classname="net.millida.launcher.core.PackLaunchTest" time="0.001"/>
+  <testcase name="classpath остаётся в сборке, упорядочен и без настольного LWJGL" classname="net.millida.launcher.core.PackLaunchTest" time="0.01"/>
+  <testcase name="корень описания — архив или его единственная обёртка" classname="net.millida.launcher.core.PackLaunchTest" time="0.002"/>
+  <testcase name="сборка со своим запуском ставится без загрузчика и хранит описание" classname="net.millida.launcher.core.PackLaunchTest" time="0.008"/>
+  <testcase name="описанию верят только у сборки из каталога, слаг берётся из записи установки" classname="net.millida.launcher.core.PackLaunchTest" time="0.002"/>
+  <testcase name="classpath собранной на Windows сборки находится без учёта регистра" classname="net.millida.launcher.core.PackLaunchTest" time="0.002"/>
+  <testcase name="описание OneBlock читается так, как его ждёт сборка" classname="net.millida.launcher.core.PackLaunchTest" time="0.0"/>
+  <testcase name="нет файла из classpath — понятная ошибка, а не пустой запуск" classname="net.millida.launcher.core.PackLaunchTest" time="0.008"/>
+  <testcase name="чужой архив не протащит агент через свои флаги" classname="net.millida.launcher.core.PackLaunchTest" time="0.001"/>
+  <testcase name="чужой архив не приносит описание запуска" classname="net.millida.launcher.core.PackLaunchTest" time="0.009"/>
+  <testcase name="форма запуска распакованной сборки" classname="net.millida.launcher.core.PackLaunchTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

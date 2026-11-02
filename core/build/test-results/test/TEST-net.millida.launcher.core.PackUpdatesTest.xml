@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.PackUpdatesTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:25" hostname="codespaces-d0fe97" time="0.027">
+  <properties/>
+  <testcase name="откуда сборка берёт новую версию" classname="net.millida.launcher.core.PackUpdatesTest" time="0.001"/>
+  <testcase name="обновлением считается только другая версия" classname="net.millida.launcher.core.PackUpdatesTest" time="0.001"/>
+  <testcase name="сборка без списка модов судится по времени установки" classname="net.millida.launcher.core.PackUpdatesTest" time="0.001"/>
+  <testcase name="правка модов игроком видна" classname="net.millida.launcher.core.PackUpdatesTest" time="0.013"/>
+  <testcase name="ресурс-паки игрока переживают обновление" classname="net.millida.launcher.core.PackUpdatesTest" time="0.001"/>
+  <testcase name="выбор игрока сильнее умолчания, копия сама не обновляется" classname="net.millida.launcher.core.PackUpdatesTest" time="0.001"/>
+  <testcase name="файл зеркала берётся только настоящий" classname="net.millida.launcher.core.PackUpdatesTest" time="0.0"/>
+  <testcase name="копия папки узнаётся по чужому номеру сборки" classname="net.millida.launcher.core.PackUpdatesTest" time="0.003"/>
+  <testcase name="обёртка архива снимается, папка игры остаётся" classname="net.millida.launcher.core.PackUpdatesTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

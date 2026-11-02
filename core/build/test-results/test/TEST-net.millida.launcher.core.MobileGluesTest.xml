@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.MobileGluesTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:24" hostname="codespaces-d0fe97" time="0.009">
+  <properties/>
+  <testcase name="настройки MobileGlues держат системный GLES" classname="net.millida.launcher.core.MobileGluesTest" time="0.002"/>
+  <testcase name="Sodium и его форки узнаются по id и по имени файла" classname="net.millida.launcher.core.MobileGluesTest" time="0.001"/>
+  <testcase name="замена MobileGlues на старой версии видна игроку" classname="net.millida.launcher.core.MobileGluesTest" time="0.002"/>
+  <testcase name="MobileGlues узнаётся по имени библиотеки" classname="net.millida.launcher.core.MobileGluesTest" time="0.001"/>
+  <testcase name="на пути SDL3 MobileGlues отдаёт и EGL" classname="net.millida.launcher.core.MobileGluesTest" time="0.001"/>
+  <testcase name="выключенный Sodium не уводит сборку на MobileGlues" classname="net.millida.launcher.core.MobileGluesTest" time="0.0"/>
+  <testcase name="папка настроек MobileGlues создаётся и чинится" classname="net.millida.launcher.core.MobileGluesTest" time="0.001"/>
+  <testcase name="сборка с Sodium запускается на MobileGlues" classname="net.millida.launcher.core.MobileGluesTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

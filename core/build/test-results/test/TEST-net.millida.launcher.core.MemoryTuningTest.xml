@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.MemoryTuningTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:24" hostname="codespaces-d0fe97" time="0.003">
+  <properties/>
+  <testcase name="большой телефон получает кучу по своей памяти, малый — прежнюю" classname="net.millida.launcher.core.MemoryTuningTest" time="0.001"/>
+  <testcase name="потолок ползунка памяти идёт от памяти телефона" classname="net.millida.launcher.core.MemoryTuningTest" time="0.0"/>
+  <testcase name="куча считается от свободной памяти" classname="net.millida.launcher.core.MemoryTuningTest" time="0.0"/>
+  <testcase name="минимум сборки соблюдается и на большом телефоне" classname="net.millida.launcher.core.MemoryTuningTest" time="0.0"/>
+  <testcase name="сборка со своим запуском просит память сама" classname="net.millida.launcher.core.MemoryTuningTest" time="0.001"/>
+  <testcase name="рост кучи не выходит за долю памяти телефона" classname="net.millida.launcher.core.MemoryTuningTest" time="0.0"/>
+  <testcase name="предупреждение о памяти по общей памяти телефона" classname="net.millida.launcher.core.MemoryTuningTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

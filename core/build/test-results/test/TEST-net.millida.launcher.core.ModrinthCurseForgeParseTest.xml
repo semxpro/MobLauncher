@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.ModrinthCurseForgeParseTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:24" hostname="codespaces-d0fe97" time="0.348">
+  <properties/>
+  <testcase name="поиск CurseForge - окно, сортировка и отсев сборок по загрузчику" classname="net.millida.launcher.core.ModrinthCurseForgeParseTest" time="0.007"/>
+  <testcase name="поиск CurseForge без пагинации и без data" classname="net.millida.launcher.core.ModrinthCurseForgeParseTest" time="0.05"/>
+  <testcase name="главный файл версии и загрузчики карточки" classname="net.millida.launcher.core.ModrinthCurseForgeParseTest" time="0.002"/>
+  <testcase name="версии Modrinth запрашиваются с фильтром и получают id проекта" classname="net.millida.launcher.core.ModrinthCurseForgeParseTest" time="0.048"/>
+  <testcase name="шейдеры ищутся без фильтра по загрузчику" classname="net.millida.launcher.core.ModrinthCurseForgeParseTest" time="0.004"/>
+  <testcase name="страница проекта и ссылка на скачивание CurseForge" classname="net.millida.launcher.core.ModrinthCurseForgeParseTest" time="0.132"/>
+  <testcase name="версии CurseForge для ванили и пустой ответ" classname="net.millida.launcher.core.ModrinthCurseForgeParseTest" time="0.045"/>
+  <testcase name="галерея Modrinth - сначала главные кадры, пустые выброшены" classname="net.millida.launcher.core.ModrinthCurseForgeParseTest" time="0.004"/>
+  <testcase name="файлы CurseForge превращаются в версии" classname="net.millida.launcher.core.ModrinthCurseForgeParseTest" time="0.006"/>
+  <testcase name="поиск Modrinth собирает фасеты и ссылку на страницу" classname="net.millida.launcher.core.ModrinthCurseForgeParseTest" time="0.004"/>
+  <testcase name="установка Modrinth не выпускает файл из папки и проверяет хеш" classname="net.millida.launcher.core.ModrinthCurseForgeParseTest" time="0.046"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

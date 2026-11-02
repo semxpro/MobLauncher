@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.CreatorClientTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:15" hostname="codespaces-d0fe97" time="0.205">
+  <properties/>
+  <testcase name="карточка автора ищется открыто по нормализованному коду" classname="net.millida.launcher.core.CreatorClientTest" time="0.05"/>
+  <testcase name="поддерживаемый автор приходит целиком" classname="net.millida.launcher.core.CreatorClientTest" time="0.007"/>
+  <testcase name="сброс кода без адреса на службе отвечает «скоро»" classname="net.millida.launcher.core.CreatorClientTest" time="0.006"/>
+  <testcase name="истёкшая сессия не маскируется под ошибку кода" classname="net.millida.launcher.core.CreatorClientTest" time="0.055"/>
+  <testcase name="нечитаемый ответ службы — общий текст, без технических подробностей" classname="net.millida.launcher.core.CreatorClientTest" time="0.058"/>
+  <testcase name="пустой код не уходит в сеть" classname="net.millida.launcher.core.CreatorClientTest" time="0.007"/>
+  <testcase name="неизвестный код при живой службе — «Код не найден»" classname="net.millida.launcher.core.CreatorClientTest" time="0.022"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

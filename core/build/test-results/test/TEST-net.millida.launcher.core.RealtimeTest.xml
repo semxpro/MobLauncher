@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.RealtimeTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:27" hostname="codespaces-d0fe97" time="0.007">
+  <properties/>
+  <testcase name="токен обновляется заранее" classname="net.millida.launcher.core.RealtimeTest" time="0.001"/>
+  <testcase name="темп опроса как на десктопе" classname="net.millida.launcher.core.RealtimeTest" time="0.002"/>
+  <testcase name="команды протокола" classname="net.millida.launcher.core.RealtimeTest" time="0.0"/>
+  <testcase name="токен уходит только на наш адрес" classname="net.millida.launcher.core.RealtimeTest" time="0.001"/>
+  <testcase name="тычок принимается только из личного канала" classname="net.millida.launcher.core.RealtimeTest" time="0.001"/>
+  <testcase name="кадры протокола Centrifugo" classname="net.millida.launcher.core.RealtimeTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

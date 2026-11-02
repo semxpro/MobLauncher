@@ -1,13 +1,10 @@
 package net.millida.launcher.core
 
 import net.millida.launcher.core.hub.HealthTone
-import net.millida.launcher.core.hub.HeroSlot
 import net.millida.launcher.core.hub.Hub
-import net.millida.launcher.core.hub.ModeArts
 import net.millida.launcher.core.hub.PackHealth
 import net.millida.launcher.core.hub.PopularVersion
 import net.millida.launcher.core.hub.PresetLoader
-import net.millida.launcher.core.hub.Rotation
 import net.millida.launcher.core.media.LobbyMusic
 import net.millida.launcher.core.mojang.MojangJson
 import org.junit.Assert.assertEquals
@@ -17,45 +14,6 @@ import org.junit.Test
 import java.time.Instant
 
 class HubFeedTest {
-
-    @Test
-    fun `режимы — только настоящие коды рейтинга, свой ивент первым`() {
-        val body = MojangJson.parseToJsonElement(
-            """{"modes": [
-                {"code": "BEDWARS", "total": 40, "online": 900, "slugs": ["a"]},
-                {"code": "ONEBLOCK", "total": 79, "online": 10, "slugs": ["oneblock-7"]},
-                {"code": "SKYWARS", "total": 5, "online": 1200, "slugs": ["b"]},
-                {"code": "EMPTY", "total": 0, "online": 0, "slugs": []},
-                {"code": "bad code", "online": 5000, "slugs": ["c"]},
-                {"code": "HIDE_SEEK", "online": 30.6, "slugs": ["d"]}
-            ]}""",
-        )
-        val modes = Hub.modes(body)
-        assertEquals(
-            "без серверов и с чужим кодом — не режим; свой ивент первым, дальше по онлайну",
-            listOf("ONEBLOCK", "SKYWARS", "BEDWARS", "HIDE_SEEK"),
-            modes.map { it.code },
-        )
-        assertEquals("mode names are in English", "Hide and Seek", modes.last().title)
-        assertEquals("дробный онлайн округляется, а не роняет разбор", 31, modes.last().online)
-        assertEquals("неизвестный код читается словами", "Some mode", Hub.modeTitle("SOME_MODE"))
-        assertTrue("пустой ответ — пустой список", Hub.modes(null).isEmpty())
-    }
-
-    @Test
-    fun `онлайн коротко и только живой`() {
-        val cases = listOf(
-            19 to null,
-            20 to "20 playing",
-            999 to "999 playing",
-            1_000 to "1k playing",
-            1_500 to "1.5k playing",
-            9_999 to "10k playing",
-            163_400 to "163k playing",
-        )
-        cases.forEach { (online, expected) -> assertEquals("онлайн $online", expected, Hub.onlineLabel(online)) }
-        assertNull("нет числа — нет строки", Hub.onlineLabel(null))
-    }
 
     @Test
     fun `строка здоровья сборки говорит только то, что знает`() {
@@ -109,58 +67,6 @@ class HubFeedTest {
         assertEquals("пустой ответ — топ по телеметрии", Hub.POPULAR_FALLBACK, Hub.popularVersions(MojangJson.parseToJsonElement("{}")))
     }
 
-    /** Expected values were computed by the desktop `rotation.ts` itself: both launchers must show the same card of the day. */
-    @Test
-    fun `позиция дня совпадает с компьютером до бита`() {
-        val cases = listOf(
-            Triple(20363L, 3, 0) to 0,
-            Triple(20363L, 7, 1) to 5,
-            Triple(20364L, 7, 1) to 3,
-            Triple(2909L, 5, 7) to 1,
-            Triple(0L, 10, 0) to 0,
-            Triple(1L, 10, 0) to 8,
-            Triple(20000L, 13, 2) to 10,
-            Triple(123456L, 1000, 3) to 287,
-        )
-        cases.forEach { (input, expected) ->
-            val (day, size, salt) = input
-            assertEquals("день $day, длина $size, соль $salt", expected, Rotation.pickIndex(day, size, salt))
-        }
-        assertEquals("пустой список — нулевая позиция, а не деление на ноль", 0, Rotation.pickIndex(5, 0, 0))
-    }
-
-    @Test
-    fun `герой дня меняется раз в сутки, а не на каждом запуске`() {
-        val cases = listOf(
-            (null to "2026-10-02") to (0 to "2026-10-02:0"),
-            ("2026-10-02:1" to "2026-10-02") to (1 to "2026-10-02:1"),
-            ("2026-10-01:1" to "2026-10-02") to (2 to "2026-10-02:2"),
-            ("2026-10-01:2" to "2026-10-02") to (0 to "2026-10-02:0"),
-            ("мусор" to "2026-10-02") to (0 to "2026-10-02:0"),
-            ("2026-10-01:-4" to "2026-10-02") to (1 to "2026-10-02:1"),
-        )
-        cases.forEach { (input, expected) ->
-            val pick = Rotation.heroPick(input.first, input.second)
-            assertEquals("сохранено ${input.first}", expected, pick.index to pick.stored)
-        }
-        assertEquals(
-            "очередь начинается со слота дня, остальные — запас",
-            listOf(HeroSlot.WEEK, HeroSlot.ARCANIA, HeroSlot.ONEBLOCK),
-            Rotation.heroQueue(2),
-        )
-    }
-
-    @Test
-    fun `подборка недели — разные сборки и не длиннее списка`() {
-        val items = listOf("a", "b", "c", "d", "e")
-        val picks = Rotation.weekPicks(items, Rotation.weekNumber(20363), 3)
-        assertEquals("три карточки", 3, picks.size)
-        assertEquals("без повторов", 3, picks.toSet().size)
-        assertEquals("короткий список — сколько есть", listOf("a"), Rotation.weekPicks(listOf("a"), 1, 3))
-        assertEquals("неделя начинается с понедельника, как на компьютере", 2909L, Rotation.weekNumber(20363))
-        assertEquals("порядок дня — поворот, а не перемешивание", setOf("a", "b", "c"), Rotation.ofDay(listOf("a", "b", "c"), 4, 1).toSet())
-    }
-
     @Test
     fun `музыка лобби — треки игры из индекса, как на компьютере`() {
         val hash = "0123456789abcdef0123456789abcdef01234567"
@@ -180,15 +86,4 @@ class HubFeedTest {
         assertEquals("Wet Hands", LobbyMusic.title("minecraft/sounds/music/game/wet_hands.ogg"))
     }
 
-    @Test
-    fun `картинки режимов — только коды из манифеста дизайнера`() {
-        val arts = ModeArts.parse(
-            """{"PVP": {"title": "PvP", "rig": {"src": "hero-46", "w": 1, "h": 1}}, "ONEBLOCK": {"title": "OneBlock"}, "bad": {}, "LIST": []}""",
-        )
-        assertEquals("неверный код и не-объект отброшены", setOf("PVP", "ONEBLOCK"), arts.keys)
-        assertEquals("mode-art/rigs/PVP.webp", arts["PVP"]?.rig)
-        assertNull("без рига — значок, а не выдуманный файл", arts["ONEBLOCK"]?.rig)
-        assertEquals("mode-art/ONEBLOCK-bg.png", arts["ONEBLOCK"]?.background)
-        assertTrue("битый манифест — пусто, а не падение", ModeArts.parse("{").isEmpty())
-    }
 }

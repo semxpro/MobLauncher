@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.FriendPresenceTextTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:20" hostname="codespaces-d0fe97" time="0.011">
+  <properties/>
+  <testcase name="присутствие только на сайте не запоминается как вход" classname="net.millida.launcher.core.FriendPresenceTextTest" time="0.0"/>
+  <testcase name="ключ треда совпадает с ключом сайта" classname="net.millida.launcher.core.FriendPresenceTextTest" time="0.005"/>
+  <testcase name="где играет друг берётся из первого непустого поля" classname="net.millida.launcher.core.FriendPresenceTextTest" time="0.0"/>
+  <testcase name="карточка пачки склоняет число друзей" classname="net.millida.launcher.core.FriendPresenceTextTest" time="0.0"/>
+  <testcase name="память сессий забывает ушедших друзей только через десять минут" classname="net.millida.launcher.core.FriendPresenceTextTest" time="0.003"/>
+  <testcase name="русское множественное число по правилам языка" classname="net.millida.launcher.core.FriendPresenceTextTest" time="0.001"/>
+  <testcase name="место друга читается строго по слову сервера" classname="net.millida.launcher.core.FriendPresenceTextTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

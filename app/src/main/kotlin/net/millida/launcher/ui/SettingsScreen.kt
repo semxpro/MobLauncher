@@ -385,7 +385,7 @@ private fun LookSection(state: UiState, model: LauncherViewModel, modifier: Modi
             },
         )
         Spacer(Modifier.height(16.dp))
-        SettingHead("Button color")
+        SettingHead("Accent color")
         Spacer(Modifier.height(8.dp))
         AccentPicker(state.accentId, state.accentCustom, model::setAccentId, model::setCustomAccent)
         Spacer(Modifier.height(16.dp))

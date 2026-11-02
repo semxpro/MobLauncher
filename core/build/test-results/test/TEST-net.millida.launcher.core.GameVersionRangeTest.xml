@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.GameVersionRangeTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:23" hostname="codespaces-d0fe97" time="0.005">
+  <properties/>
+  <testcase name="тильда и крышка держат ту же линию 1_x" classname="net.millida.launcher.core.GameVersionRangeTest" time="0.002"/>
+  <testcase name="маски и точные версии" classname="net.millida.launcher.core.GameVersionRangeTest" time="0.001"/>
+  <testcase name="диапазоны Fabric с операторами сравниваются числами" classname="net.millida.launcher.core.GameVersionRangeTest" time="0.0"/>
+  <testcase name="несколько вариантов через или" classname="net.millida.launcher.core.GameVersionRangeTest" time="0.001"/>
+  <testcase name="непонятное не превращается в отказ" classname="net.millida.launcher.core.GameVersionRangeTest" time="0.0"/>
+  <testcase name="диапазоны Forge в скобках Maven" classname="net.millida.launcher.core.GameVersionRangeTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

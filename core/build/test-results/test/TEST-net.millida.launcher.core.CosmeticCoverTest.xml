@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.CosmeticCoverTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:14" hostname="codespaces-d0fe97" time="0.007">
+  <properties/>
+  <testcase name="какие кости вещи прячутся" classname="net.millida.launcher.core.CosmeticCoverTest" time="0.003"/>
+  <testcase name="маска вырезает скин под одеждой" classname="net.millida.launcher.core.CosmeticCoverTest" time="0.003"/>
+  <testcase name="правила прятанья пишутся по коду вещи, а не расцветки" classname="net.millida.launcher.core.CosmeticCoverTest" time="0.0"/>
+  <testcase name="маска под модель рук и сторону" classname="net.millida.launcher.core.CosmeticCoverTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

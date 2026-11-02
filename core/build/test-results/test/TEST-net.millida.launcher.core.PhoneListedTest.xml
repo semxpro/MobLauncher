@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.PhoneListedTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:26" hostname="codespaces-d0fe97" time="0.008">
+  <properties/>
+  <testcase name="какие карточки список прячет" classname="net.millida.launcher.core.PhoneListedTest" time="0.0"/>
+  <testcase name="строка каталога Millida видна если подходит хоть один вариант" classname="net.millida.launcher.core.PhoneListedTest" time="0.0"/>
+  <testcase name="витрина переносит свой запуск в строку ленты и лента её прячет" classname="net.millida.launcher.core.PhoneListedTest" time="0.005"/>
+  <testcase name="сервер со своей сборкой скрыт если сборка не идёт на телефоне" classname="net.millida.launcher.core.PhoneListedTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

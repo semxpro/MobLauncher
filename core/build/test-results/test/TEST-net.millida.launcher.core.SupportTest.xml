@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.SupportTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:29" hostname="codespaces-d0fe97" time="0.165">
+  <properties/>
+  <testcase name="после 404 ручка отзывов больше не дёргается" classname="net.millida.launcher.core.SupportTest" time="0.007"/>
+  <testcase name="токены и пути с именем не уходят в отчёт" classname="net.millida.launcher.core.SupportTest" time="0.003"/>
+  <testcase name="ник маскируется, короткие значения не трогаются" classname="net.millida.launcher.core.SupportTest" time="0.003"/>
+  <testcase name="баг-репорт со входом идёт с сессией" classname="net.millida.launcher.core.SupportTest" time="0.006"/>
+  <testcase name="отказ сервера не выдаётся за успех" classname="net.millida.launcher.core.SupportTest" time="0.008"/>
+  <testcase name="журнал уступает место тексту игрока и держит конец" classname="net.millida.launcher.core.SupportTest" time="0.006"/>
+  <testcase name="вылет уходит в errors без сессии" classname="net.millida.launcher.core.SupportTest" time="0.01"/>
+  <testcase name="файл вылета читается обратно тем же форматом" classname="net.millida.launcher.core.SupportTest" time="0.003"/>
+  <testcase name="истёкший токен обновляется до баг-репорта" classname="net.millida.launcher.core.SupportTest" time="0.048"/>
+  <testcase name="мёртвая сессия не теряет баг-репорт" classname="net.millida.launcher.core.SupportTest" time="0.05"/>
+  <testcase name="старый файл без шапки не ломает разбор" classname="net.millida.launcher.core.SupportTest" time="0.007"/>
+  <testcase name="без ручки отзывов отзыв уходит баг-репортом" classname="net.millida.launcher.core.SupportTest" time="0.012"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

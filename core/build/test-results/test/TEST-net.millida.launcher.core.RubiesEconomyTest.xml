@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.RubiesEconomyTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:28" hostname="codespaces-d0fe97" time="0.163">
+  <properties/>
+  <testcase name="рентген-кейс покупается одним POST с id" classname="net.millida.launcher.core.RubiesEconomyTest" time="0.006"/>
+  <testcase name="состояние задания как на ПК" classname="net.millida.launcher.core.RubiesEconomyTest" time="0.003"/>
+  <testcase name="подарок новичку празднуется только при свежей выдаче" classname="net.millida.launcher.core.RubiesEconomyTest" time="0.001"/>
+  <testcase name="код автора без адреса на службе — баннер в режиме скоро" classname="net.millida.launcher.core.RubiesEconomyTest" time="0.087"/>
+  <testcase name="задания сборок без вещи выбрасываются" classname="net.millida.launcher.core.RubiesEconomyTest" time="0.003"/>
+  <testcase name="форма недельного ответа выбирает блок" classname="net.millida.launcher.core.RubiesEconomyTest" time="0.007"/>
+  <testcase name="докупка фрагментов и звёзд уходят с телом ПК" classname="net.millida.launcher.core.RubiesEconomyTest" time="0.05"/>
+  <testcase name="тексты кода автора различают нет адреса и нет кода" classname="net.millida.launcher.core.RubiesEconomyTest" time="0.001"/>
+  <testcase name="задание сборки забирается по закодированному коду" classname="net.millida.launcher.core.RubiesEconomyTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.ReferralsTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:27" hostname="codespaces-d0fe97" time="0.05">
+  <properties/>
+  <testcase name="прогресс до следующей награды" classname="net.millida.launcher.core.ReferralsTest" time="0.002"/>
+  <testcase name="тексты наград" classname="net.millida.launcher.core.ReferralsTest" time="0.001"/>
+  <testcase name="пустой код не уходит на сервер" classname="net.millida.launcher.core.ReferralsTest" time="0.006"/>
+  <testcase name="отказ сервера доходит текстом" classname="net.millida.launcher.core.ReferralsTest" time="0.007"/>
+  <testcase name="обзор читается целиком" classname="net.millida.launcher.core.ReferralsTest" time="0.005"/>
+  <testcase name="код нормализуется как на десктопе" classname="net.millida.launcher.core.ReferralsTest" time="0.002"/>
+  <testcase name="чужая ссылка не уходит в буфер обмена" classname="net.millida.launcher.core.ReferralsTest" time="0.005"/>
+  <testcase name="ввод кода уходит нормализованным и тем же адресом" classname="net.millida.launcher.core.ReferralsTest" time="0.018"/>
+  <testcase name="строка статуса приглашённого" classname="net.millida.launcher.core.ReferralsTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

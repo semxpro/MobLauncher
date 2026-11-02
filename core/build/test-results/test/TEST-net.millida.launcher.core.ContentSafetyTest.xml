@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.ContentSafetyTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:14" hostname="codespaces-d0fe97" time="0.049">
+  <properties/>
+  <testcase name="выключенный файл не попадает в карантин повторно" classname="net.millida.launcher.core.ContentSafetyTest" time="0.007"/>
+  <testcase name="отчёт отсортирован от худшего и считает только проблемы" classname="net.millida.launcher.core.ContentSafetyTest" time="0.01"/>
+  <testcase name="одна сильная находка без других — ещё не обвинение" classname="net.millida.launcher.core.ContentSafetyTest" time="0.007"/>
+  <testcase name="вердикт зависит от сборки, в которую положен мод" classname="net.millida.launcher.core.ContentSafetyTest" time="0.007"/>
+  <testcase name="сборка вне хранилища не проверяется" classname="net.millida.launcher.core.ContentSafetyTest" time="0.002"/>
+  <testcase name="чужая версия игры объясняется словами" classname="net.millida.launcher.core.ContentSafetyTest" time="0.008"/>
+  <testcase name="сбой карантина виден и файл остаётся на месте" classname="net.millida.launcher.core.ContentSafetyTest" time="0.003"/>
+  <testcase name="ресурспак не требует описания мода" classname="net.millida.launcher.core.ContentSafetyTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

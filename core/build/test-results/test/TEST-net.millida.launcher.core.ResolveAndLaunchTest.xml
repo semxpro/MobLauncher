@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.ResolveAndLaunchTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:27" hostname="codespaces-d0fe97" time="0.276">
+  <properties/>
+  <testcase name="аргументы запуска подставляют данные сессии" classname="net.millida.launcher.core.ResolveAndLaunchTest" time="0.237"/>
+  <testcase name="сборка с загрузчиком наследует ваниль и меняет главный класс" classname="net.millida.launcher.core.ResolveAndLaunchTest" time="0.031"/>
+  <testcase name="план памяти не обещает больше, чем есть у устройства" classname="net.millida.launcher.core.ResolveAndLaunchTest" time="0.001"/>
+  <testcase name="сборка профиля живёт в своей папке" classname="net.millida.launcher.core.ResolveAndLaunchTest" time="0.004"/>
+  <testcase name="оффлайн-ник даёт устойчивый идентификатор третьей версии" classname="net.millida.launcher.core.ResolveAndLaunchTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

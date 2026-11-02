@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.ServerStatusCacheTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:28" hostname="codespaces-d0fe97" time="0.278">
+  <properties/>
+  <testcase name="ответ держится и не запрашивается заново" classname="net.millida.launcher.core.ServerStatusCacheTest" time="0.003"/>
+  <testcase name="один и тот же адрес не опрашивается двумя сокетами разом" classname="net.millida.launcher.core.ServerStatusCacheTest" time="0.054"/>
+  <testcase name="молчание сервера не запоминается как ответ" classname="net.millida.launcher.core.ServerStatusCacheTest" time="0.002"/>
+  <testcase name="больше разрешённого числа сокетов одновременно не открывается" classname="net.millida.launcher.core.ServerStatusCacheTest" time="0.217"/>
+  <testcase name="просроченный ответ спрашивается заново" classname="net.millida.launcher.core.ServerStatusCacheTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

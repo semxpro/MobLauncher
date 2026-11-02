@@ -21,8 +21,6 @@ import net.millida.launcher.core.media.MusicTrack
 import java.io.File
 import kotlin.random.Random
 
-data class WelcomeAsk(val first: Boolean, val nick: String)
-
 data class AmbientState(
     val musicOn: Boolean = false,
     val musicAtStart: Boolean = true,
@@ -30,7 +28,6 @@ data class AmbientState(
     val playing: Boolean = false,
     val nowPlaying: String = "",
     val musicError: String? = null,
-    val welcome: WelcomeAsk? = null,
     val tourStep: Int? = null,
 )
 
@@ -65,7 +62,6 @@ class AmbientModel(
     private var resumed = false
     private var wantedThisRun = mutable.value.musicOn && mutable.value.musicAtStart
     private var startJob: Job? = null
-    private var welcomeDone = false
 
     // --- Music ---
 
@@ -197,25 +193,6 @@ class AmbientModel(
         runCatching { old.release() }
     }
 
-    // --- Welcome splash ---
-
-    /** Once per launch, after the first-run screens; the very first launch says «Добро пожаловать». */
-    fun askWelcome(nick: String) {
-        if (welcomeDone) return
-        welcomeDone = true
-        val first = !prefs.getBoolean(KEY_WELCOMED, false)
-        if (first) prefs.edit().putBoolean(KEY_WELCOMED, true).apply()
-        mutable.update { it.copy(welcome = WelcomeAsk(first, nick)) }
-    }
-
-    /** The first run already greets with its own screens: this launch skips the splash. */
-    fun skipWelcome() {
-        welcomeDone = true
-        prefs.edit().putBoolean(KEY_WELCOMED, true).apply()
-    }
-
-    fun closeWelcome() = mutable.update { it.copy(welcome = null) }
-
     // --- Lobby guide ---
 
     fun startTour() = mutable.update { it.copy(tourStep = 0) }
@@ -234,7 +211,6 @@ class AmbientModel(
         const val KEY_MUSIC_ON = "music_on"
         const val KEY_MUSIC_AT_START = "music_at_start"
         const val KEY_MUSIC_VOLUME = "music_volume"
-        const val KEY_WELCOMED = "welcomed"
         const val LOG_TAG = "millida"
         const val FADE_STEPS = 9
         const val FADE_STEP_MS = 100L

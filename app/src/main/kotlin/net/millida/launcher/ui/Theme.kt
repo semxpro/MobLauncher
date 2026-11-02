@@ -65,82 +65,82 @@ data class MillidaColors(
     val tickRead: Color,
 )
 
-private val InkOnAccent = Color(0xFF18220B)
+private val InkOnAccent = Color(0xFF10213D)
 
 private val TickRead = Color(0xFF4C9FFE)
 
 private val darkTokens = MillidaColors(
-    bg = Color(0xFF111613),
-    surface = Color(0xFF1A211D),
-    surface2 = Color(0xFF232C26),
-    raised = Color(0xFF2B3730),
-    inset = Color(0xFF0B100D),
-    fg = Color(0xFFF1F5EF),
-    fgMuted = Color(0xCCF1F5EF),
-    fgSubtle = Color(0xA8F1F5EF),
-    fgFaint = Color(0x85F1F5EF),
-    accent = Color(0xFFB7E14A),
-    accentSoft = Color(0x28B7E14A),
+    bg = Color(0xFF0B1220),
+    surface = Color(0xFF111B2B),
+    surface2 = Color(0xFF18253A),
+    raised = Color(0xFF1D2D45),
+    inset = Color(0xFF080F1A),
+    fg = Color(0xFFF1F5FB),
+    fgMuted = Color(0xCCF1F5FB),
+    fgSubtle = Color(0xA8F1F5FB),
+    fgFaint = Color(0x85F1F5FB),
+    accent = Color(0xFF4C8DFF),
+    accentSoft = Color(0x244C8DFF),
     danger = Color(0xFFFF6B5E),
     dangerSoft = Color(0x21FF6B5E),
     warning = Color(0xFFF5AA38),
     warningSoft = Color(0x24F5AA38),
     info = Color(0xFF6AA9E9),
     infoSoft = Color(0x246AA9E9),
-    success = Color(0xFFB7E14A),
+    success = Color(0xFF4C8DFF),
     dark = true,
     onAccent = InkOnAccent,
-    accentText = Color(0xFFB7E14A),
-    accentToday = Color(0xFF39472B),
-    accentDeep = Color(0xFF1B260F),
-    border = Color(0x12FFFFFF),
-    borderStrong = Color(0x24FFFFFF),
+    accentText = Color(0xFF75A7FF),
+    accentToday = Color(0xFF243E66),
+    accentDeep = Color(0xFF152743),
+    border = Color(0x1AFFFFFF),
+    borderStrong = Color(0x30FFFFFF),
     plateTop = Color(0x0AFFFFFF),
     plateBottom = Color(0x42000000),
-    wellOutline = Color(0x17F1F5EF),
+    wellOutline = Color(0x20F1F5FB),
     wellTop = Color(0x42000000),
-    chipFill = Color(0x0FF1F5EF),
-    segmentFill = Color(0x0AF1F5EF),
-    segmentFillOn = Color(0x1FF1F5EF),
-    skeletonShine = Color(0x0DF1F5EF),
+    chipFill = Color(0x0FF1F5FB),
+    segmentFill = Color(0x0AF1F5FB),
+    segmentFillOn = Color(0x1FF1F5FB),
+    skeletonShine = Color(0x0DF1F5FB),
     dockOutline = Color(0x66000000),
     tickRead = TickRead,
 )
 
 private val lightTokens = MillidaColors(
-    bg = Color(0xFFF0F3ED),
+    bg = Color(0xFFF3F6FB),
     surface = Color(0xFFFFFFFF),
-    surface2 = Color(0xFFF4F7F1),
+    surface2 = Color(0xFFF6F8FC),
     raised = Color(0xFFFFFFFF),
-    inset = Color(0xFFE6EDE2),
-    fg = Color(0xFF172018),
-    fgMuted = Color(0xCC172018),
-    fgSubtle = Color(0xA8172018),
-    fgFaint = Color(0x8A172018),
-    accent = Color(0xFF789A21),
-    accentSoft = Color(0x1C789A21),
+    inset = Color(0xFFE8EDF5),
+    fg = Color(0xFF17243A),
+    fgMuted = Color(0xCC17243A),
+    fgSubtle = Color(0xA817243A),
+    fgFaint = Color(0x8A17243A),
+    accent = Color(0xFF326DD5),
+    accentSoft = Color(0x1C326DD5),
     danger = Color(0xFFDD4A3E),
     dangerSoft = Color(0x24DD4A3E),
     warning = Color(0xFFB97511),
     warningSoft = Color(0x29B97511),
     info = Color(0xFF3572B8),
     infoSoft = Color(0x263572B8),
-    success = Color(0xFF789A21),
+    success = Color(0xFF326DD5),
     dark = false,
     onAccent = InkOnAccent,
-    accentText = Color(0xFF496014),
-    accentToday = Color(0xFFE2ECCB),
-    accentDeep = Color(0xFF293817),
-    border = Color(0x14172018),
-    borderStrong = Color(0x29172018),
+    accentText = Color(0xFF2456AE),
+    accentToday = Color(0xFFDCE8FB),
+    accentDeep = Color(0xFF1E3D70),
+    border = Color(0x1417243A),
+    borderStrong = Color(0x2917243A),
     plateTop = Color(0x00000000),
     plateBottom = Color(0x1F0F1711),
-    wellOutline = Color(0x4D111A12),
+    wellOutline = Color(0x4D17243A),
     wellTop = Color(0x14000000),
-    chipFill = Color(0x0F172018),
-    segmentFill = Color(0x0A172018),
-    segmentFillOn = Color(0x1F172018),
-    skeletonShine = Color(0x0D172018),
+    chipFill = Color(0x0F17243A),
+    segmentFill = Color(0x0A17243A),
+    segmentFillOn = Color(0x1F17243A),
+    skeletonShine = Color(0x0D17243A),
     dockOutline = Color(0x1F0F1711),
     tickRead = TickRead,
 )
@@ -154,11 +154,11 @@ data class MillidaAccent(
 )
 
 val MillidaAccents: List<MillidaAccent> = listOf(
+    MillidaAccent("blue", "Blue", Color(0xFF4C8DFF), Color(0x244C8DFF)),
     MillidaAccent("green", "Green", Color(0xFFB7E14A), Color(0x28B7E14A)),
     MillidaAccent("lime", "Lime", Color(0xFF9BD628), Color(0x249BD628)),
     MillidaAccent("teal", "Teal", Color(0xFF22C7A9), Color(0x2422C7A9)),
     MillidaAccent("cyan", "Cyan", Color(0xFF2CB6E8), Color(0x242CB6E8)),
-    MillidaAccent("blue", "Blue", Color(0xFF4C8DFF), Color(0x244C8DFF)),
     MillidaAccent("indigo", "Indigo", Color(0xFF6C6BFF), Color(0x246C6BFF)),
     MillidaAccent("purple", "Purple", Color(0xFF9B6BFF), Color(0x249B6BFF)),
     MillidaAccent("pink", "Pink", Color(0xFFFF6BAA), Color(0x24FF6BAA)),
@@ -384,12 +384,12 @@ object MillidaCut {
 }
 
 object MillidaShape {
-    val badge: Shape = PixelCutShape(MillidaCut.badge)
-    val mini: Shape = PixelCutShape(MillidaCut.control)
-    val control: Shape = PixelCutShape(MillidaCut.control)
-    val card: Shape = PixelCutShape(MillidaCut.plate)
-    val avatar: Shape = PixelCutShape(MillidaCut.badge)
-    val bubble: Shape = PixelCutShape(MillidaCut.control)
+    val badge: Shape = RoundedCornerShape(6.dp)
+    val mini: Shape = RoundedCornerShape(6.dp)
+    val control: Shape = RoundedCornerShape(8.dp)
+    val card: Shape = RoundedCornerShape(12.dp)
+    val avatar: Shape = RoundedCornerShape(50)
+    val bubble: Shape = RoundedCornerShape(8.dp)
 }
 
 object MillidaMotion {
@@ -409,18 +409,17 @@ object MillidaMotion {
 
 object MillidaType {
     val brand = TextStyle(
-        fontFamily = UnboundedFamily,
-        fontWeight = FontWeight.Black,
-        fontSize = 26.sp,
-        lineHeight = 30.sp,
-        letterSpacing = (-0.02).em,
+        fontFamily = GeistFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
+        lineHeight = 29.sp,
     )
     val screenTitle = TextStyle(
-        fontFamily = UnboundedFamily,
+        fontFamily = GeistFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 21.sp,
         lineHeight = 26.sp,
-        letterSpacing = (-0.02).em,
+        letterSpacing = (-0.01).em,
     )
     val barTitle = TextStyle(
         fontFamily = UnboundedFamily,
@@ -488,19 +487,19 @@ object MillidaType {
         lineHeight = 13.sp,
     )
     val pixel = TextStyle(
-        fontFamily = MonocraftFamily,
+        fontFamily = GeistFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         lineHeight = 17.sp,
     )
     val pixelLarge = TextStyle(
-        fontFamily = MonocraftFamily,
+        fontFamily = GeistFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 22.sp,
         lineHeight = 26.sp,
     )
     val pixelSmall = TextStyle(
-        fontFamily = MonocraftFamily,
+        fontFamily = GeistFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 11.sp,
         lineHeight = 13.sp,
@@ -580,7 +579,7 @@ fun millidaTokens(dark: Boolean, accentId: String): MillidaColors =
 @Composable
 fun MillidaTheme(
     dark: Boolean = isSystemInDarkTheme(),
-    accentId: String = "green",
+    accentId: String = "blue",
     content: @Composable () -> Unit,
 ) {
     val tokens = remember(dark, accentId) { millidaTokens(dark, accentId) }

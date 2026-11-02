@@ -101,8 +101,8 @@ private fun ServerTile(
                 url = server.logoUrl,
                 icon = MIcons.server,
                 size = 44.dp,
-                tint = if (server.up) colors.accent else colors.fgFaint,
-                background = if (server.up) colors.accentSoft else colors.surface2,
+                tint = if (server.up || server.suggested) colors.accent else colors.fgFaint,
+                background = if (server.up || server.suggested) colors.accentSoft else colors.surface2,
             )
             Spacer(Modifier.width(10.dp))
             Column(Modifier.weight(1f)) {
@@ -122,7 +122,11 @@ private fun ServerTile(
                     )
                     Spacer(Modifier.width(6.dp))
                     Text(
-                        if (server.up) "${groupDigits(server.online.toLong())} online" else "Offline",
+                        when {
+                            server.suggested -> server.summary
+                            server.up -> "${groupDigits(server.online.toLong())} online"
+                            else -> "Offline"
+                        },
                         style = MillidaType.small,
                         color = colors.fgSubtle,
                         maxLines = 1,

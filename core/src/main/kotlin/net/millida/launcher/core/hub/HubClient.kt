@@ -12,9 +12,6 @@ import java.net.URLEncoder
 class HubClient(private val auth: MillidaAuth) {
 
     @Throws(IOException::class)
-    suspend fun modes(): List<HubMode> = Hub.modes(auth.publicCall("/rating/modes", "GET", null, withSession = false))
-
-    @Throws(IOException::class)
     suspend fun packHealth(slug: String): PackHealth? {
         val key = slug.trim().lowercase()
         if (key.isEmpty()) return null

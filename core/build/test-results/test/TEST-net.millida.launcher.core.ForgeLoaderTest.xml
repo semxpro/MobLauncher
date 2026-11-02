@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.ForgeLoaderTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:20" hostname="codespaces-d0fe97" time="0.221">
+  <properties/>
+  <testcase name="запуск Forge собирает классовый путь и подставляет папку библиотек" classname="net.millida.launcher.core.ForgeLoaderTest" time="0.008"/>
+  <testcase name="сборки NeoForge берутся по ветке версии игры и сортируются числами" classname="net.millida.launcher.core.ForgeLoaderTest" time="0.003"/>
+  <testcase name="рекомендованная сборка Forge берётся из промо, NeoForge — первый релиз" classname="net.millida.launcher.core.ForgeLoaderTest" time="0.049"/>
+  <testcase name="список Forge доезжает через наш сервер, когда прямой источник молчит" classname="net.millida.launcher.core.ForgeLoaderTest" time="0.047"/>
+  <testcase name="отсутствующее имя установщика не уводит в зеркало" classname="net.millida.launcher.core.ForgeLoaderTest" time="0.004"/>
+  <testcase name="современный Forge без среды Java не притворяется установленным" classname="net.millida.launcher.core.ForgeLoaderTest" time="0.098"/>
+  <testcase name="Forge до 1_13 явно не поддерживается и не трогает сеть" classname="net.millida.launcher.core.ForgeLoaderTest" time="0.004"/>
+  <testcase name="шаги установщика читаются целиком, а неизвестный ключ не проходит дальше" classname="net.millida.launcher.core.ForgeLoaderTest" time="0.001"/>
+  <testcase name="номера сборок Forge чистятся от версии игры" classname="net.millida.launcher.core.ForgeLoaderTest" time="0.005"/>
+  <testcase name="аргументы старого загрузчика вытесняют ванильные, а твикеры копятся" classname="net.millida.launcher.core.ForgeLoaderTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

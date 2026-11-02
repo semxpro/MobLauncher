@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.FriendsTest" tests="23" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:20" hostname="codespaces-d0fe97" time="0.855">
+  <properties/>
+  <testcase name="часы друга берутся из профиля, а скрытые не становятся нулём" classname="net.millida.launcher.core.FriendsTest" time="0.192"/>
+  <testcase name="сообщение в группу уходит по адресу группы" classname="net.millida.launcher.core.FriendsTest" time="0.022"/>
+  <testcase name="список друзей разбирается со всеми состояниями и игровым ником" classname="net.millida.launcher.core.FriendsTest" time="0.014"/>
+  <testcase name="заявка по нику может быть принята сервером сразу" classname="net.millida.launcher.core.FriendsTest" time="0.011"/>
+  <testcase name="удар присутствия не тащит сервер и сборку в лобби" classname="net.millida.launcher.core.FriendsTest" time="0.019"/>
+  <testcase name="отметка прочитанного бьёт в свой адрес у лички и у группы" classname="net.millida.launcher.core.FriendsTest" time="0.051"/>
+  <testcase name="опрос отличает пропущенный блок от пустого" classname="net.millida.launcher.core.FriendsTest" time="0.089"/>
+  <testcase name="правка пустым текстом и подставной id до сети не доходят" classname="net.millida.launcher.core.FriendsTest" time="0.005"/>
+  <testcase name="опрос раскладывает новое, правки и прочтения по своим перепискам" classname="net.millida.launcher.core.FriendsTest" time="0.005"/>
+  <testcase name="чужой идентификатор с путём наружу не уходит" classname="net.millida.launcher.core.FriendsTest" time="0.002"/>
+  <testcase name="удар присутствия решается теми же правилами, что и на десктопе" classname="net.millida.launcher.core.FriendsTest" time="0.001"/>
+  <testcase name="правка и удаление сообщения идут по его id" classname="net.millida.launcher.core.FriendsTest" time="0.046"/>
+  <testcase name="разблокировка уходит удалением по идентификатору" classname="net.millida.launcher.core.FriendsTest" time="0.004"/>
+  <testcase name="заявки, блокировки и разблокировка идут каждая в свой адрес" classname="net.millida.launcher.core.FriendsTest" time="0.174"/>
+  <testcase name="поиск игроков идёт с закодированным запросом" classname="net.millida.launcher.core.FriendsTest" time="0.004"/>
+  <testcase name="пустое сообщение без вложения до сети не доходит" classname="net.millida.launcher.core.FriendsTest" time="0.001"/>
+  <testcase name="отказы доезжают до игрока словами, а не кодом" classname="net.millida.launcher.core.FriendsTest" time="0.129"/>
+  <testcase name="список диалогов сводит личку и группы и ставит свежие сверху" classname="net.millida.launcher.core.FriendsTest" time="0.048"/>
+  <testcase name="сообщение уходит в личку по адресу собеседника" classname="net.millida.launcher.core.FriendsTest" time="0.007"/>
+  <testcase name="страница переписки читается с курсором, а не перечитывается целиком" classname="net.millida.launcher.core.FriendsTest" time="0.011"/>
+  <testcase name="звонок отдаётся вебу ссылкой на тот же тред" classname="net.millida.launcher.core.FriendsTest" time="0.004"/>
+  <testcase name="пустой статус и lobby — одно и то же для правил присутствия" classname="net.millida.launcher.core.FriendsTest" time="0.001"/>
+  <testcase name="картинка уходит вложением, голосовые на телефоне не пишутся" classname="net.millida.launcher.core.FriendsTest" time="0.009"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -64,8 +64,8 @@ import net.millida.launcher.ui.SkinFigure
 import net.millida.launcher.ui.UiFeedback
 import net.millida.launcher.ui.millida
 
-private const val SIGN_IN_NOTE = "Войди в Millida, чтобы надеть"
-private const val MOJANG_ONLY_NOTE = "Этот плащ выдаёт Mojang — здесь только примерка"
+private const val SIGN_IN_NOTE = "Sign in to Millida to equip"
+private const val MOJANG_ONLY_NOTE = "Issued by Mojang; preview only"
 private const val DESIGN_CAPE_ID = "design:millida"
 private const val DESIGN_CAPE_NAME = "Millida"
 private const val DESIGN_CAPE_URL = "file:///android_asset/capes/millida.png"
@@ -193,7 +193,7 @@ internal class CharacterPanel(
                     null
                 }
                 if (bytes == null || bytes.isEmpty()) {
-                    model.notice("Файл скина не читается — добавь его в библиотеку заново", isError = true)
+                    model.notice("Could not read the skin file. Add it to the library again.", isError = true)
                     null
                 } else {
                     model.uploadSkin(bytes, entry.slim, entry.name, done)
@@ -254,8 +254,8 @@ private fun LazyGridScope.skinSection(p: CharacterPanel) {
     if (p.target == WearTarget.SignedOut) {
         full("skin-sign-in") {
             MListRow(
-                title = "Войди в Millida",
-                subtitle = "Тогда скин увидят на серверах",
+                title = "Sign in to Millida",
+                subtitle = "Your skin will appear on servers",
                 icon = MIcons.key,
                 onClick = { p.signIn() },
             )
@@ -264,13 +264,13 @@ private fun LazyGridScope.skinSection(p: CharacterPanel) {
     full("skin-controls") { SkinControls(p) }
     if (p.target == WearTarget.Millida && p.state.gameProfile?.nameConflict == true) {
         full("skin-conflict") {
-            MErrorCard("Игровой ник занят другим аккаунтом — смени его на сайте, иначе скин не подхватится", onRetry = null)
+            MErrorCard("This in-game name is linked to another account. Change it on the website or the skin will not be applied.", onRetry = null)
         }
     }
     if (p.target == WearTarget.Licence) licenceStatus(p)
     full("skin-library-title") {
-        ShelfTitle("Мои скины") {
-            MTextButton("Импорт", onClick = { p.onTab(CharacterTab.IMPORT) }, icon = MIcons.upload)
+        ShelfTitle("My skins") {
+            MTextButton("Import", onClick = { p.onTab(CharacterTab.IMPORT) }, icon = MIcons.upload)
         }
     }
     val library = p.state.textureLibrary
@@ -278,8 +278,8 @@ private fun LazyGridScope.skinSection(p: CharacterPanel) {
         full("skin-library-empty") {
             MEmptyState(
                 icon = MIcons.wardrobeSkin,
-                title = "Скинов пока нет",
-                actionText = "Добавить",
+                title = "No skins yet",
+                actionText = "Add skin",
                 onAction = p.onPickLibrary,
                 actionIcon = MIcons.plus,
                 primary = false,
@@ -290,16 +290,16 @@ private fun LazyGridScope.skinSection(p: CharacterPanel) {
     items(library, key = { "lib:" + it.file }, contentType = { "tile" }) { entry ->
         val key = "lib:" + entry.file
         val url = "file://" + entry.path.absolutePath
-        val title = entry.name.ifEmpty { "Скин" }
+        val title = entry.name.ifEmpty { "Skin" }
         ItemTile(
             name = title,
             onClick = { p.toggle(skinFitting(p.target, key, title, url, entry.slim, p.wearLibrary(entry))) },
             modifier = Modifier.animateItem(),
             mark = p.mark(key, worn = false),
-            note = if (entry.slim) "Тонкие руки" else "Классические руки",
+            note = if (entry.slim) "Slim arms" else "Classic arms",
             onRemove = {
                 p.onAsk(
-                    ConfirmAsk("Удалить скин?", "Он пропадёт из библиотеки на телефоне", "Удалить") {
+                    ConfirmAsk("Delete skin?", "It will be removed from this device's library.", "Delete") {
                         p.model.deleteTexture(entry.file) { p.feedback.play(UiSoundEvent.Delete) }
                     },
                 )
@@ -316,28 +316,28 @@ private fun SkinControls(p: CharacterPanel) {
     val licensed = p.target == WearTarget.Licence
     MCard {
         if (p.target != WearTarget.SignedOut) {
-            Text("МОДЕЛЬ РУК", style = MillidaType.caption, color = colors.fgSubtle)
+            Text("ARM MODEL", style = MillidaType.caption, color = colors.fgSubtle)
             Spacer(Modifier.height(8.dp))
             MSegmented(
                 options = listOf(false, true),
                 selected = p.look.slim,
                 onSelect = { slim -> if (licensed) p.model.licence.setModel(slim) else p.model.setSkinModel(slim) },
-                label = { if (it) "Тонкие" else "Классика" },
+                label = { if (it) "Slim" else "Classic" },
             )
             Spacer(Modifier.height(12.dp))
         }
         MButtonRow {
             if (p.target == WearTarget.SignedOut) {
-                MSecondaryButton("Добавить PNG", onClick = p.onPickLibrary, icon = MIcons.plus)
+                MSecondaryButton("Add PNG", onClick = p.onPickLibrary, icon = MIcons.plus)
             } else {
-                MSecondaryButton("Загрузить PNG", onClick = p.onPickSkin, icon = MIcons.upload)
+                MSecondaryButton("Upload PNG", onClick = p.onPickSkin, icon = MIcons.upload)
             }
             if (licensed && p.licence.profile != null) {
                 MTextButton(
-                    "Сбросить",
+                    "Reset",
                     onClick = {
                         p.onAsk(
-                            ConfirmAsk("Сбросить скин лицензии?", "Mojang вернёт стандартный скин", "Сбросить") {
+                            ConfirmAsk("Reset licensed skin?", "Mojang will restore the default skin.", "Reset") {
                                 p.model.licence.resetSkin { p.onFit(null) }
                             },
                         )
@@ -358,7 +358,7 @@ private fun LazyGridScope.licenceStatus(p: CharacterPanel) {
         val expired = p.state.sessionExpired == AccountKind.MICROSOFT
         full("licence-error") {
             if (expired) {
-                MErrorCard(error, onRetry = { p.model.loginMicrosoft() }, retryText = "Войти")
+                MErrorCard(error, onRetry = { p.model.loginMicrosoft() }, retryText = "Sign in")
             } else {
                 MErrorCard(error, onRetry = { p.reloadLicence() })
             }
@@ -371,7 +371,7 @@ private fun LazyGridScope.capeSection(p: CharacterPanel) {
         WearTarget.Licence -> licenceCapes(p)
         WearTarget.Millida -> millidaCapes(p)
         WearTarget.SignedOut -> full("cape-gate") {
-            MSignInGate(onSignIn = { p.signIn() }, title = "Войди, чтобы носить плащи")
+            MSignInGate(onSignIn = { p.signIn() }, title = "Sign in to wear capes")
         }
     }
     officialCapes(p)
@@ -383,10 +383,10 @@ private fun LazyGridScope.licenceCapes(p: CharacterPanel) {
     val profile = licence.profile
     val active = profile?.activeCape
     full("licence-cape-title") {
-        ShelfTitle("Плащи лицензии") {
+        ShelfTitle("Licensed capes") {
             if (active != null) {
                 MTextButton(
-                    "Снять",
+                    "Remove",
                     onClick = { p.model.licence.setCape("") { p.onFit(null) } },
                     enabled = !licence.working,
                 )
@@ -396,14 +396,14 @@ private fun LazyGridScope.licenceCapes(p: CharacterPanel) {
     licenceStatus(p)
     val capes = profile?.capes.orEmpty()
     if (profile != null && capes.isEmpty()) {
-        full("licence-cape-empty") { MEmptyState(MIcons.cape, "На лицензии нет плащей") }
+        full("licence-cape-empty") { MEmptyState(MIcons.cape, "No capes on this account") }
         return
     }
     items(capes, key = { "ms:" + it.id }, contentType = { "tile" }) { cape ->
         val key = "ms:" + cape.id
         val hash = SkinCatalog.textureHash(cape.url)
         val known = p.mojangCapes.firstOrNull { SkinCatalog.textureHash(it.url) == hash }?.name
-        val title = cape.alias.ifEmpty { known ?: SkinCatalog.officialCapeOf(cape.url)?.name ?: "Плащ" }
+        val title = cape.alias.ifEmpty { known ?: SkinCatalog.officialCapeOf(cape.url)?.name ?: "Cape" }
         ItemTile(
             name = title,
             onClick = { p.pick(cape.active) { p.capeFitting(key, title, cape.url, p.licenceCape(cape.id)) } },
@@ -424,9 +424,9 @@ private fun LazyGridScope.millidaCapes(p: CharacterPanel) {
     val own = state.wardrobe.filter { it.isCape && !(it.source in SERVER_COPY_SOURCES && it.name in shelfNames) }
     val error = state.errorOf(Area.SKINS)
     full("millida-cape-title") {
-        ShelfTitle("Плащи Millida") {
+        ShelfTitle("Millida capes") {
             if (worn.isNotEmpty()) {
-                MTextButton("Снять", onClick = { p.model.takeOffCape { p.onFit(null) } }, enabled = state.busy == null)
+                MTextButton("Remove", onClick = { p.model.takeOffCape { p.onFit(null) } }, enabled = state.busy == null)
             }
             RefreshSkins(p)
         }
@@ -445,7 +445,7 @@ private fun LazyGridScope.millidaCapes(p: CharacterPanel) {
             },
             modifier = Modifier.animateItem(),
             mark = p.mark(DESIGN_CAPE_KEY, isWorn),
-            note = "Плащ лаунчера",
+            note = "Launcher cape",
         ) {
             CapeFigure(url = DESIGN_CAPE_URL, modifier = Modifier.fillMaxSize())
         }
@@ -456,17 +456,17 @@ private fun LazyGridScope.millidaCapes(p: CharacterPanel) {
     }
     items(own, key = { "wc:" + it.id }, contentType = { "tile" }) { item ->
         val key = "wc:" + item.id
-        val title = item.name.ifEmpty { "Плащ" }
+        val title = item.name.ifEmpty { "Cape" }
         val isWorn = item.url.isNotEmpty() && item.url == worn
         ItemTile(
             name = title,
             onClick = { p.pick(isWorn) { p.capeFitting(key, title, item.url, p.wardrobeCape(item.id)) } },
             modifier = Modifier.animateItem(),
             mark = p.mark(key, isWorn),
-            note = if (item.source.isEmpty() || item.source == "upload") "Свой" else null,
+            note = if (item.source.isEmpty() || item.source == "upload") "Custom" else null,
             onRemove = {
                 p.onAsk(
-                    ConfirmAsk("Убрать плащ?", "Он пропадёт из аккаунта Millida", "Убрать") {
+                    ConfirmAsk("Remove cape?", "It will be removed from your Millida account.", "Remove") {
                         p.model.removeWardrobeItem(item.id) { p.feedback.play(UiSoundEvent.Delete) }
                     },
                 )
@@ -477,7 +477,7 @@ private fun LazyGridScope.millidaCapes(p: CharacterPanel) {
     }
     items(offers, key = { "co:" + it.id }, contentType = { "tile" }) { cape ->
         val key = "co:" + cape.id
-        val title = cape.name.ifEmpty { "Плащ" }
+        val title = cape.name.ifEmpty { "Cape" }
         val isWorn = worn.isNotEmpty() && (cape.url == worn || wornCopy?.name == cape.name)
         val progress = if (cape.unlocked) null else capeProgress(cape)
         ItemTile(
@@ -506,7 +506,7 @@ private fun LazyGridScope.officialCapes(p: CharacterPanel) {
     val licensed = p.target == WearTarget.Licence
     val worn = if (wearable) p.state.gameProfile?.capeUrl.orEmpty() else ""
     val wornCopy = if (wearable) wornServerCopy(p.state) else null
-    full("official-cape-title") { ShelfTitle("Плащи Mojang") }
+    full("official-cape-title") { ShelfTitle("Mojang capes") }
     items(list, key = { "off:" + it.id }, contentType = { "tile" }) { cape ->
         val key = "off:" + cape.id
         val isWorn = worn.isNotEmpty() && (cape.url == worn || wornCopy?.name == cape.name)
@@ -525,7 +525,7 @@ private fun LazyGridScope.officialCapes(p: CharacterPanel) {
             },
             modifier = Modifier.animateItem(),
             mark = p.mark(key, isWorn),
-            note = if (licensed) "Только примерка" else null,
+            note = if (licensed) "Preview only" else null,
         ) {
             CapeFigure(url = cape.url, modifier = Modifier.fillMaxSize())
         }
@@ -535,12 +535,12 @@ private fun LazyGridScope.officialCapes(p: CharacterPanel) {
 private fun LazyGridScope.wardrobeSection(p: CharacterPanel) {
     val state = p.state
     if (!state.millidaSignedIn) {
-        full("wardrobe-gate") { MSignInGate(onSignIn = { p.signIn() }, title = "Войди, чтобы открыть гардероб") }
+        full("wardrobe-gate") { MSignInGate(onSignIn = { p.signIn() }, title = "Sign in to open your wardrobe") }
         return
     }
     val error = state.errorOf(Area.SKINS)
     val skins = state.wardrobe.filterNot { it.isCape }
-    full("wardrobe-title") { ShelfTitle("Скины в аккаунте") { RefreshSkins(p) } }
+    full("wardrobe-title") { ShelfTitle("Account skins") { RefreshSkins(p) } }
     if (error != null) {
         full("wardrobe-error") { MErrorCard(error, onRetry = { p.model.retry(Area.SKINS) }) }
     }
@@ -551,8 +551,8 @@ private fun LazyGridScope.wardrobeSection(p: CharacterPanel) {
             full("wardrobe-empty") {
                 MEmptyState(
                     icon = MIcons.wardrobeLooks,
-                    title = "Гардероб пуст",
-                    actionText = "Каталог",
+                    title = "Your wardrobe is empty",
+                    actionText = "Catalog",
                     onAction = { p.onTab(CharacterTab.CATALOG) },
                     primary = false,
                 )
@@ -564,17 +564,17 @@ private fun LazyGridScope.wardrobeSection(p: CharacterPanel) {
     items(skins, key = { "wr:" + it.id }, contentType = { "tile" }) { item ->
         val key = "wr:" + item.id
         val slim = item.model.equals("slim", ignoreCase = true)
-        val title = item.name.ifEmpty { "Скин" }
+        val title = item.name.ifEmpty { "Skin" }
         val isWorn = p.target == WearTarget.Millida && item.url.isNotEmpty() && item.url == worn
         ItemTile(
             name = title,
             onClick = { p.pick(isWorn) { skinFitting(p.target, key, title, item.url, slim, p.wearWardrobe(item)) } },
             modifier = Modifier.animateItem(),
             mark = p.mark(key, isWorn),
-            note = if (slim) "Тонкие руки" else "Классические руки",
+            note = if (slim) "Slim arms" else "Classic arms",
             onRemove = {
                 p.onAsk(
-                    ConfirmAsk("Убрать из гардероба?", "Скин пропадёт из аккаунта Millida", "Убрать") {
+                    ConfirmAsk("Remove from wardrobe?", "The skin will be removed from your Millida account.", "Remove") {
                         p.model.removeWardrobeItem(item.id) { p.feedback.play(UiSoundEvent.Delete) }
                     },
                 )
@@ -609,7 +609,7 @@ internal fun CatalogTile(p: CharacterPanel, skin: CatalogSkin, modifier: Modifie
         onClick = { p.toggle(p.catalogFitting(skin, slim)) },
         modifier = modifier,
         mark = p.mark("cat:" + skin.key, worn = false),
-        note = if (skin.nick.isEmpty()) "Minecraft" else "Игрок",
+        note = if (skin.nick.isEmpty()) "Minecraft" else "Player",
     ) {
         SkinFigure(url = url, slim = slim ?: false, modifier = Modifier.fillMaxSize())
     }
@@ -627,7 +627,7 @@ private fun CatalogSearch(p: CharacterPanel) {
                 null
             }
             if (nick == null) {
-                p.model.notice("Ник — от 3 до 16 знаков: латиница, цифры и подчёркивание", isError = true)
+                p.model.notice("Names must be 3–16 characters and use only Latin letters, numbers, and underscores.", isError = true)
             } else {
                 val typed = CatalogSkin(key = "nick:" + nick.lowercase(), label = nick, nick = nick, url = SkinCatalog.skinUrlStrict(nick))
                 p.onFit(p.catalogFitting(typed, null))
@@ -638,7 +638,7 @@ private fun CatalogSearch(p: CharacterPanel) {
         MField(
             value = query,
             onValueChange = { query = it },
-            placeholder = "Ник игрока",
+            placeholder = "Player name",
             modifier = Modifier.weight(1f),
             imeAction = ImeAction.Search,
             onImeAction = tryNick,
@@ -646,7 +646,7 @@ private fun CatalogSearch(p: CharacterPanel) {
             clearable = true,
         )
         Spacer(Modifier.width(8.dp))
-        MIconButton(MIcons.eye, onClick = tryNick, label = "Примерить", enabled = query.isNotBlank())
+        MIconButton(MIcons.eye, onClick = tryNick, label = "Preview", enabled = query.isNotBlank())
     }
 }
 
@@ -678,7 +678,7 @@ private fun RefreshSkins(p: CharacterPanel) {
     MIconButton(
         MIcons.refresh,
         onClick = { p.model.loadSkins() },
-        label = "Обновить",
+        label = "Refresh",
         enabled = !p.state.isLoading(Area.SKINS),
     )
 }
@@ -692,11 +692,11 @@ private fun rewardRank(reward: Reward): Int = when {
 private fun LazyGridScope.rewardsSection(p: CharacterPanel) {
     val state = p.state
     if (!state.millidaSignedIn) {
-        full("rewards-gate") { MSignInGate(onSignIn = { p.signIn() }, title = "Войди, чтобы забирать награды") }
+        full("rewards-gate") { MSignInGate(onSignIn = { p.signIn() }, title = "Sign in to claim rewards") }
         return
     }
     val error = state.errorOf(Area.SKINS)
-    full("rewards-title") { ShelfTitle("Плащи за задания") { RefreshSkins(p) } }
+    full("rewards-title") { ShelfTitle("Quest capes") { RefreshSkins(p) } }
     if (error != null) {
         full("rewards-error") { MErrorCard(error, onRetry = { p.model.retry(Area.SKINS) }) }
     }
@@ -707,7 +707,7 @@ private fun LazyGridScope.rewardsSection(p: CharacterPanel) {
                 MSkeleton(height = 150.dp)
             }
         } else if (error == null) {
-            full("rewards-empty") { MEmptyState(MIcons.trophy, "Наград пока нет") }
+            full("rewards-empty") { MEmptyState(MIcons.trophy, "No rewards yet") }
         }
         return
     }
@@ -718,7 +718,7 @@ private fun LazyGridScope.rewardsSection(p: CharacterPanel) {
         contentType = { "reward" },
     ) { reward ->
         val key = "rw:" + reward.code
-        val title = reward.title.ifEmpty { "Плащ за задание" }
+        val title = reward.title.ifEmpty { "Quest cape" }
         RewardCard(
             reward = reward,
             trying = p.fittingKey == key,
@@ -729,7 +729,7 @@ private fun LazyGridScope.rewardsSection(p: CharacterPanel) {
                         title,
                         reward.capeUrl,
                         wear = null,
-                        note = if (reward.claimed) "Уже твой — надень во вкладке «Плащ»" else "Выполни задание и забери плащ",
+                        note = if (reward.claimed) "Owned — equip it in the Capes tab" else "Complete the quest to claim this cape",
                     ),
                 )
             },
@@ -748,16 +748,16 @@ private fun LazyGridScope.importSection(p: CharacterPanel) {
     full("import-fetch") { ImportFetch(p) }
     full("import-file") {
         MListRow(
-            title = "Файл с телефона",
-            subtitle = "PNG со скином в библиотеку",
+            title = "From device",
+            subtitle = "Add a skin PNG to your library",
             icon = MIcons.folder,
             onClick = p.onPickLibrary,
         )
     }
     full("import-order") {
         MListRow(
-            title = "Заказать свой скин",
-            subtitle = "Нарисуют художники Millida Skins",
+            title = "Commission a skin",
+            subtitle = "Have the Millida Skins artists create one",
             icon = MIcons.brush,
             onClick = p.onOrderSkin,
         )
@@ -772,7 +772,7 @@ private fun ImportFetch(p: CharacterPanel) {
     val fetch: () -> Unit = {
         val text = query.trim()
         if (text.isEmpty()) {
-            p.model.notice("Впиши ник игрока или ссылку на PNG", isError = true)
+            p.model.notice("Enter a player name or a PNG URL.", isError = true)
         } else if (!busy) {
             busy = true
             val done: () -> Unit = {
@@ -788,12 +788,12 @@ private fun ImportFetch(p: CharacterPanel) {
         }
     }
     MCard {
-        Text("ПО НИКУ ИЛИ ССЫЛКЕ", style = MillidaType.caption, color = colors.fgSubtle)
+        Text("BY PLAYER NAME OR URL", style = MillidaType.caption, color = colors.fgSubtle)
         Spacer(Modifier.height(8.dp))
         MField(
             value = query,
             onValueChange = { query = it },
-            placeholder = "Ник игрока или ссылка на PNG",
+            placeholder = "Player name or PNG URL",
             imeAction = ImeAction.Go,
             onImeAction = fetch,
             leadingIcon = MIcons.link,
@@ -801,6 +801,6 @@ private fun ImportFetch(p: CharacterPanel) {
             keyboardType = KeyboardType.Uri,
         )
         Spacer(Modifier.height(12.dp))
-        MPrimaryButton("Забрать", onClick = fetch, icon = MIcons.download, loading = busy)
+        MPrimaryButton("Fetch", onClick = fetch, icon = MIcons.download, loading = busy)
     }
 }

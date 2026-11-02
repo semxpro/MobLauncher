@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.PackManifestTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:25" hostname="codespaces-d0fe97" time="0.011">
+  <properties/>
+  <testcase name="имя и описание чистятся от управляющих символов и обрезаются" classname="net.millida.launcher.core.PackManifestTest" time="0.002"/>
+  <testcase name="поля файла читаются, а пропущенные получают умолчания" classname="net.millida.launcher.core.PackManifestTest" time="0.001"/>
+  <testcase name="проверка адреса называет адрес в ошибке" classname="net.millida.launcher.core.PackManifestTest" time="0.001"/>
+  <testcase name="манифест без корня, из будущей версии или без версии игры отклоняется понятной ошибкой" classname="net.millida.launcher.core.PackManifestTest" time="0.001"/>
+  <testcase name="строки файлов с чужим адресом, битым хешем или выходом из папки выбрасываются поштучно" classname="net.millida.launcher.core.PackManifestTest" time="0.002"/>
+  <testcase name="загрузчик из идентификатора CurseForge" classname="net.millida.launcher.core.PackManifestTest" time="0.001"/>
+  <testcase name="иконка с чужого адреса не показывается, загрузчик по умолчанию ваниль" classname="net.millida.launcher.core.PackManifestTest" time="0.001"/>
+  <testcase name="опубликованный манифест читается обратно тем же" classname="net.millida.launcher.core.PackManifestTest" time="0.0"/>
+  <testcase name="загрузчик из зависимостей mrpack" classname="net.millida.launcher.core.PackManifestTest" time="0.0"/>
+  <testcase name="манифест превращается в план установки по коду" classname="net.millida.launcher.core.PackManifestTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

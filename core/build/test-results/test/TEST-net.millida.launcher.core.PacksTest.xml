@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.PacksTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:26" hostname="codespaces-d0fe97" time="0.048">
+  <properties/>
+  <testcase name="адреса, с которых сборке разрешено качать файлы" classname="net.millida.launcher.core.PacksTest" time="0.003"/>
+  <testcase name="имена внутри архива, которые обязаны отклоняться" classname="net.millida.launcher.core.PacksTest" time="0.005"/>
+  <testcase name="провал установки не сносит уже установленную сборку" classname="net.millida.launcher.core.PacksTest" time="0.009"/>
+  <testcase name="mrpack с выходом из папки в overrides не устанавливается" classname="net.millida.launcher.core.PacksTest" time="0.004"/>
+  <testcase name="манифест CurseForge превращается в тот же список файлов, что и mrpack" classname="net.millida.launcher.core.PacksTest" time="0.004"/>
+  <testcase name="коды сборок переживают ручной ввод" classname="net.millida.launcher.core.PacksTest" time="0.002"/>
+  <testcase name="файл с неверным хешем не принимается" classname="net.millida.launcher.core.PacksTest" time="0.007"/>
+  <testcase name="удачное обновление меняет моды и не трогает миры игрока" classname="net.millida.launcher.core.PacksTest" time="0.009"/>
+  <testcase name="пак с чужого хоста не качается" classname="net.millida.launcher.core.PacksTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

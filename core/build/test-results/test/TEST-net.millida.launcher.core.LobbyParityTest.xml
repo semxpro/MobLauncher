@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.LobbyParityTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:24" hostname="codespaces-d0fe97" time="0.007">
+  <properties/>
+  <testcase name="плитки лобби как HubTile" classname="net.millida.launcher.core.LobbyParityTest" time="0.001"/>
+  <testcase name="настроение эмоции как у десктопа" classname="net.millida.launcher.core.LobbyParityTest" time="0.001"/>
+  <testcase name="смайл облачка не повторяет прошлый и берётся из набора настроения" classname="net.millida.launcher.core.LobbyParityTest" time="0.002"/>
+  <testcase name="облачко не чаще раза в 8-15 секунд и не на каждую эмоцию" classname="net.millida.launcher.core.LobbyParityTest" time="0.0"/>
+  <testcase name="наигранное время пишется как fmtPlaytime" classname="net.millida.launcher.core.LobbyParityTest" time="0.002"/>
+  <testcase name="строка под «Играть» — N часов в игре от часа" classname="net.millida.launcher.core.LobbyParityTest" time="0.0"/>
+  <testcase name="ступени часов как playTier" classname="net.millida.launcher.core.LobbyParityTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

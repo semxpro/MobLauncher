@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.MillidaModLaunchTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:24" hostname="codespaces-d0fe97" time="0.002">
+  <properties/>
+  <testcase name="при запуске мод обновляется молча, а вопрос задаётся только сборке без мода" classname="net.millida.launcher.core.MillidaModLaunchTest" time="0.001"/>
+  <testcase name="та же цель обновления повторяется не чаще раза в сутки" classname="net.millida.launcher.core.MillidaModLaunchTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.RuntimeJavaChoiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:28" hostname="codespaces-d0fe97" time="0.019">
+  <properties/>
+  <testcase name="требование новее всего пакета объясняется словами" classname="net.millida.launcher.core.RuntimeJavaChoiceTest" time="0.005"/>
+  <testcase name="java выбирается по требованию сборки" classname="net.millida.launcher.core.RuntimeJavaChoiceTest" time="0.007"/>
+  <testcase name="без требования берётся самая новая java" classname="net.millida.launcher.core.RuntimeJavaChoiceTest" time="0.007"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.KeyCodesTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:24" hostname="codespaces-d0fe97" time="0.005">
+  <properties/>
+  <testcase name="кнопки мыши" classname="net.millida.launcher.core.KeyCodesTest" time="0.003"/>
+  <testcase name="обратный перевод для SDL3 даёт ту же клавишу" classname="net.millida.launcher.core.KeyCodesTest" time="0.0"/>
+  <testcase name="клавиши Android переводятся в клавиши GLFW" classname="net.millida.launcher.core.KeyCodesTest" time="0.0"/>
+  <testcase name="курсор переводится в пиксели окна и не уходит за край" classname="net.millida.launcher.core.KeyCodesTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.ChatSignalsTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:11" hostname="codespaces-d0fe97" time="0.078">
+  <properties/>
+  <testcase name="реакция уходит на сообщение, печатающие читаются из опроса" classname="net.millida.launcher.core.ChatSignalsTest" time="0.059"/>
+  <testcase name="служебный ник узнаётся как на десктопе" classname="net.millida.launcher.core.ChatSignalsTest" time="0.002"/>
+  <testcase name="строка «печатает» собирается словами десктопа" classname="net.millida.launcher.core.ChatSignalsTest" time="0.004"/>
+  <testcase name="ряд реакций меню — восемь символов в порядке десктопа, у каждого пиксельный двойник" classname="net.millida.launcher.core.ChatSignalsTest" time="0.004"/>
+  <testcase name="статистика профиля — строки и формулировки десктопа" classname="net.millida.launcher.core.ChatSignalsTest" time="0.003"/>
+  <testcase name="реакция переключается сразу, как на десктопе" classname="net.millida.launcher.core.ChatSignalsTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

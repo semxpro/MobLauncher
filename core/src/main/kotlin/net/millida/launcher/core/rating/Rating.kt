@@ -33,6 +33,7 @@ data class RatedServer(
     val accessType: String = "",
     val bedrockAddress: String? = null,
     val onMillidaHosting: Boolean = false,
+    @kotlinx.serialization.Transient val suggested: Boolean = false,
 ) {
     /** The rating hides the address of servers joined through their own launcher or by application. */
     val joinAddress: String get() = address.ifBlank { ip }.trim()

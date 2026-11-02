@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.TelemetryTest" tests="15" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:29" hostname="codespaces-d0fe97" time="0.246">
+  <properties/>
+  <testcase name="сбой одного места пишется раз в минуту, отмена не сбой" classname="net.millida.launcher.core.TelemetryTest" time="0.004"/>
+  <testcase name="пак каталога и модпак разводятся как на ПК" classname="net.millida.launcher.core.TelemetryTest" time="0.003"/>
+  <testcase name="чип называется читаемо на любой версии Android" classname="net.millida.launcher.core.TelemetryTest" time="0.003"/>
+  <testcase name="отпечаток сборки совпадает с лаунчером на ПК" classname="net.millida.launcher.core.TelemetryTest" time="0.004"/>
+  <testcase name="открытая игра забирается один раз" classname="net.millida.launcher.core.TelemetryTest" time="0.004"/>
+  <testcase name="ядра считаются по списку possible" classname="net.millida.launcher.core.TelemetryTest" time="0.001"/>
+  <testcase name="версия системы не путается с версиями Windows" classname="net.millida.launcher.core.TelemetryTest" time="0.002"/>
+  <testcase name="очередь держит 200 последних и убирает только отправленное" classname="net.millida.launcher.core.TelemetryTest" time="0.202"/>
+  <testcase name="пути телефона и токены не уходят" classname="net.millida.launcher.core.TelemetryTest" time="0.002"/>
+  <testcase name="экран и видеочип в форме полей ПК" classname="net.millida.launcher.core.TelemetryTest" time="0.002"/>
+  <testcase name="класс сбоя называет причину" classname="net.millida.launcher.core.TelemetryTest" time="0.002"/>
+  <testcase name="id установки один и случайный" classname="net.millida.launcher.core.TelemetryTest" time="0.002"/>
+  <testcase name="выключатель стирает очередь и не пускает новое" classname="net.millida.launcher.core.TelemetryTest" time="0.003"/>
+  <testcase name="батч уходит в форме ПК, а провал оставляет очередь" classname="net.millida.launcher.core.TelemetryTest" time="0.01"/>
+  <testcase name="удар не чаще раза в 40 секунд для того же состояния" classname="net.millida.launcher.core.TelemetryTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -205,34 +205,6 @@ class CosmeticsModel(
         return items
     }
 
-    /**
-     * Pieces the shop confirmed as bought: they are the player's at once, without
-     * waiting for the rights list, and go on in the slots they were tried on in.
-     * A wear that fails leaves them owned and off the try-on, so a tap on the
-     * card puts them on.
-     */
-    fun wearBought(ids: List<String>) {
-        val current = mutable.value
-        val bought = current.fitting.filter { it.id in ids }
-        mutable.update { it.copy(owned = it.owned + ids) }
-        if (bought.isEmpty()) return
-        val boughtSlots = bought.map { it.slot }.toSet()
-        val offTryOn: (CosmeticsState) -> CosmeticsState = { state -> state.copy(fitting = state.fitting.filterNot { it.slot in boughtSlots }) }
-        if (current.busy.isNotEmpty()) {
-            mutable.update(offTryOn)
-            notice("Куплено — нажми на вещь, чтобы надеть", false)
-            return
-        }
-        send(
-            next = WardrobeBill.dressAfter(current.worn, bought),
-            busy = bought.first().id,
-            done = "Куплено и надето — видно в игре",
-            failed = "Куплено, но не надето — нажми на вещь",
-            afterFailed = offTryOn,
-            after = offTryOn,
-        )
-    }
-
     fun clearFitting() {
         mutable.update { it.copy(fitting = emptyList()) }
     }

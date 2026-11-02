@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.CallRulesTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:10" hostname="codespaces-d0fe97" time="0.024">
+  <properties/>
+  <testcase name="доля потерь считается от всех пакетов" classname="net.millida.launcher.core.CallRulesTest" time="0.013"/>
+  <testcase name="итог звонка в чате читается терпимо к форме чисел" classname="net.millida.launcher.core.CallRulesTest" time="0.002"/>
+  <testcase name="строка звонка в чате говорит с точки зрения читающего" classname="net.millida.launcher.core.CallRulesTest" time="0.001"/>
+  <testcase name="флаги собеседника пишут только известное" classname="net.millida.launcher.core.CallRulesTest" time="0.002"/>
+  <testcase name="худшее звено — с самой большой задержкой" classname="net.millida.launcher.core.CallRulesTest" time="0.0"/>
+  <testcase name="конец звонка называется по причине" classname="net.millida.launcher.core.CallRulesTest" time="0.001"/>
+  <testcase name="границы качества связи строгие, как на десктопе" classname="net.millida.launcher.core.CallRulesTest" time="0.005"/>
+  <testcase name="длительность разговора округляется и переходит в часы" classname="net.millida.launcher.core.CallRulesTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

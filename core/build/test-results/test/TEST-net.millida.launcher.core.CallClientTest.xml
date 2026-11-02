@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.CallClientTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:09" hostname="codespaces-d0fe97" time="0.555">
+  <properties/>
+  <testcase name="логины ретранслятора берутся один раз и обновляются до истечения" classname="net.millida.launcher.core.CallClientTest" time="0.06"/>
+  <testcase name="отказы голоса доходят словами" classname="net.millida.launcher.core.CallClientTest" time="0.119"/>
+  <testcase name="без ответа о ретрансляторах звонок идёт через STUN и не запоминает сбой" classname="net.millida.launcher.core.CallClientTest" time="0.143"/>
+  <testcase name="сигнал уходит телом по DTO сервера" classname="net.millida.launcher.core.CallClientTest" time="0.043"/>
+  <testcase name="позвать группу возвращает число позванных" classname="net.millida.launcher.core.CallClientTest" time="0.097"/>
+  <testcase name="удар голоса передаёт микрофон и звук" classname="net.millida.launcher.core.CallClientTest" time="0.014"/>
+  <testcase name="опрос звонков держит курсор и умеет не ждать" classname="net.millida.launcher.core.CallClientTest" time="0.067"/>
+  <testcase name="подставная группа до сети не доходит" classname="net.millida.launcher.core.CallClientTest" time="0.003"/>
+  <testcase name="без входа звонки не опрашиваются" classname="net.millida.launcher.core.CallClientTest" time="0.002"/>
+  <testcase name="голос группы читает участников без мусора и повторов" classname="net.millida.launcher.core.CallClientTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

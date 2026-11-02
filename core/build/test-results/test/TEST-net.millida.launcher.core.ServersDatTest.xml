@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.ServersDatTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:28" hostname="codespaces-d0fe97" time="0.039">
+  <properties/>
+  <testcase name="unknown tags survive a rewrite" classname="net.millida.launcher.core.ServersDatTest" time="0.0"/>
+  <testcase name="adding a server keeps the existing ones" classname="net.millida.launcher.core.ServersDatTest" time="0.005"/>
+  <testcase name="an empty address is refused instead of writing a dead row" classname="net.millida.launcher.core.ServersDatTest" time="0.002"/>
+  <testcase name="address splitting handles ports and IPv6 literals" classname="net.millida.launcher.core.ServersDatTest" time="0.001"/>
+  <testcase name="a truncated status answer surfaces as an error not as zeros" classname="net.millida.launcher.core.ServersDatTest" time="0.003"/>
+  <testcase name="a corrupt servers dat does not stop the player from adding a server" classname="net.millida.launcher.core.ServersDatTest" time="0.004"/>
+  <testcase name="a plain string motd and a missing favicon still parse" classname="net.millida.launcher.core.ServersDatTest" time="0.001"/>
+  <testcase name="a gzipped file written by another tool still reads" classname="net.millida.launcher.core.ServersDatTest" time="0.0"/>
+  <testcase name="bedrock port is reported as unknown without touching the network" classname="net.millida.launcher.core.ServersDatTest" time="0.001"/>
+  <testcase name="broken files read as an empty list instead of throwing" classname="net.millida.launcher.core.ServersDatTest" time="0.001"/>
+  <testcase name="write then read gives the same list back" classname="net.millida.launcher.core.ServersDatTest" time="0.003"/>
+  <testcase name="moving renaming and removing touch only the target row" classname="net.millida.launcher.core.ServersDatTest" time="0.007"/>
+  <testcase name="pinning moves the server to the top and keeps the rest in order" classname="net.millida.launcher.core.ServersDatTest" time="0.004"/>
+  <testcase name="ping parses the status answer of a real socket" classname="net.millida.launcher.core.ServersDatTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

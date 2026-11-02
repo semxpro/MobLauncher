@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.AtomicFilesHashingTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:07" hostname="codespaces-d0fe97" time="0.046">
+  <properties/>
+  <testcase name="сверка хеша выбирает алгоритм по длине и отклоняет мусор" classname="net.millida.launcher.core.AtomicFilesHashingTest" time="0.008"/>
+  <testcase name="большой файл хешируется целиком, а не первым буфером" classname="net.millida.launcher.core.AtomicFilesHashingTest" time="0.03"/>
+  <testcase name="хеши совпадают с эталонами" classname="net.millida.launcher.core.AtomicFilesHashingTest" time="0.004"/>
+  <testcase name="атомарная запись создаёт папки, заменяет файл и не оставляет хвостов" classname="net.millida.launcher.core.AtomicFilesHashingTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

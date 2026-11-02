@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.PackArchiveDescriptorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:25" hostname="codespaces-d0fe97" time="0.005">
+  <properties/>
+  <testcase name="архив из папки партнёра распаковывается целиком вместе с описанием запуска" classname="net.millida.launcher.core.PackArchiveDescriptorTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

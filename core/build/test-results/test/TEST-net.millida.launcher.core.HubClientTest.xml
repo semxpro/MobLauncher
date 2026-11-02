@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.HubClientTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:23" hostname="codespaces-d0fe97" time="0.305">
+  <properties/>
+  <testcase name="онлайн своего сервера читается только живым числом" classname="net.millida.launcher.core.HubClientTest" time="0.261"/>
+  <testcase name="сбой рейтинга доходит ошибкой, а не пустым списком" classname="net.millida.launcher.core.HubClientTest" time="0.007"/>
+  <testcase name="популярные версии — топ при пустом ответе, ошибка при сбое" classname="net.millida.launcher.core.HubClientTest" time="0.015"/>
+  <testcase name="здоровье сборки спрашивается по нормализованному слагу" classname="net.millida.launcher.core.HubClientTest" time="0.012"/>
+  <testcase name="слаг с путём наружу до сети не доходит" classname="net.millida.launcher.core.HubClientTest" time="0.006"/>
+  <testcase name="режимы рейтинга просятся без сессии игрока" classname="net.millida.launcher.core.HubClientTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.MojangModelsTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:25" hostname="codespaces-d0fe97" time="0.131">
+  <properties/>
+  <testcase name="аргументы нового формата с массивом значений и журнал клиента" classname="net.millida.launcher.core.MojangModelsTest" time="0.007"/>
+  <testcase name="описание версии на диске" classname="net.millida.launcher.core.MojangModelsTest" time="0.004"/>
+  <testcase name="сборка версии из старого формата и правила библиотек" classname="net.millida.launcher.core.MojangModelsTest" time="0.006"/>
+  <testcase name="список версий кешируется, а мусор из сети не затирает кеш" classname="net.millida.launcher.core.MojangModelsTest" time="0.05"/>
+  <testcase name="описание версии и индекс ассетов получают умолчания" classname="net.millida.launcher.core.MojangModelsTest" time="0.002"/>
+  <testcase name="список версий Mojang терпит лишние поля и явные null" classname="net.millida.launcher.core.MojangModelsTest" time="0.001"/>
+  <testcase name="цикл наследования версий обрывается ошибкой" classname="net.millida.launcher.core.MojangModelsTest" time="0.005"/>
+  <testcase name="список версий запоминается в памяти и обновляется по требованию" classname="net.millida.launcher.core.MojangModelsTest" time="0.045"/>
+  <testcase name="без сети и с битым кешем — понятная ошибка и кеш удалён" classname="net.millida.launcher.core.MojangModelsTest" time="0.01"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.CloudManifestGuardTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:11" hostname="codespaces-d0fe97" time="0.076">
+  <properties/>
+  <testcase name="в сборку попадают только файлы с адресом, хешем и путём без выхода наружу" classname="net.millida.launcher.core.CloudManifestGuardTest" time="0.012"/>
+  <testcase name="имя и описание очищаются от управляющих символов и обрезаются" classname="net.millida.launcher.core.CloudManifestGuardTest" time="0.002"/>
+  <testcase name="сборка новее формата или без версии игры не ставится" classname="net.millida.launcher.core.CloudManifestGuardTest" time="0.001"/>
+  <testcase name="слишком длинный список файлов обрезается до предела" classname="net.millida.launcher.core.CloudManifestGuardTest" time="0.054"/>
+  <testcase name="файлы облачной сборки качаются только с известных хостов по https" classname="net.millida.launcher.core.CloudManifestGuardTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -19,11 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.Stroke
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.translate
@@ -32,6 +34,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.shape.RoundedCornerShape
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import net.millida.launcher.core.media.UiSoundEvent
@@ -226,16 +229,24 @@ private fun DrawScope.drawBands(
 }
 
 fun DrawScope.drawPixelFrame(frame: PixelFrame, stepTop: Float, stepBottom: Float) {
-    drawBands(
-        stepTop, stepBottom,
-        frame.top, px(frame.topWidth),
-        frame.bottom, px(frame.bottomWidth),
-        frame.left, px(frame.leftWidth),
-        frame.right, px(frame.rightWidth),
-    )
-    val ring = px(frame.outlineWidth)
-    if (frame.outline.alpha > 0f && ring > 0f) {
-        drawBands(stepTop, stepBottom, frame.outline, ring, frame.outline, ring, frame.outline, ring, frame.outline, ring)
+    val hasOutline = frame.outline.alpha > 0f
+    val rawColor = when {
+        hasOutline -> frame.outline
+        frame.bottom.alpha > 0f -> frame.bottom
+        else -> frame.top
+    }
+    val color = if (hasOutline) rawColor else rawColor.copy(alpha = rawColor.alpha * 0.45f)
+    val width = if (hasOutline) px(frame.outlineWidth) else px(1.dp)
+    if (color.alpha > 0f && width > 0f) {
+        val inset = width / 2f
+        val radius = min(size.width, size.height) * 0.06f
+        drawRoundRect(
+            color = color,
+            topLeft = Offset(inset, inset),
+            size = Size(size.width - width, size.height - width),
+            cornerRadius = CornerRadius(radius, radius),
+            style = Stroke(width),
+        )
     }
 }
 
@@ -260,12 +271,17 @@ fun Modifier.pixelSurface(
     dots: Boolean = false,
     corners: PixelCorners = PixelCorners.All,
 ): Modifier = this
-    .clip(PixelCutShape(cut, corners))
+    .clip(
+        RoundedCornerShape(
+            topStart = if (corners.top) cut else 0.dp,
+            topEnd = if (corners.top) cut else 0.dp,
+            bottomEnd = if (corners.bottom) cut else 0.dp,
+            bottomStart = if (corners.bottom) cut else 0.dp,
+        ),
+    )
     .drawBehind {
         if (fill.alpha > 0f) drawRect(fill)
-        if (dots) drawPixelDots()
-        val step = stepFor(cut)
-        drawPixelFrame(frame, if (corners.top) step else 0f, if (corners.bottom) step else 0f)
+        drawPixelFrame(frame, 0f, 0f)
     }
 
 fun Modifier.pixelFrame(
@@ -288,10 +304,16 @@ fun Modifier.pixelSole(
     pressed: Dp = 2.dp,
     color: Color = MillidaPixel.sole,
 ): Modifier = drawBehind {
-    val step = stepFor(cut)
     val drop = round(rest.toPx() + (pressed.toPx() - rest.toPx()) * lift.value)
     translate(top = drop) {
-        drawPath(steppedPath(size.width, size.height, step, step), color)
+        val inset = 1.dp.toPx()
+        val radius = cut.toPx()
+        drawRoundRect(
+            color = color,
+            topLeft = Offset(inset, inset),
+            size = Size(size.width - inset * 2f, size.height - inset * 2f),
+            cornerRadius = CornerRadius(radius, radius),
+        )
     }
 }
 

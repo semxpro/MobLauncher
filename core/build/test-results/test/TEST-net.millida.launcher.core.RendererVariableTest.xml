@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.RendererVariableTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:27" hostname="codespaces-d0fe97" time="0.012">
+  <properties/>
+  <testcase name="переименование узнаётся по байтам" classname="net.millida.launcher.core.RendererVariableTest" time="0.002"/>
+  <testcase name="рантайм на телефоне проверяется по файлам" classname="net.millida.launcher.core.RendererVariableTest" time="0.009"/>
+  <testcase name="какие переменные рендерера ставятся" classname="net.millida.launcher.core.RendererVariableTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.WorldsTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:30" hostname="codespaces-d0fe97" time="0.096">
+  <properties/>
+  <testcase name="импорт архива с выходом из папки отклоняется" classname="net.millida.launcher.core.WorldsTest" time="0.006"/>
+  <testcase name="экспорт и импорт переносят мир целиком" classname="net.millida.launcher.core.WorldsTest" time="0.008"/>
+  <testcase name="подробности мира читаются из level dat" classname="net.millida.launcher.core.WorldsTest" time="0.006"/>
+  <testcase name="удаление мира убирает папку целиком" classname="net.millida.launcher.core.WorldsTest" time="0.008"/>
+  <testcase name="переименование мира с незнакомым тегом отклоняется" classname="net.millida.launcher.core.WorldsTest" time="0.004"/>
+  <testcase name="дубликат не трогает оригинал" classname="net.millida.launcher.core.WorldsTest" time="0.01"/>
+  <testcase name="переименование меняет имя и в level dat и у папки" classname="net.millida.launcher.core.WorldsTest" time="0.004"/>
+  <testcase name="провал восстановления оставляет исходный мир целым" classname="net.millida.launcher.core.WorldsTest" time="0.01"/>
+  <testcase name="копия и восстановление возвращают тот же набор файлов" classname="net.millida.launcher.core.WorldsTest" time="0.016"/>
+  <testcase name="незнакомые и битые данные не роняют список" classname="net.millida.launcher.core.WorldsTest" time="0.005"/>
+  <testcase name="карточки миров читаются из level dat" classname="net.millida.launcher.core.WorldsTest" time="0.011"/>
+  <testcase name="имя мира с выходом из папки saves отклоняется" classname="net.millida.launcher.core.WorldsTest" time="0.007"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

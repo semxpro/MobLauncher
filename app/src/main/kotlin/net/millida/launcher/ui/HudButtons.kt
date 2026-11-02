@@ -72,7 +72,7 @@ internal fun HudActionButton(
 ) {
     var held by remember(control.id) { mutableStateOf(false) }
     val label = if (control.action == HudAction.POINTER_MODE) {
-        if (lookMode) "Курсор" else "Обзор"
+        if (lookMode) "Pointer" else "Look"
     } else {
         control.label
     }

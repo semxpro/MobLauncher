@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.ServerPingTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:28" hostname="codespaces-d0fe97" time="0.01">
+  <properties/>
+  <testcase name="неразборчивый ответ становится ошибкой, а не нулями" classname="net.millida.launcher.core.ServerPingTest" time="0.002"/>
+  <testcase name="VarInt пишется и читается так, как требует протокол" classname="net.millida.launcher.core.ServerPingTest" time="0.0"/>
+  <testcase name="описание сервера сводится к legacy-кодам цвета и стиля" classname="net.millida.launcher.core.ServerPingTest" time="0.001"/>
+  <testcase name="пустое и огромное описание не ломают список серверов" classname="net.millida.launcher.core.ServerPingTest" time="0.0"/>
+  <testcase name="чужой ответ сервера отклоняется с понятной причиной" classname="net.millida.launcher.core.ServerPingTest" time="0.005"/>
+  <testcase name="ответ статуса разбирается при пустых и странных полях" classname="net.millida.launcher.core.ServerPingTest" time="0.002"/>
+  <testcase name="слишком длинный или оборванный VarInt отклоняется" classname="net.millida.launcher.core.ServerPingTest" time="0.0"/>
+  <testcase name="закрытый порт и пустой адрес сообщаются словами" classname="net.millida.launcher.core.ServerPingTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

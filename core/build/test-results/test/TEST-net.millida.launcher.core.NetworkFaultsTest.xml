@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.NetworkFaultsTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:25" hostname="codespaces-d0fe97" time="0.001">
+  <properties/>
+  <testcase name="кольцо причин не вешает экран" classname="net.millida.launcher.core.NetworkFaultsTest" time="0.0"/>
+  <testcase name="совет про DNS называет адрес и что делать" classname="net.millida.launcher.core.NetworkFaultsTest" time="0.0"/>
+  <testcase name="другие сбои не выдаются за DNS" classname="net.millida.launcher.core.NetworkFaultsTest" time="0.0"/>
+  <testcase name="сбой DNS находится в цепочке причин" classname="net.millida.launcher.core.NetworkFaultsTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

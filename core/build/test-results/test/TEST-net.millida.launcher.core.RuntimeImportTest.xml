@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.RuntimeImportTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:28" hostname="codespaces-d0fe97" time="0.012">
+  <properties/>
+  <testcase name="пакет рантайма ставится и описывается по своему файлу" classname="net.millida.launcher.core.RuntimeImportTest" time="0.007"/>
+  <testcase name="путь наружу пакета не распаковывается" classname="net.millida.launcher.core.RuntimeImportTest" time="0.002"/>
+  <testcase name="пакет без виртуальной машины отклоняется" classname="net.millida.launcher.core.RuntimeImportTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

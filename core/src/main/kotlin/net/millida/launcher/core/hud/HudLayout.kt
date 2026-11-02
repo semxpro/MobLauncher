@@ -113,7 +113,7 @@ data class HudControl(
 
 @Serializable
 data class HudLayout(
-    val name: String = "Своя раскладка",
+    val name: String = "Custom layout",
     val controls: List<HudControl> = emptyList(),
     val opacity: Float = DEFAULT_OPACITY,
     val lookTap: Int = HudKeys.MOUSE_LEFT,
@@ -221,7 +221,7 @@ object HudKeys {
     )
 
     private val special: List<Pair<Int, String>> = listOf(
-        SPACE to "Пробел",
+        SPACE to "Space",
         LEFT_SHIFT to "Shift",
         LEFT_CONTROL to "Ctrl",
         LEFT_ALT to "Alt",
@@ -229,10 +229,10 @@ object HudKeys {
         ESCAPE to "Esc",
         ENTER to "Enter",
         BACKSPACE to "Backspace",
-        UP to "Вверх",
-        DOWN to "Вниз",
-        LEFT to "Влево",
-        RIGHT to "Вправо",
+        UP to "Up",
+        DOWN to "Down",
+        LEFT to "Left",
+        RIGHT to "Right",
     )
 
     /** Keys a player can put on a button: what a Minecraft keybinding usually lands on. */
@@ -327,17 +327,17 @@ object HudPresets {
     const val NOMINAL_WIDTH = 640f
     const val NOMINAL_HEIGHT = 360f
 
-    const val BEDROCK = "Как в Bedrock"
+    const val BEDROCK = "Bedrock-style"
 
     fun base(kind: HudKind): HudControl = when (kind) {
-        HudKind.STICK -> HudControl("stick", "Ходьба", HudKind.STICK, width = 176f, height = 176f)
-        HudKind.FLOAT_STICK -> HudControl("stick", "Ходьба", HudKind.FLOAT_STICK, width = 120f, height = 120f)
-        HudKind.KEY -> HudControl("key", "Клавиша", HudKind.KEY, width = 64f, height = 46f)
-        HudKind.MOUSE -> HudControl("mouse", "Кнопка мыши", HudKind.MOUSE, width = 104f, height = 46f)
-        HudKind.ACTION -> HudControl("action", "Действие", HudKind.ACTION, width = 104f, height = 44f)
-        HudKind.SCROLL -> HudControl("scroll", "Колесо", HudKind.SCROLL, width = 64f, height = 46f)
-        HudKind.JUMP -> HudControl("jump", "Прыжок", HudKind.JUMP, code = HudKeys.SPACE, width = 64f, height = 64f)
-        HudKind.HOTBAR_MORE -> HudControl("more", "Инвентарь", HudKind.HOTBAR_MORE, code = HudKeys.E, width = 32f, height = 32f)
+        HudKind.STICK -> HudControl("stick", "Movement", HudKind.STICK, width = 176f, height = 176f)
+        HudKind.FLOAT_STICK -> HudControl("stick", "Movement", HudKind.FLOAT_STICK, width = 120f, height = 120f)
+        HudKind.KEY -> HudControl("key", "Key", HudKind.KEY, width = 64f, height = 46f)
+        HudKind.MOUSE -> HudControl("mouse", "Mouse button", HudKind.MOUSE, width = 104f, height = 46f)
+        HudKind.ACTION -> HudControl("action", "Action", HudKind.ACTION, width = 104f, height = 44f)
+        HudKind.SCROLL -> HudControl("scroll", "Scroll", HudKind.SCROLL, width = 64f, height = 46f)
+        HudKind.JUMP -> HudControl("jump", "Jump", HudKind.JUMP, code = HudKeys.SPACE, width = 64f, height = 64f)
+        HudKind.HOTBAR_MORE -> HudControl("more", "Inventory", HudKind.HOTBAR_MORE, code = HudKeys.E, width = 32f, height = 32f)
     }
 
     private fun at(control: HudControl, centreX: Float, centreY: Float): HudControl =
@@ -403,18 +403,18 @@ object HudPresets {
         )
 
     private fun actions(): List<HudControl> = listOf(
-        at(action("mode", "Курсор", HudAction.POINTER_MODE, 104f), 308f, 28f),
-        at(action("keyboard", "Клавиатура", HudAction.KEYBOARD, 140f), 446f, 28f),
-        at(action("menu", "Меню", HudAction.MENU, 96f), 580f, 28f),
+        at(action("mode", "Pointer", HudAction.POINTER_MODE, 104f), 308f, 28f),
+        at(action("keyboard", "Keyboard", HudAction.KEYBOARD, 140f), 446f, 28f),
+        at(action("menu", "Menu", HudAction.MENU, 96f), 580f, 28f),
     )
 
     private fun rightHand(): List<HudControl> = listOf(
-        at(key("sneak", "Присесть", HudKeys.LEFT_SHIFT, width = 104f, toggle = true), 452f, 190f),
-        at(key("jump", "Прыжок", HudKeys.SPACE, width = 104f), 572f, 190f),
-        at(mouse("hit", "Удар", HudKeys.MOUSE_LEFT), 452f, 250f),
-        at(mouse("use", "Действие", HudKeys.MOUSE_RIGHT), 572f, 250f),
-        at(key("inventory", "Инвентарь", HudKeys.E, width = 104f), 452f, 310f),
-        at(key("chat", "Чат", HudKeys.T, width = 104f), 572f, 310f),
+        at(key("sneak", "Sneak", HudKeys.LEFT_SHIFT, width = 104f, toggle = true), 452f, 190f),
+        at(key("jump", "Jump", HudKeys.SPACE, width = 104f), 572f, 190f),
+        at(mouse("hit", "Attack", HudKeys.MOUSE_LEFT), 452f, 250f),
+        at(mouse("use", "Use", HudKeys.MOUSE_RIGHT), 572f, 250f),
+        at(key("inventory", "Inventory", HudKeys.E, width = 104f), 452f, 310f),
+        at(key("chat", "Chat", HudKeys.T, width = 104f), 572f, 310f),
     )
 
     private fun iconAction(id: String, label: String, what: HudAction, icon: String, visibility: HudVisibility) =
@@ -440,40 +440,40 @@ object HudPresets {
         controls = listOf(
             at(base(HudKind.FLOAT_STICK), 88f, 270f),
             at(base(HudKind.JUMP).copy(icon = HudIcons.JUMP), 584f, 280f),
-            at(square("sneak", "Присесть", HudKeys.LEFT_SHIFT, 52f, HudIcons.SNEAK, HudVisibility.WALKING, latch = true), 520f, 312f),
-            at(square("fly-down", "Вниз", HudKeys.LEFT_SHIFT, 52f, HudIcons.DOWN, HudVisibility.FLYING), 520f, 312f),
-            at(iconAction("menu", "Меню", HudAction.MENU, HudIcons.PAUSE, HudVisibility.ALWAYS), 616f, 22f),
-            at(iconAction("chat", "Чат", HudAction.CHAT, HudIcons.CHAT, HudVisibility.LOOK), 576f, 22f),
+            at(square("sneak", "Sneak", HudKeys.LEFT_SHIFT, 52f, HudIcons.SNEAK, HudVisibility.WALKING, latch = true), 520f, 312f),
+            at(square("fly-down", "Down", HudKeys.LEFT_SHIFT, 52f, HudIcons.DOWN, HudVisibility.FLYING), 520f, 312f),
+            at(iconAction("menu", "Menu", HudAction.MENU, HudIcons.PAUSE, HudVisibility.ALWAYS), 616f, 22f),
+            at(iconAction("chat", "Chat", HudAction.CHAT, HudIcons.CHAT, HudVisibility.LOOK), 576f, 22f),
             at(square("escape", "Esc", HudKeys.ESCAPE, 36f, HudIcons.CLOSE, HudVisibility.CURSOR), 576f, 22f),
-            at(square("camera", "Вид", HudKeys.F5, 36f, HudIcons.CAMERA), 536f, 22f),
-            at(square("players", "Игроки", HudKeys.TAB, 36f, HudIcons.PLAYERS, hidden = true), 496f, 22f),
+            at(square("camera", "View", HudKeys.F5, 36f, HudIcons.CAMERA), 536f, 22f),
+            at(square("players", "Players", HudKeys.TAB, 36f, HudIcons.PLAYERS, hidden = true), 496f, 22f),
             base(HudKind.HOTBAR_MORE).copy(icon = HudIcons.MORE, x = 0.5f, y = 0.95f),
         ),
     )
 
     fun stick(): HudLayout = HudLayout(
-        name = "Джойстик",
+        name = "Joystick",
         controls = listOf(
-            at(HudControl("stick", "Ходьба", HudKind.STICK, width = 176f, height = 176f), 104f, 252f),
+            at(HudControl("stick", "Movement", HudKind.STICK, width = 176f, height = 176f), 104f, 252f),
         ) + rightHand() + gameKeys(camera = true) + actions(),
     )
 
     fun buttons(): HudLayout = HudLayout(
-        name = "Кнопки",
+        name = "Buttons",
         controls = listOf(
             at(key("forward", "W", HudKeys.W, width = 56f), 116f, 168f),
             at(key("left", "A", HudKeys.A, width = 56f), 56f, 222f),
             at(key("back", "S", HudKeys.S, width = 56f), 116f, 222f),
             at(key("right", "D", HudKeys.D, width = 56f), 176f, 222f),
-            at(key("sprint", "Бег", HudKeys.LEFT_CONTROL, width = 104f, toggle = true), 68f, 282f),
+            at(key("sprint", "Sprint", HudKeys.LEFT_CONTROL, width = 104f, toggle = true), 68f, 282f),
         ) + rightHand() + gameKeys(camera = true) + actions(),
     )
 
     fun minimal(): HudLayout = HudLayout(
-        name = "Только обзор",
+        name = "Look only",
         controls = listOf(
-            at(HudControl("stick", "Ходьба", HudKind.STICK, width = 150f, height = 150f), 92f, 262f),
-            at(key("jump", "Прыжок", HudKeys.SPACE, width = 104f), 572f, 250f),
+            at(HudControl("stick", "Movement", HudKind.STICK, width = 150f, height = 150f), 92f, 262f),
+            at(key("jump", "Jump", HudKeys.SPACE, width = 104f), 572f, 250f),
         ) + gameKeys(camera = false) + actions(),
     )
 

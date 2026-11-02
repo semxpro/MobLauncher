@@ -44,19 +44,6 @@ class HubClientTest {
     }
 
     @Test
-    fun `режимы рейтинга просятся без сессии игрока`() {
-        runBlocking {
-            reply("""{"modes":[{"code":"BEDWARS","total":4,"online":900,"slugs":["a"]},{"code":"ONEBLOCK","online":10,"slugs":["oneblock-7"]}]}""")
-            val modes = hub(signedIn = true).modes()
-            val request = server.takeRequest()
-            assertEquals("/v2/rating/modes", request.path)
-            assertNull("рейтинг публичный: токен туда не отправляется", request.getHeader("Authorization"))
-            assertEquals("свой ивент первым и после сети", listOf("ONEBLOCK", "BEDWARS"), modes.map { it.code })
-            assertEquals("без total число серверов берётся из списка", 1, modes.first().total)
-        }
-    }
-
-    @Test
     fun `здоровье сборки спрашивается по нормализованному слагу`() {
         runBlocking {
             reply("""{"packs":[{"slug":"arcania","status":"ok","launches":40,"successPct":97}]}""")
@@ -125,13 +112,4 @@ class HubClientTest {
         }
     }
 
-    @Test
-    fun `сбой рейтинга доходит ошибкой, а не пустым списком`() {
-        runBlocking {
-            reply("""{"message":"Рейтинг обновляется"}""", code = 503)
-            val error = runCatching { hub().modes() }.exceptionOrNull()
-            assertTrue("ожидалась IOException, получено $error", error is IOException)
-            assertEquals("текст сервера сохраняется", "Рейтинг обновляется", error?.message)
-        }
-    }
 }

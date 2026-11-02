@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.RendererChoiceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:27" hostname="codespaces-d0fe97" time="0.039">
+  <properties/>
+  <testcase name="Zink из пакета предлагается, только если все его файлы на месте" classname="net.millida.launcher.core.RendererChoiceTest" time="0.027"/>
+  <testcase name="рендерер, упавший при запуске сборки, автовыбор обходит" classname="net.millida.launcher.core.RendererChoiceTest" time="0.004"/>
+  <testcase name="рендерер по версии и GPU" classname="net.millida.launcher.core.RendererChoiceTest" time="0.005"/>
+  <testcase name="GPU узнаётся по строкам драйвера" classname="net.millida.launcher.core.RendererChoiceTest" time="0.001"/>
+  <testcase name="падение при запуске узнаётся по отчёту игры" classname="net.millida.launcher.core.RendererChoiceTest" time="0.0"/>
+  <testcase name="память о падении привязана к сборке и версии" classname="net.millida.launcher.core.RendererChoiceTest" time="0.001"/>
+  <testcase name="замена рендерера из настроек видна игроку" classname="net.millida.launcher.core.RendererChoiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

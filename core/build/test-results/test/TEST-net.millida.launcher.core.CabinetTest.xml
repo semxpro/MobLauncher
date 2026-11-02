@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.CabinetTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:09" hostname="codespaces-d0fe97" time="0.149">
+  <properties/>
+  <testcase name="истёкшая сессия одинаково видна на достижениях и новостях" classname="net.millida.launcher.core.CabinetTest" time="0.044"/>
+  <testcase name="истёкшая сессия просит войти, а не сообщает об ошибке" classname="net.millida.launcher.core.CabinetTest" time="0.019"/>
+  <testcase name="лента новостей без картинки и ссылки не падает" classname="net.millida.launcher.core.CabinetTest" time="0.019"/>
+  <testcase name="баланс в копейках показывается рублями без потерь" classname="net.millida.launcher.core.CabinetTest" time="0.036"/>
+  <testcase name="операции разбираются со знаком суммы" classname="net.millida.launcher.core.CabinetTest" time="0.016"/>
+  <testcase name="достижения показывают прогресс и полученные" classname="net.millida.launcher.core.CabinetTest" time="0.009"/>
+  <testcase name="пустая история операций не ошибка" classname="net.millida.launcher.core.CabinetTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

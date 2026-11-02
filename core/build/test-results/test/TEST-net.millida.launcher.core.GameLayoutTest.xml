@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.GameLayoutTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:22" hostname="codespaces-d0fe97" time="0.003">
+  <properties/>
+  <testcase name="имя конфига логов из манифеста не выводит из папки" classname="net.millida.launcher.core.GameLayoutTest" time="0.0"/>
+  <testcase name="файлы игры лежат там, где их ищет запуск" classname="net.millida.launcher.core.GameLayoutTest" time="0.001"/>
+  <testcase name="ensure создаёт все рабочие папки" classname="net.millida.launcher.core.GameLayoutTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

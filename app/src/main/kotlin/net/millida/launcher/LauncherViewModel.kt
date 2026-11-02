@@ -316,7 +316,7 @@ data class UiState(
     val duplicateBytes: Long = 0,
     val duplicateGroups: Int = 0,
     val themeMode: String = Prefs.THEME_DARK,
-    val accentId: String = "green",
+    val accentId: String = "blue",
     val accentCustom: String = "",
     val preparingGame: Boolean = false,
     val bedrockMode: String = Prefs.BEDROCK_ASK,
@@ -461,7 +461,7 @@ class LauncherViewModel(application: Application) : AndroidViewModel(application
 
     val packUpdates = PackUpdateModel(container, viewModelScope, catalogModel, millidaShelf, millidaHost)
 
-    val hub = HubModel(application, HubClient(container.millidaAuth), container.rating, viewModelScope, ::loadErrorText)
+    val hub = HubModel(HubClient(container.millidaAuth), viewModelScope)
 
     val premium = PremiumModel(
         PremiumClient(container.millidaAuth, MillidaCatalog(container.millidaAuth)),
@@ -2810,11 +2810,6 @@ class LauncherViewModel(application: Application) : AndroidViewModel(application
     }
 
     val mojangCapes: MojangCapes by lazy { MojangCapes(container.wardrobe, viewModelScope) }
-
-    /** The try-on bill: the shop takes the rubies, and only what it confirmed becomes owned and goes on. */
-    fun buyTryOn(items: List<net.millida.launcher.core.cosmetics.CosmeticItem>) {
-        shop.buyFromWardrobe(items.map { it.art() }) { codes -> cosmeticWardrobe.wearBought(codes) }
-    }
 
     /** The mod's items, emotes, saved looks and the site's skin showcase, shared by the character screen and the lobby. */
     val cosmeticWardrobe: net.millida.launcher.ui.character.CosmeticsModel by lazy {

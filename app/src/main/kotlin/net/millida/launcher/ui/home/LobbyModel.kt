@@ -26,6 +26,7 @@ import net.millida.launcher.core.profile.Profile
 import net.millida.launcher.core.rating.RatedServer
 import net.millida.launcher.core.rating.RatingSort
 import net.millida.launcher.core.servers.OwnServers
+import net.millida.launcher.core.servers.RegionalServers
 import net.millida.launcher.knownVersions
 import net.millida.launcher.loadErrorText
 import net.millida.launcher.pingVersions
@@ -69,7 +70,7 @@ data class LobbyState(
     val importPrompt: LocalImportPrompt? = null,
     val coverBusy: Boolean = false,
     val createAsk: CreateAsk? = null,
-    val topServers: List<RatedServer> = emptyList(),
+    val topServers: List<RatedServer> = RegionalServers.suggestions,
     val serversLoading: Boolean = false,
     val serversError: String? = null,
 )
@@ -161,7 +162,16 @@ class LobbyModel(
                 }
                 if (ticket != topSeq.get()) return@launch
                 topLoaded = true
-                mutable.update { it.copy(topServers = OwnServers.forPhone(page.servers), serversLoading = false) }
+                val curated = RegionalServers.suggestions
+                val rated = OwnServers.forPhone(page.servers)
+                mutable.update {
+                    it.copy(
+                        topServers = (curated + rated).distinctBy { server ->
+                            server.slug.ifEmpty { server.joinAddress.lowercase() }
+                        },
+                        serversLoading = false,
+                    )
+                }
             } catch (cancelled: CancellationException) {
                 if (ticket == topSeq.get()) mutable.update { it.copy(serversLoading = false) }
                 throw cancelled

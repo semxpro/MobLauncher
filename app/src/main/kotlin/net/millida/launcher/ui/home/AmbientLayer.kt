@@ -7,7 +7,7 @@ import net.millida.launcher.LauncherViewModel
 import net.millida.launcher.Screen
 import net.millida.launcher.UiState
 
-/** The welcome splash and the lobby guide, above the screens and below the first-run pages. */
+/** The lobby guide above the home screen and below the first-run pages. */
 @Composable
 fun AmbientLayer(state: UiState, model: LauncherViewModel) {
     val ambient by model.ambient.state.collectAsStateWithLifecycle()

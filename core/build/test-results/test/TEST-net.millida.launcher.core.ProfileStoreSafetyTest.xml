@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.ProfileStoreSafetyTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:27" hostname="codespaces-d0fe97" time="0.128">
+  <properties/>
+  <testcase name="параллельные сохранения не теряют сборки" classname="net.millida.launcher.core.ProfileStoreSafetyTest" time="0.041"/>
+  <testcase name="повреждённый список не теряет сборки при следующем сохранении" classname="net.millida.launcher.core.ProfileStoreSafetyTest" time="0.05"/>
+  <testcase name="новая сборка не въезжает в чужую папку" classname="net.millida.launcher.core.ProfileStoreSafetyTest" time="0.024"/>
+  <testcase name="сбой записи резервной копии не роняет сохранение списка" classname="net.millida.launcher.core.ProfileStoreSafetyTest" time="0.012"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

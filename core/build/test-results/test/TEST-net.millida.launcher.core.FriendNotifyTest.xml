@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.FriendNotifyTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:20" hostname="codespaces-d0fe97" time="0.03">
+  <properties/>
+  <testcase name="ключи хранения совпадают с десктопом" classname="net.millida.launcher.core.FriendNotifyTest" time="0.002"/>
+  <testcase name="одна игровая сессия друга звенит один раз" classname="net.millida.launcher.core.FriendNotifyTest" time="0.011"/>
+  <testcase name="события присутствия решаются по десктопным правилам" classname="net.millida.launcher.core.FriendNotifyTest" time="0.001"/>
+  <testcase name="карточка пачки называет друзей коротко" classname="net.millida.launcher.core.FriendNotifyTest" time="0.009"/>
+  <testcase name="показ и звук зависят только от уровня" classname="net.millida.launcher.core.FriendNotifyTest" time="0.006"/>
+  <testcase name="уровень из настроек читается как на десктопе" classname="net.millida.launcher.core.FriendNotifyTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -108,8 +108,8 @@ class MicrosoftDeviceFlowTest {
             val cases = listOf(
                 StartCase("""{"error":"unauthorized_client","error_description":"AADSTS700016: app not found"}""", "AADSTS700016: app not found", "описание ошибки важнее кода"),
                 StartCase("""{"error":"invalid_scope"}""", "invalid_scope", "без описания показывается код"),
-                StartCase("""{"device_code":"D"}""", "Microsoft не выдал код устройства", "без кода для игрока вводить нечего"),
-                StartCase("""{"user_code":"U"}""", "Microsoft не выдал код устройства", "без device_code нечего опрашивать"),
+                StartCase("""{"device_code":"D"}""", "Microsoft did not return a device code", "без кода для игрока вводить нечего"),
+                StartCase("""{"user_code":"U"}""", "Microsoft did not return a device code", "без device_code нечего опрашивать"),
             )
             val microsoft = auth()
             for (case in cases) {
@@ -131,7 +131,7 @@ class MicrosoftDeviceFlowTest {
                 PollCase("""{"error":"slow_down"}""", true, null, "просьба замедлиться — не повод обрывать вход"),
                 PollCase("""{"error":"expired_token","error_description":"Код истёк"}""", false, "Код истёк", "истёкший код — отказ с текстом"),
                 PollCase("""{"error":"access_denied"}""", false, "access_denied", "игрок отказал — без описания видно код"),
-                PollCase("""{"token_type":"Bearer"}""", false, "Microsoft не выдал токен", "ответ без ошибки и без токена"),
+                PollCase("""{"token_type":"Bearer"}""", false, "Microsoft did not return an access token", "ответ без ошибки и без токена"),
             )
             val microsoft = auth()
             for (case in cases) {
@@ -201,21 +201,21 @@ class MicrosoftDeviceFlowTest {
                     """{"Identity":"0","XErr":2148916233}""",
                     """{"access_token":"MC"}""",
                     """{"name":"Steve"}""",
-                    "XSTS отказал — на аккаунте нет профиля Xbox",
+                    "XSTS rejected the account. Make sure it has an Xbox profile.",
                     "у аккаунта нет профиля Xbox — частая причина у новичков",
                 ),
                 ChainCase(
                     """{"Token":"XSTS-TOKEN"}""",
                     """{"error":"TOO_MANY_REQUESTS"}""",
                     """{"name":"Steve"}""",
-                    "Minecraft отказал в сессии — повтори через минуту",
+                    "Minecraft did not create a session. Try again shortly.",
                     "Minecraft не выдал токен",
                 ),
                 ChainCase(
                     """{"Token":"XSTS-TOKEN"}""",
                     """{"access_token":"MC"}""",
                     """{"path":"/minecraft/profile","error":"NOT_FOUND"}""",
-                    "На этом аккаунте нет лицензии Minecraft",
+                    "This account does not own Minecraft.",
                     "аккаунт Microsoft без купленной игры",
                 ),
             )
@@ -272,7 +272,7 @@ class MicrosoftDeviceFlowTest {
             val error = runCatching { auth().refresh("R0") }.exceptionOrNull()
 
             assertFalse("временный сбой — не повод выкидывать игрока из аккаунта", error is MicrosoftSignInRequired)
-            assertEquals("Microsoft не ответил — повтори через минуту", error?.message)
+            assertEquals("Microsoft returned no token. Try again shortly.", error?.message)
         }
     }
 
@@ -290,7 +290,7 @@ class MicrosoftDeviceFlowTest {
             for (case in cases) {
                 route(DEVICE, case.body, case.code)
                 val error = runCatching { microsoft.startDeviceFlow() }.exceptionOrNull()
-                assertEquals(case.why, "Сервер входа Microsoft ответил ${case.code} — повтори позже", error?.message)
+                assertEquals(case.why, "Microsoft sign-in returned HTTP ${case.code}. Try again later.", error?.message)
             }
         }
     }

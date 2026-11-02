@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.RubiesClientTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:28" hostname="codespaces-d0fe97" time="0.093">
+  <properties/>
+  <testcase name="докупка ровно разбирает дробные копейки" classname="net.millida.launcher.core.RubiesClientTest" time="0.008"/>
+  <testcase name="забор клетки PLUS уходит с днём и строкой" classname="net.millida.launcher.core.RubiesClientTest" time="0.012"/>
+  <testcase name="открытие сундука отправляет сид и разбирает выпадение" classname="net.millida.launcher.core.RubiesClientTest" time="0.013"/>
+  <testcase name="покупка уходит с источником витрины" classname="net.millida.launcher.core.RubiesClientTest" time="0.007"/>
+  <testcase name="проверка ссылки оплаты" classname="net.millida.launcher.core.RubiesClientTest" time="0.008"/>
+  <testcase name="покупка из примерки уходит с источником гардероба" classname="net.millida.launcher.core.RubiesClientTest" time="0.012"/>
+  <testcase name="ссылка на оплату с чужим хостом не уходит в браузер" classname="net.millida.launcher.core.RubiesClientTest" time="0.009"/>
+  <testcase name="нехватка денег на пакете — WalletShort" classname="net.millida.launcher.core.RubiesClientTest" time="0.006"/>
+  <testcase name="401 уходит наружу как Unauthorized" classname="net.millida.launcher.core.RubiesClientTest" time="0.006"/>
+  <testcase name="трек сезона разбирается вместе с состояниями и сундуками" classname="net.millida.launcher.core.RubiesClientTest" time="0.006"/>
+  <testcase name="уже открытый сундук — ChestGone" classname="net.millida.launcher.core.RubiesClientTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

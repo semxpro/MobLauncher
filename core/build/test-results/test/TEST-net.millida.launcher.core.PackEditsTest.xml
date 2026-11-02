@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.PackEditsTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:25" hostname="codespaces-d0fe97" time="0.011">
+  <properties/>
+  <testcase name="адрес сборки каталога" classname="net.millida.launcher.core.PackEditsTest" time="0.001"/>
+  <testcase name="выбор игрока сохраняется только у сборки каталога" classname="net.millida.launcher.core.PackEditsTest" time="0.003"/>
+  <testcase name="какие файлы считаются модами и какие кладёт сам лаунчер" classname="net.millida.launcher.core.PackEditsTest" time="0.0"/>
+  <testcase name="битый список модов сборки судится по времени установки" classname="net.millida.launcher.core.PackEditsTest" time="0.001"/>
+  <testcase name="скрытые файлы и вложенность глубже одной папки не считаются правкой" classname="net.millida.launcher.core.PackEditsTest" time="0.003"/>
+  <testcase name="подпись под переключателем" classname="net.millida.launcher.core.PackEditsTest" time="0.001"/>
+  <testcase name="сборка не из каталога не обновляется сама" classname="net.millida.launcher.core.PackEditsTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

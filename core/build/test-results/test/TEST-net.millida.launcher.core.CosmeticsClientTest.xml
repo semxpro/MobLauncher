@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.CosmeticsClientTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:14" hostname="codespaces-d0fe97" time="0.282">
+  <properties/>
+  <testcase name="набор уходит целиком, расцветка только когда выбрана" classname="net.millida.launcher.core.CosmeticsClientTest" time="0.014"/>
+  <testcase name="надетое ищется по uuid без учёта дефисов" classname="net.millida.launcher.core.CosmeticsClientTest" time="0.017"/>
+  <testcase name="модель вещи берётся по закодированному id" classname="net.millida.launcher.core.CosmeticsClientTest" time="0.016"/>
+  <testcase name="надетое чужого или пустого ответа — пустой список" classname="net.millida.launcher.core.CosmeticsClientTest" time="0.09"/>
+  <testcase name="права на вещи берут только строковые коды" classname="net.millida.launcher.core.CosmeticsClientTest" time="0.049"/>
+  <testcase name="пустой набор снимает всё, а отказ сервера не выдаётся за успех" classname="net.millida.launcher.core.CosmeticsClientTest" time="0.045"/>
+  <testcase name="вещь без модели объясняет, что делать" classname="net.millida.launcher.core.CosmeticsClientTest" time="0.044"/>
+  <testcase name="пустой uuid не уходит в сеть, а список вместо объекта — ошибка" classname="net.millida.launcher.core.CosmeticsClientTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

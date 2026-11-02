@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.PackKeepTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:25" hostname="codespaces-d0fe97" time="0.015">
+  <properties/>
+  <testcase name="повторное сохранение не затирает то, что уже лежит в хранении" classname="net.millida.launcher.core.PackKeepTest" time="0.003"/>
+  <testcase name="без записи о файлах сборки уходят только известные папки игрока" classname="net.millida.launcher.core.PackKeepTest" time="0.004"/>
+  <testcase name="платное содержимое не уходит, даже если сборка его не записала" classname="net.millida.launcher.core.PackKeepTest" time="0.002"/>
+  <testcase name="битая запись о файлах сборки считается отсутствующей" classname="net.millida.launcher.core.PackKeepTest" time="0.002"/>
+  <testcase name="папка хранения лежит внутри общей папки хранения" classname="net.millida.launcher.core.PackKeepTest" time="0.0"/>
+  <testcase name="возврат без хранения ничего не делает, после полного возврата хранение исчезает" classname="net.millida.launcher.core.PackKeepTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

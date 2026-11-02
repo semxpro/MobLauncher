@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.ServerListTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:28" hostname="codespaces-d0fe97" time="0.065">
+  <properties/>
+  <testcase name="слишком длинный адрес отклоняется до записи" classname="net.millida.launcher.core.ServerListTest" time="0.005"/>
+  <testcase name="имя и адрес чистятся перед записью" classname="net.millida.launcher.core.ServerListTest" time="0.01"/>
+  <testcase name="действие над неизвестным адресом ничего не пишет" classname="net.millida.launcher.core.ServerListTest" time="0.006"/>
+  <testcase name="сервер наверх и правка адреса" classname="net.millida.launcher.core.ServerListTest" time="0.004"/>
+  <testcase name="список больше предела обрезается, а добавление сверх него отказывает" classname="net.millida.launcher.core.ServerListTest" time="0.037"/>
+  <testcase name="папка сборки вне хранилища профилей отклоняется" classname="net.millida.launcher.core.ServerListTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

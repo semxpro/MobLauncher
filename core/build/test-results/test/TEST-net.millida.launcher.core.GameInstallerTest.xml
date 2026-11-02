@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.GameInstallerTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:21" hostname="codespaces-d0fe97" time="1.088">
+  <properties/>
+  <testcase name="подменённый клиент не принимается" classname="net.millida.launcher.core.GameInstallerTest" time="0.106"/>
+  <testcase name="проверка называет то, чего не хватает" classname="net.millida.launcher.core.GameInstallerTest" time="0.177"/>
+  <testcase name="установка кладёт клиент, библиотеки, журнал и ассеты и сообщает этапы по порядку" classname="net.millida.launcher.core.GameInstallerTest" time="0.178"/>
+  <testcase name="имя ассета из индекса не выводит за папку virtual" classname="net.millida.launcher.core.GameInstallerTest" time="0.177"/>
+  <testcase name="настройка журнала без хеша не скачивается" classname="net.millida.launcher.core.GameInstallerTest" time="0.097"/>
+  <testcase name="новый log4j не тянет настройку журнала" classname="net.millida.launcher.core.GameInstallerTest" time="0.132"/>
+  <testcase name="описание без клиента — понятная ошибка, клиент отдельно и карта имён" classname="net.millida.launcher.core.GameInstallerTest" time="0.22"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.PackReaderTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:25" hostname="codespaces-d0fe97" time="0.255">
+  <properties/>
+  <testcase name="архив Millida копируется целиком и помнит каталог" classname="net.millida.launcher.core.PackReaderTest" time="0.008"/>
+  <testcase name="обёртка архива в одну папку не мешает найти индекс" classname="net.millida.launcher.core.PackReaderTest" time="0.003"/>
+  <testcase name="CurseForge - файлы спрашиваются у нашего сервера и сводятся к одному виду" classname="net.millida.launcher.core.PackReaderTest" time="0.096"/>
+  <testcase name="архив без манифеста или с битым манифестом отклоняется понятной ошибкой" classname="net.millida.launcher.core.PackReaderTest" time="0.005"/>
+  <testcase name="CurseForge - папка overrides из манифеста не уводит за пределы архива" classname="net.millida.launcher.core.PackReaderTest" time="0.002"/>
+  <testcase name="mrpack - серверные файлы, хеши и имя по умолчанию" classname="net.millida.launcher.core.PackReaderTest" time="0.002"/>
+  <testcase name="CurseForge - обязательный файл без ответа или с запретом скачивания останавливает установку" classname="net.millida.launcher.core.PackReaderTest" time="0.134"/>
+  <testcase name="CurseForge - манифест без раздела minecraft или без версии игры" classname="net.millida.launcher.core.PackReaderTest" time="0.002"/>
+  <testcase name="mrpack без версии игры или без ссылки на файл не ставится" classname="net.millida.launcher.core.PackReaderTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

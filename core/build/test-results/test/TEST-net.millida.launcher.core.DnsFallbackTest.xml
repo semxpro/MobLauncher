@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.DnsFallbackTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:15" hostname="codespaces-d0fe97" time="0.171">
+  <properties/>
+  <testcase name="системный молчит — адрес берётся из DoH" classname="net.millida.launcher.core.DnsFallbackTest" time="0.011"/>
+  <testcase name="localhost резолвится системой без DoH" classname="net.millida.launcher.core.DnsFallbackTest" time="0.003"/>
+  <testcase name="кэш протухает через отведённое время" classname="net.millida.launcher.core.DnsFallbackTest" time="0.046"/>
+  <testcase name="DoH ответил мусором — понятная ошибка, а не падение" classname="net.millida.launcher.core.DnsFallbackTest" time="0.045"/>
+  <testcase name="системный резолвер сработал — DoH не дёргается" classname="net.millida.launcher.core.DnsFallbackTest" time="0.003"/>
+  <testcase name="ответ кэшируется — второй запрос не идёт в сеть" classname="net.millida.launcher.core.DnsFallbackTest" time="0.004"/>
+  <testcase name="вход Microsoft при мёртвом имени объясняется по-русски" classname="net.millida.launcher.core.DnsFallbackTest" time="0.011"/>
+  <testcase name="цифровой адрес не уходит в DoH даже при мёртвом системном резолвере" classname="net.millida.launcher.core.DnsFallbackTest" time="0.003"/>
+  <testcase name="первый резолвер лёг — спрашиваем второй" classname="net.millida.launcher.core.DnsFallbackTest" time="0.044"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

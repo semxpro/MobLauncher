@@ -100,7 +100,6 @@ data class ChestOpening(
 data class ShopLink(val serial: Long, val url: String)
 
 /** Busy key of the wardrobe's purchase, so the try-on bar shows it running. */
-const val WARDROBE_PURCHASE = "wardrobe-purchase"
 
 /** The case shakes until the purchase answers: the item arrives only with the server's confirmation. */
 data class XrayRun(val serial: Long, val tier: String, val item: RubyItem? = null)
@@ -409,42 +408,6 @@ class ShopModel(
             mutable.update { s -> s.copy(reveal = reveal(KICKER_BOUGHT, granted.map { itemCard(it) })) }
             loadStore()
             onInventoryChanged()
-        }
-    }
-
-    /**
-     * The try-on bill, bought from the wardrobe at the shop's base price. Pieces
-     * go one by one, as on the desktop: the service charges and grants each in
-     * one transaction, so a refused piece must not undo the ones already paid
-     * for. [onBought] gets the codes the service confirmed, and only those.
-     */
-    fun buyFromWardrobe(items: List<RubyItem>, onBought: (List<String>) -> Unit) {
-        if (items.isEmpty()) return
-        perform(WARDROBE_PURCHASE, "Покупка не прошла — повтори") {
-            val bought = ArrayList<String>()
-            val refused = ArrayList<String>()
-            for (item in items) {
-                try {
-                    purchase(item.code, ShopSource.WARDROBE)
-                    bought.add(item.code)
-                } catch (cancelled: CancellationException) {
-                    throw cancelled
-                } catch (error: Throwable) {
-                    Log.w(TAG, "гардероб: ${item.code} не купилась: ${error.message}")
-                    if (error.isSessionLost()) {
-                        onSessionLost()
-                        refused.add(textOf(error, ""))
-                        break
-                    }
-                    refused.add("${item.name} (${textOf(error, "отказ").replaceFirstChar { it.lowercase() }})")
-                }
-            }
-            if (bought.isNotEmpty()) {
-                loadStore()
-                onInventoryChanged()
-                onBought(bought)
-            }
-            if (refused.isNotEmpty()) notice("Не удалось купить: " + refused.joinToString(", "), true)
         }
     }
 

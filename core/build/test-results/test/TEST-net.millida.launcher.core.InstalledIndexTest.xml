@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.InstalledIndexTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:23" hostname="codespaces-d0fe97" time="0.006">
+  <properties/>
+  <testcase name="поставленное по ходу запоминается, пустое — нет" classname="net.millida.launcher.core.InstalledIndexTest" time="0.0"/>
+  <testcase name="имя файла без расширения и метки выключения" classname="net.millida.launcher.core.InstalledIndexTest" time="0.001"/>
+  <testcase name="одно и то же имя в разных написаниях сводится к одному ключу" classname="net.millida.launcher.core.InstalledIndexTest" time="0.002"/>
+  <testcase name="папка контента проверяется до любого чтения" classname="net.millida.launcher.core.InstalledIndexTest" time="0.002"/>
+  <testcase name="зависимость считается стоящей по id, названию или имени файла" classname="net.millida.launcher.core.InstalledIndexTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

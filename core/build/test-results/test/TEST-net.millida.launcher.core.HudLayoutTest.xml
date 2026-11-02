@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.HudLayoutTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:23" hostname="codespaces-d0fe97" time="0.03">
+  <properties/>
+  <testcase name="в каждой готовой раскладке есть Esc, видимый и в меню" classname="net.millida.launcher.core.HudLayoutTest" time="0.011"/>
+  <testcase name="касание по полосе выбирает тот слот, под которым палец" classname="net.millida.launcher.core.HudLayoutTest" time="0.001"/>
+  <testcase name="в готовых раскладках кнопки не наезжают друг на друга" classname="net.millida.launcher.core.HudLayoutTest" time="0.001"/>
+  <testcase name="масштаб читается из options txt, ноль значит авто" classname="net.millida.launcher.core.HudLayoutTest" time="0.001"/>
+  <testcase name="в каждой готовой раскладке есть чем ходить и чем открыть меню" classname="net.millida.launcher.core.HudLayoutTest" time="0.001"/>
+  <testcase name="раскладка сохраняется, читается обратно и не теряется от битого файла" classname="net.millida.launcher.core.HudLayoutTest" time="0.013"/>
+  <testcase name="кнопка не уезжает за край экрана и не становится крохой" classname="net.millida.launcher.core.HudLayoutTest" time="0.001"/>
+  <testcase name="полоса хотбара на 2400x1080 стоит там же, где её рисует игра" classname="net.millida.launcher.core.HudLayoutTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

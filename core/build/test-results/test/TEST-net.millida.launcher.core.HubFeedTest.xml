@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="net.millida.launcher.core.HubFeedTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:23" hostname="codespaces-d0fe97" time="0.026">
+  <properties/>
+  <testcase name="картинки режимов — только коды из манифеста дизайнера" classname="net.millida.launcher.core.HubFeedTest" time="0.001"/>
+  <testcase name="популярные версии — проверенные строки или зашитый топ" classname="net.millida.launcher.core.HubFeedTest" time="0.001"/>
+  <testcase name="строка здоровья сборки говорит только то, что знает" classname="net.millida.launcher.core.HubFeedTest" time="0.008"/>
+  <testcase name="здоровье берётся из ответа по своему слагу" classname="net.millida.launcher.core.HubFeedTest" time="0.0"/>
+  <testcase name="герой дня меняется раз в сутки, а не на каждом запуске" classname="net.millida.launcher.core.HubFeedTest" time="0.001"/>
+  <testcase name="онлайн коротко и только живой" classname="net.millida.launcher.core.HubFeedTest" time="0.001"/>
+  <testcase name="позиция дня совпадает с компьютером до бита" classname="net.millida.launcher.core.HubFeedTest" time="0.005"/>
+  <testcase name="подборка недели — разные сборки и не длиннее списка" classname="net.millida.launcher.core.HubFeedTest" time="0.001"/>
+  <testcase name="режимы — только настоящие коды рейтинга, свой ивент первым" classname="net.millida.launcher.core.HubFeedTest" time="0.001"/>
+  <testcase name="музыка лобби — треки игры из индекса, как на компьютере" classname="net.millida.launcher.core.HubFeedTest" time="0.007"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
