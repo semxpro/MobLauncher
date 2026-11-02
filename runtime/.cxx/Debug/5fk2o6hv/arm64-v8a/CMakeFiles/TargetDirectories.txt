@@ -1,4 +1,0 @@
-/workspaces/MobLauncher/runtime/.cxx/Debug/5fk2o6hv/arm64-v8a/CMakeFiles/millida_bridge.dir
-/workspaces/MobLauncher/runtime/.cxx/Debug/5fk2o6hv/arm64-v8a/CMakeFiles/millida_gles.dir
-/workspaces/MobLauncher/runtime/.cxx/Debug/5fk2o6hv/arm64-v8a/CMakeFiles/edit_cache.dir
-/workspaces/MobLauncher/runtime/.cxx/Debug/5fk2o6hv/arm64-v8a/CMakeFiles/rebuild_cache.dir

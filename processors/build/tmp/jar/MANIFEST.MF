@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Title: Millida Forge processor driver
-Main-Class: net.millida.launcher.processors.ProcessorDriver
-
