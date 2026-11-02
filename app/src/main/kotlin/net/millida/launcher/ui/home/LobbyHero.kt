@@ -92,7 +92,7 @@ internal fun BuildHero(
         )
         Spacer(Modifier.height(10.dp))
         MButtonRow {
-            MSecondaryButton("Сборка", onClick = onOpen, icon = MIcons.settings, size = MButtonSize.Small)
+            MSecondaryButton("Build", onClick = onOpen, icon = MIcons.settings, size = MButtonSize.Small)
         }
     }
 }
@@ -131,7 +131,7 @@ internal fun ModePlate(
         Spacer(Modifier.width(14.dp))
         Column(Modifier.weight(1f)) {
             Text(
-                "СЕГОДНЯ ИГРАЕМ",
+                "PLAYING TODAY",
                 style = MillidaType.caption.copy(fontWeight = FontWeight.ExtraBold),
                 color = MillidaPixel.modeCaption,
                 maxLines = 1,
@@ -206,14 +206,14 @@ internal fun EmptyModePlate(modifier: Modifier = Modifier, artSize: Dp = 64.dp) 
         Spacer(Modifier.width(14.dp))
         Column(Modifier.weight(1f)) {
             Text(
-                "СЕГОДНЯ ИГРАЕМ",
+                "PLAYING TODAY",
                 style = MillidaType.caption.copy(fontWeight = FontWeight.ExtraBold),
                 color = MillidaPixel.modeCaption,
                 maxLines = 1,
             )
             Spacer(Modifier.height(2.dp))
             Text(
-                "Ещё не выбрано",
+                "Nothing selected yet",
                 style = MillidaType.sectionTitle.copy(fontWeight = FontWeight.Black, shadow = titleShadow),
                 color = MillidaPixel.white,
                 maxLines = 2,
@@ -245,7 +245,7 @@ internal fun FirstBuildHero(state: UiState, onCreate: () -> Unit) {
         }
         Spacer(Modifier.height(14.dp))
         Text(
-            "Создай первую сборку",
+            "Create your first build",
             style = MillidaType.sectionTitle,
             color = colors.fg,
             textAlign = TextAlign.Center,
@@ -253,7 +253,7 @@ internal fun FirstBuildHero(state: UiState, onCreate: () -> Unit) {
         Spacer(Modifier.height(16.dp))
         if (state.busy == null) {
             MPrimaryButton(
-                text = "Создать сборку",
+                text = "Create build",
                 onClick = onCreate,
                 modifier = Modifier
                     .fillMaxWidth()

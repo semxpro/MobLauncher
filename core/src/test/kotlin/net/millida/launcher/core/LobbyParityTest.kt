@@ -104,8 +104,6 @@ class LobbyParityTest {
     private class TileCase(
         val why: String,
         val kind: HubTileCopy.Kind,
-        val bonus: Boolean,
-        val shopNew: Boolean,
         val skinSeen: Boolean,
         val hosted: Int,
         val want: HubTileCopy.Copy,
@@ -114,14 +112,11 @@ class LobbyParityTest {
     @Test
     fun `плитки лобби как HubTile`() {
         val cases = listOf(
-            TileCase("спокойный магазин — одно название", HubTileCopy.Kind.SHOP, false, false, true, 0, HubTileCopy.Copy("Магазин", null, null, false)),
-            TileCase("бонус не забран — «Бонус ждёт» и «!»", HubTileCopy.Kind.SHOP, true, true, true, 0, HubTileCopy.Copy("Магазин", "Бонус ждёт", null, true)),
-            TileCase("в магазине новое без бонуса — «Есть новое»", HubTileCopy.Kind.SHOP, false, true, true, 0, HubTileCopy.Copy("Магазин", "Есть новое", null, true)),
-            TileCase("скин ещё не открывали — зовём загрузить свой", HubTileCopy.Kind.WARDROBE, false, false, false, 0, HubTileCopy.Copy("Мой скин", "Загрузи свой", null, true)),
-            TileCase("скин открывали — плитка тихая", HubTileCopy.Kind.WARDROBE, true, true, true, 0, HubTileCopy.Copy("Мой скин", null, null, false)),
-            TileCase("своего сервера нет — лента «Бесплатно»", HubTileCopy.Kind.SERVER, false, false, true, 0, HubTileCopy.Copy("Играть с друзьями", null, "Бесплатно", false)),
-            TileCase("сервер уже есть — ленты нет", HubTileCopy.Kind.SERVER, false, false, true, 2, HubTileCopy.Copy("Играть с друзьями", null, null, false)),
+            TileCase("unseen skin tile prompts for upload", HubTileCopy.Kind.WARDROBE, false, 0, HubTileCopy.Copy("My skins", "Upload a skin", null, true)),
+            TileCase("seen skin tile has no prompt", HubTileCopy.Kind.WARDROBE, true, 0, HubTileCopy.Copy("My skins", null, null, false)),
+            TileCase("no hosted server shows the free plan", HubTileCopy.Kind.SERVER, true, 0, HubTileCopy.Copy("Play with friends", null, "Free plan", false)),
+            TileCase("existing server hides the plan ribbon", HubTileCopy.Kind.SERVER, true, 2, HubTileCopy.Copy("Play with friends", null, null, false)),
         )
-        cases.forEach { assertEquals(it.why, it.want, HubTileCopy.of(it.kind, it.bonus, it.shopNew, it.skinSeen, it.hosted)) }
+        cases.forEach { assertEquals(it.why, it.want, HubTileCopy.of(it.kind, it.skinSeen, it.hosted)) }
     }
 }

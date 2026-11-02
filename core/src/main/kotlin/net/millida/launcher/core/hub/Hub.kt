@@ -79,43 +79,43 @@ object Hub {
         "BEDWARS" to "BedWars",
         "SKYWARS" to "SkyWars",
         "SKYBLOCK" to "SkyBlock",
-        "ANARCHY" to "Анархия",
+        "ANARCHY" to "Anarchy",
         "ONEBLOCK" to "OneBlock",
         "LIFESTEAL" to "LifeSteal",
         "BOXPVP" to "BoxPvP",
-        "PRISON" to "Тюрьма",
-        "MINIGAMES" to "Мини-игры",
-        "SURVIVAL" to "Выживание",
+        "PRISON" to "Prison",
+        "MINIGAMES" to "Minigames",
+        "SURVIVAL" to "Survival",
         "PVP" to "PvP",
-        "GRIEF" to "Гриф",
-        "FACTIONS" to "Кланы",
-        "MMORPG" to "РПГ",
-        "HARDCORE" to "Хардкор",
-        "CREATIVE" to "Креатив",
-        "PARKOUR" to "Паркур",
-        "LUCKY" to "Лаки-блоки",
-        "VANILLA" to "Ванилла",
+        "GRIEF" to "Griefing",
+        "FACTIONS" to "Factions",
+        "MMORPG" to "RPG",
+        "HARDCORE" to "Hardcore",
+        "CREATIVE" to "Creative",
+        "PARKOUR" to "Parkour",
+        "LUCKY" to "Lucky blocks",
+        "VANILLA" to "Vanilla",
         "ROLEPLAY" to "RP",
-        "TECHNIC" to "Техно",
-        "ADVENTURE" to "Приключения",
-        "ECONOMY" to "Экономика",
-        "MODDED" to "Моды",
-        "OTHER" to "Разное",
+        "TECHNIC" to "Technical",
+        "ADVENTURE" to "Adventure",
+        "ECONOMY" to "Economy",
+        "MODDED" to "Modded",
+        "OTHER" to "Other",
         "RP" to "RP",
-        "HIDE_SEEK" to "Прятки",
+        "HIDE_SEEK" to "Hide and Seek",
         "KITPVP" to "KitPvP",
         "BUILD_BATTLE" to "Build Battle",
         "TECHNICAL" to "Техно",
         "SPLEEF" to "Spleef",
         "UHC" to "UHC",
         "TNTRUN" to "TNT Run",
-        "HUNGER_GAMES" to "Голодные игры",
+        "HUNGER_GAMES" to "Hunger Games",
         "TOWNY" to "Towny",
-        "COBBLEMON" to "Пиксельмон",
+        "COBBLEMON" to "Cobblemon",
         "MURDER" to "Murder Mystery",
-        "EARTH" to "Земля",
-        "MANHUNT" to "Манхант",
-        "BINGO" to "Бинго",
+        "EARTH" to "Earth",
+        "MANHUNT" to "Manhunt",
+        "BINGO" to "Bingo",
     )
 
     fun modeTitle(code: String): String =
@@ -146,17 +146,17 @@ object Hub {
 
     /** 163 400 → «163 тыс», so the name keeps its line. */
     fun shortOnline(value: Int): String = when {
-        value >= 10_000 -> "${Math.round(value / 1000.0)} тыс"
+        value >= 10_000 -> "${Math.round(value / 1000.0)}k"
         value >= 1_000 -> {
             val tenths = Math.round(value / 100.0)
             val whole = tenths / 10
             val rest = tenths % 10
-            if (rest == 0L) "$whole тыс" else "$whole,$rest тыс"
+            if (rest == 0L) "${whole}k" else "$whole.$rest" + "k"
         }
         else -> value.toString()
     }
 
-    fun onlineLabel(value: Int?): String? = value?.takeIf { it >= ONLINE_SHOWN_FROM }?.let { "${shortOnline(it)} играют" }
+    fun onlineLabel(value: Int?): String? = value?.takeIf { it >= ONLINE_SHOWN_FROM }?.let { "${shortOnline(it)} playing" }
 
     fun health(body: JsonElement?, slug: String): PackHealth? {
         val key = slug.trim().lowercase()
@@ -178,20 +178,20 @@ object Hub {
     fun healthLine(health: PackHealth?, now: Instant = Instant.now()): HealthLine? {
         if (health == null || health.status == "unknown") return null
         val since = health.lastOkAt?.let { ago(it, now) }.orEmpty()
-        val whenText = if (since.isNotEmpty()) "запускали $since" else ""
-        if (health.status == "warn") return HealthLine(HealthTone.WARN, "Бывают сбои", whenText, health.successPct, report = true)
+        val whenText = if (since.isNotEmpty()) "Last active $since" else ""
+        if (health.status == "warn") return HealthLine(HealthTone.WARN, "Issues reported", whenText, health.successPct, report = true)
         if (whenText.isEmpty() && health.successPct == null) return null
-        return HealthLine(HealthTone.OK, "Работает", whenText, health.successPct, report = false)
+        return HealthLine(HealthTone.OK, "Operational", whenText, health.successPct, report = false)
     }
 
     fun ago(iso: String, now: Instant): String {
         val at = runCatching { Instant.parse(iso.trim()) }.getOrNull() ?: return ""
         val minutes = Duration.between(at, now).toMillis() / 60_000.0
         return when {
-            minutes < 5 -> "только что"
-            minutes < 60 -> "${Math.round(minutes)} мин назад"
-            minutes < 1440 -> "${Math.round(minutes / 60)} ч назад"
-            else -> "${Math.round(minutes / 1440)} дн назад"
+            minutes < 5 -> "just now"
+            minutes < 60 -> "${Math.round(minutes)} min ago"
+            minutes < 1440 -> "${Math.round(minutes / 60)} h ago"
+            else -> "${Math.round(minutes / 1440)} d ago"
         }
     }
 

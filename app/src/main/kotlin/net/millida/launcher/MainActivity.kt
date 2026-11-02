@@ -138,7 +138,6 @@ import net.millida.launcher.ui.PixelCorners
 import net.millida.launcher.ui.PixelFrame
 import net.millida.launcher.ui.ProvideUiFeedback
 import net.millida.launcher.ui.ProvideWideLayout
-import net.millida.launcher.ui.ScreenWave
 import net.millida.launcher.ui.ScreenshotsScreen
 import net.millida.launcher.ui.ServersScreen
 import net.millida.launcher.ui.SettingsScreen
@@ -151,7 +150,6 @@ import net.millida.launcher.ui.MillidaModOfferDialog
 import net.millida.launcher.ui.TourRegistry
 import net.millida.launcher.ui.WhatsNewDialog
 import net.millida.launcher.ui.social.CallLayer
-import net.millida.launcher.ui.premium.PremiumScreen
 import net.millida.launcher.ui.home.AmbientLayer
 import net.millida.launcher.ui.home.WIDE_LOBBY_DOCK_HEIGHT
 import net.millida.launcher.ui.millida
@@ -161,8 +159,6 @@ import net.millida.launcher.ui.plateFrame
 import net.millida.launcher.ui.pressShift
 import net.millida.launcher.ui.rememberPressProgress
 import net.millida.launcher.ui.rememberPressed
-import net.millida.launcher.ui.shop.ShopScreen
-import net.millida.launcher.ui.shop.ShopWelcome
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.round
@@ -209,7 +205,6 @@ class MainActivity : ComponentActivity() {
                         ) {
                             ToastSounds(state.messages)
                             Root(model, onLeave = { moveTaskToBack(true) })
-                        ScreenWave(state.screen, state.accentId)
                             if (!state.onboarding) CallLayer(state, model)
                             AmbientLayer(state, model)
                             if (state.onboarding) {
@@ -230,7 +225,6 @@ class MainActivity : ComponentActivity() {
                             if (lowMemory != null && !state.onboarding && state.releaseNotes == null) {
                                 LowMemoryNoticeDialog(lowMemory, onClose = model::closeLowMemoryNotice)
                             }
-                            if (!state.onboarding && state.releaseNotes == null) ShopWelcome(model)
                             state.lowMemoryPlay?.let { pending ->
                                 LowMemoryPlayDialog(
                                     pending.notice,
@@ -307,18 +301,16 @@ class MainActivity : ComponentActivity() {
 private data class Tab(val screen: Screen, val label: String, val icon: MillidaIcon)
 
 private val tabs = listOf(
-    Tab(Screen.HOME, "Играть", MIcons.home),
-    Tab(Screen.CATALOG, "Каталог", MIcons.catalog),
-    Tab(Screen.SKINS, "Персонаж", MIcons.character),
-    Tab(Screen.SHOP, "Магазин", MIcons.shop),
-    Tab(Screen.MORE, "Ещё", MIcons.more),
+    Tab(Screen.HOME, "Play", MIcons.home),
+    Tab(Screen.CATALOG, "Catalog", MIcons.catalog),
+    Tab(Screen.SKINS, "Skins", MIcons.character),
+    Tab(Screen.MORE, "More", MIcons.more),
 )
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun Root(model: LauncherViewModel, onLeave: () -> Unit) {
     val state by model.ui.collectAsStateWithLifecycle()
-    val shop by model.shop.state.collectAsStateWithLifecycle()
     val modals = LocalModalStack.current
     val colors = millida
     val showBar = state.screen.isRoot
@@ -354,7 +346,6 @@ private fun Root(model: LauncherViewModel, onLeave: () -> Unit) {
                     visible = showBar,
                     current = rootTabOf(state.screen),
                     moreBadge = state.friendsBadge,
-                    shopAlert = shop.badge > 0,
                     onPick = { model.open(it) },
                 )
             }
@@ -364,9 +355,9 @@ private fun Root(model: LauncherViewModel, onLeave: () -> Unit) {
         MillidaDialogsHost(model)
         state.linkJoin?.let { ask ->
             MConfirmDialog(
-                title = "Зайти на сервер?",
-                text = if (ask.name == ask.address) "«${ask.address}»" else "«${ask.name}» (${ask.address})",
-                confirm = "Запустить",
+                title = "Join server?",
+                text = if (ask.name == ask.address) "“${ask.address}”" else "“${ask.name}” (${ask.address})",
+                confirm = "Join",
                 onConfirm = model::confirmLinkJoin,
                 onDismiss = model::dismissLinkJoin,
                 danger = false,
@@ -397,7 +388,7 @@ private fun WideShell(state: UiState, model: LauncherViewModel, hub: WideHub) {
     val hubScreen = state.screen == Screen.HOME || state.screen == Screen.CATALOG
     val toLobby = model.backLeadsHome() && (!hub.library || hubScreen)
     val back = WideBack(
-        label = if (toLobby) "Лобби" else "Назад",
+        label = if (toLobby) "Lobby" else "Back",
         badge = state.friendsBadge,
         onBack = { model.back() },
     )
@@ -413,7 +404,7 @@ private fun WideShell(state: UiState, model: LauncherViewModel, hub: WideHub) {
  */
 private fun Screen.depth(wide: Boolean): Int = when (this) {
     Screen.HOME -> 0
-    Screen.CATALOG, Screen.SKINS, Screen.SHOP, Screen.MORE -> if (wide) 1 else 0
+    Screen.CATALOG, Screen.SKINS, Screen.MORE -> if (wide) 1 else 0
     Screen.CHAT, Screen.HOSTING_MANAGE -> 2
     else -> 1
 }
@@ -520,8 +511,6 @@ private fun ScreenFor(screen: Screen, state: UiState, model: LauncherViewModel) 
         Screen.CHAT -> ChatScreen(state, model)
         Screen.CABINET -> CabinetScreen(state, model)
         Screen.SCREENSHOTS -> ScreenshotsScreen(state, model)
-        Screen.SHOP -> ShopScreen(state, model)
-        Screen.PREMIUM -> PremiumScreen(state, model)
     }
 }
 
@@ -530,7 +519,6 @@ private fun BottomChrome(
     visible: Boolean,
     current: Screen,
     moreBadge: Int,
-    shopAlert: Boolean,
     onPick: (Screen) -> Unit,
 ) {
     val colors = millida
@@ -544,7 +532,7 @@ private fun BottomChrome(
                 slideOutVertically(stepSpec(reduced, 160, 4)) { it / 2 },
             label = "dock",
         ) {
-            BottomBar(current, moreBadge, shopAlert, onPick)
+            BottomBar(current, moreBadge, onPick)
         }
         Box(
             Modifier
@@ -556,7 +544,7 @@ private fun BottomChrome(
 }
 
 @Composable
-private fun BottomBar(current: Screen, moreBadge: Int, shopAlert: Boolean, onPick: (Screen) -> Unit) {
+private fun BottomBar(current: Screen, moreBadge: Int, onPick: (Screen) -> Unit) {
     val colors = millida
     Box(
         Modifier
@@ -586,7 +574,7 @@ private fun BottomBar(current: Screen, moreBadge: Int, shopAlert: Boolean, onPic
                     tab = tab,
                     active = tab.screen == current,
                     badge = if (tab.screen == Screen.MORE) moreBadge else 0,
-                    alert = tab.screen == Screen.SHOP && shopAlert,
+                    alert = false,
                     modifier = Modifier.weight(1f),
                     onClick = { if (tab.screen != current) onPick(tab.screen) },
                 )

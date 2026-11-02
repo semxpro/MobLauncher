@@ -31,17 +31,15 @@ import net.millida.launcher.core.account.AccountKind
 import net.millida.launcher.core.account.OfflineAuth
 import net.millida.launcher.core.portal.AccountDetails
 import net.millida.launcher.core.portal.Privacy
-import net.millida.launcher.core.portal.asRubles
 import net.millida.launcher.ui.social.avatarFor
 
 private const val SITE_PROFILE = "https://millida.net/profile"
 private const val SESSIONS_SHOWN = 6
-private const val BUY_LICENSE_URL = "https://blups.me/product/minecraft"
 
 internal fun accountKindLabel(kind: AccountKind): String = when (kind) {
-    AccountKind.OFFLINE -> "Без лицензии"
-    AccountKind.MICROSOFT -> "Лицензия Microsoft"
-    AccountKind.MILLIDA -> "Аккаунт Millida"
+    AccountKind.OFFLINE -> "Offline account"
+    AccountKind.MICROSOFT -> "Microsoft account"
+    AccountKind.MILLIDA -> "Millida account"
 }
 
 private enum class AccountUnlink(val title: String) { DISCORD("Discord"), TELEGRAM("Telegram") }
@@ -75,8 +73,8 @@ fun AccountScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
 
     MScreen(
         modifier = modifier,
-        title = "Аккаунт",
-        subtitle = account?.let { accountKindLabel(it.kind) } ?: "Вход не выполнен",
+        title = "Account",
+        subtitle = account?.let { accountKindLabel(it.kind) } ?: "Not signed in",
         onBack = { model.back() },
     ) {
         if (expired != null) {
@@ -106,7 +104,6 @@ fun AccountScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                 CurrentAccount(
                     account = account,
                     avatarUrl = state.portal?.avatarUrl?.takeIf { it.isNotBlank() && account.kind == AccountKind.MILLIDA },
-                    balance = state.portal?.takeIf { account.kind == AccountKind.MILLIDA }?.balanceKopecks?.asRubles(),
                     modifier = Modifier.animateItem(),
                 )
             }
@@ -121,13 +118,12 @@ fun AccountScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
             }
             item(key = "add") {
                 Column(Modifier.animateItem()) {
-                    MSectionHeader("Добавить аккаунт")
+                    MSectionHeader("Add account")
                     AddAccountOptions(
                         hasMillida = hasMillida,
                         onMillida = model::loginMillida,
                         onMicrosoft = model::loginMicrosoft,
                         onOffline = { offlineSheet = true },
-                        onBuy = { model.openLinkOrNotice(context, BUY_LICENSE_URL) },
                     )
                 }
             }
@@ -198,7 +194,7 @@ fun AccountScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
             if (details.banned) {
                 item(key = "banned") {
                     MErrorCard(
-                        "Аккаунт заблокирован: " + details.banReason.ifEmpty { "причину скажет поддержка Millida" },
+                        "Account blocked: " + details.banReason.ifEmpty { "contact Millida support for details" },
                         onRetry = null,
                         modifier = Modifier.animateItem(),
                     )
@@ -209,13 +205,13 @@ fun AccountScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
 
     removing?.let { target ->
         MConfirmDialog(
-            title = "Убрать ${target.nick}?",
+            title = "Remove ${target.nick}?",
             text = if (target.kind == AccountKind.MILLIDA) {
-                "Друзья, кошелёк и скины будут недоступны до нового входа"
+                "Friends and skins will be unavailable until you sign in again"
             } else {
-                "Вернуть можно новым входом"
+                "You can add the account again by signing in"
             },
-            confirm = "Убрать",
+            confirm = "Remove",
             onConfirm = {
                 removing = null
                 model.removeAccount(target)
@@ -226,9 +222,9 @@ fun AccountScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
 
     unlinking?.let { service ->
         MConfirmDialog(
-            title = "Отвязать ${service.title}?",
-            text = "Привязать снова можно в любой момент",
-            confirm = "Отвязать",
+            title = "Unlink ${service.title}?",
+            text = "You can link it again at any time",
+            confirm = "Unlink",
             onConfirm = {
                 unlinking = null
                 if (service == AccountUnlink.DISCORD) model.unlinkDiscord() else model.unlinkTelegram()
@@ -239,9 +235,9 @@ fun AccountScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
 
     if (revoking) {
         MConfirmDialog(
-            title = "Закрыть другие входы?",
-            text = "На других устройствах придётся войти заново",
-            confirm = "Закрыть",
+            title = "Sign out other sessions?",
+            text = "You will need to sign in again on your other devices",
+            confirm = "Sign out",
             onConfirm = {
                 revoking = false
                 model.revokeOtherSessions()
@@ -251,7 +247,7 @@ fun AccountScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
     }
 
     if (offlineSheet) {
-        MBottomSheet(onDismiss = { offlineSheet = false }, title = "Игра без лицензии") {
+        MBottomSheet(onDismiss = { offlineSheet = false }, title = "Offline play") {
             OfflineEntry(
                 nick = state.offlineNick,
                 onNick = model::setOfflineNick,
@@ -276,19 +272,19 @@ private fun ExpiredBanner(kind: AccountKind, onLogin: () -> Unit, modifier: Modi
             MIcon(MIcons.alert, size = 20.dp, color = colors.warning)
             Spacer(Modifier.width(10.dp))
             Text(
-                if (kind == AccountKind.MICROSOFT) "Вход Microsoft истёк — войди заново" else "Вход Millida истёк — войди заново",
+                if (kind == AccountKind.MICROSOFT) "Microsoft sign-in expired — sign in again" else "Millida sign-in expired — sign in again",
                 modifier = Modifier.weight(1f),
                 style = MillidaType.body,
                 color = colors.fg,
             )
         }
         Spacer(Modifier.height(12.dp))
-        MPrimaryButton("Войти заново", onClick = onLogin, icon = MIcons.login)
+        MPrimaryButton("Sign in again", onClick = onLogin, icon = MIcons.login)
     }
 }
 
 @Composable
-private fun CurrentAccount(account: Account, avatarUrl: String?, balance: String?, modifier: Modifier = Modifier) {
+private fun CurrentAccount(account: Account, avatarUrl: String?, modifier: Modifier = Modifier) {
     val colors = millida
     MCard(modifier = modifier) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -317,9 +313,6 @@ private fun CurrentAccount(account: Account, avatarUrl: String?, balance: String
                         background = if (account.kind == AccountKind.OFFLINE) colors.surface2 else colors.accentSoft,
                         icon = if (account.kind == AccountKind.OFFLINE) MIcons.user else MIcons.shield,
                     )
-                    if (balance != null) {
-                        MBadge(balance, color = colors.fgMuted, background = colors.surface2, icon = MIcons.wallet)
-                    }
                 }
             }
         }
@@ -336,7 +329,7 @@ private fun AccountsCard(
 ) {
     val colors = millida
     Column(modifier) {
-        MSectionHeader("Аккаунты")
+        MSectionHeader("Accounts")
         MCard(contentPadding = 6.dp) {
             accounts.forEachIndexed { index, entry ->
                 if (index > 0) MDivider()
@@ -348,8 +341,8 @@ private fun AccountsCard(
                     plate = false,
                     leading = { MAvatar(url = avatarFor(entry.nick), size = 40.dp) },
                     trailing = {
-                        if (current) MBadge("Сейчас", color = colors.accentText, background = colors.accentSoft)
-                        MIconButton(MIcons.trash, onClick = { onRemove(entry) }, label = "Убрать ${entry.nick}")
+                        if (current) MBadge("Current", color = colors.accentText, background = colors.accentSoft)
+                        MIconButton(MIcons.trash, onClick = { onRemove(entry) }, label = "Remove ${entry.nick}")
                     },
                 )
             }
@@ -370,12 +363,12 @@ private fun NicknameCard(
     val colors = millida
     val changed = draft.trim().isNotEmpty() && draft.trim() != details.nickname
     Column(modifier) {
-        MSectionHeader("Ник на Millida")
+        MSectionHeader("Millida username")
         MCard {
             MField(
                 value = draft,
                 onValueChange = onDraft,
-                placeholder = details.nickname.ifEmpty { "Ник" },
+                placeholder = details.nickname.ifEmpty { "Username" },
                 leadingIcon = MIcons.user,
                 imeAction = ImeAction.Done,
                 onImeAction = { if (changed && details.nicknameCanChange && !busy) onSave() },
@@ -384,9 +377,9 @@ private fun NicknameCard(
             Spacer(Modifier.height(8.dp))
             Text(
                 if (details.nicknameCanChange) {
-                    "Меняется раз в ${details.nicknameCooldownDays.coerceAtLeast(14)} дней"
+                    "Can be changed every ${details.nicknameCooldownDays.coerceAtLeast(14)} days"
                 } else {
-                    "Сменить можно с ${details.nicknameNextChangeAt.take(10)}"
+                    "Can be changed from ${details.nicknameNextChangeAt.take(10)}"
                 },
                 style = MillidaType.small,
                 color = colors.fgFaint,
@@ -394,13 +387,13 @@ private fun NicknameCard(
             Spacer(Modifier.height(12.dp))
             MButtonRow {
                 MPrimaryButton(
-                    "Сохранить",
+                    "Save",
                     onClick = onSave,
                     enabled = details.nicknameCanChange && changed && !busy,
                     size = MButtonSize.Small,
                 )
                 if (details.publicSlug.isNotEmpty()) {
-                    MTextButton("Профиль", onClick = onProfile, icon = MIcons.externalLink)
+                    MTextButton("Profile", onClick = onProfile, icon = MIcons.externalLink)
                 }
             }
         }
@@ -417,11 +410,11 @@ private fun LinksCard(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier) {
-        MSectionHeader("Привязки")
+        MSectionHeader("Linked accounts")
         MCard(contentPadding = 6.dp) {
             LinkRow(
                 title = "Discord",
-                hint = if (details.discordLinked) details.discordUsername.ifEmpty { "Привязан" } else "Не привязан",
+                hint = if (details.discordLinked) details.discordUsername.ifEmpty { "Linked" } else "Not linked",
                 linked = details.discordLinked,
                 busy = busy,
                 onLink = onLinkDiscord,
@@ -430,7 +423,7 @@ private fun LinksCard(
             MDivider()
             LinkRow(
                 title = "Telegram",
-                hint = if (details.telegramLinked) details.telegramUsername.ifEmpty { "Привязан" } else "Не привязан",
+                hint = if (details.telegramLinked) details.telegramUsername.ifEmpty { "Linked" } else "Not linked",
                 linked = details.telegramLinked,
                 busy = busy,
                 onLink = onLinkTelegram,
@@ -457,9 +450,9 @@ private fun LinkRow(
         plate = false,
         trailing = {
             if (linked) {
-                MTextButton("Отвязать", onClick = onUnlink, enabled = !busy, color = colors.danger)
+                MTextButton("Unlink", onClick = onUnlink, enabled = !busy, color = colors.danger)
             } else {
-                MSecondaryButton("Привязать", onClick = onLink, enabled = !busy, size = MButtonSize.Small)
+                MSecondaryButton("Link", onClick = onLink, enabled = !busy, size = MButtonSize.Small)
             }
         },
     )
@@ -485,8 +478,8 @@ private fun PrivacyCard(
     ).count { !it }
     MCard(modifier = modifier, contentPadding = 6.dp) {
         MListRow(
-            title = "Приватность",
-            subtitle = if (hidden == 0) "Всё видно друзьям и гостям" else "Скрыто: $hidden из 6",
+            title = "Privacy",
+            subtitle = if (hidden == 0) "Visible to friends and guests" else "Hidden: $hidden of 6",
             icon = MIcons.eye,
             onClick = onToggleOpen,
             plate = false,
@@ -501,17 +494,17 @@ private fun PrivacyCard(
                     .fillMaxWidth()
                     .padding(10.dp),
             ) {
-                MSectionTitle("ПРОФИЛЬ")
-                MSwitchRow("Активность", null, privacy.showActivity) { onChange("showActivity", it) }
-                MSwitchRow("Друзья", null, privacy.showFriends) { onChange("showFriends", it) }
-                MSwitchRow("Наигранное время", null, privacy.showPlaytime) { onChange("showPlaytime", it) }
+                MSectionTitle("PROFILE")
+                MSwitchRow("Activity", null, privacy.showActivity) { onChange("showActivity", it) }
+                MSwitchRow("Friends", null, privacy.showFriends) { onChange("showFriends", it) }
+                MSwitchRow("Play time", null, privacy.showPlaytime) { onChange("showPlaytime", it) }
                 Spacer(Modifier.height(8.dp))
-                MSectionTitle("ВИТРИНА")
-                MSwitchRow("Достижения", null, privacy.showAchievements) { onChange("showAchievements", it) }
-                MSwitchRow("Покупки", null, privacy.showMarket) { onChange("showMarket", it) }
-                MSwitchRow("Серверы", null, privacy.showServers) { onChange("showServers", it) }
+                MSectionTitle("PROFILE PAGE")
+                MSwitchRow("Achievements", null, privacy.showAchievements) { onChange("showAchievements", it) }
+                MSwitchRow("Purchases", null, privacy.showMarket) { onChange("showMarket", it) }
+                MSwitchRow("Servers", null, privacy.showServers) { onChange("showServers", it) }
                 Spacer(Modifier.height(8.dp))
-                MSectionTitle("ЭМОЦИИ ВДВОЁМ · КТО МОЖЕТ ЗВАТЬ")
+                MSectionTitle("DUO EMOTES · WHO CAN INVITE")
                 Spacer(Modifier.height(8.dp))
                 MButtonRow {
                     Privacy.DUO_INVITES.forEach { (value, label) ->
@@ -527,25 +520,25 @@ private fun PrivacyCard(
 private fun SecurityCard(details: AccountDetails, onSite: () -> Unit, modifier: Modifier = Modifier) {
     val colors = millida
     Column(modifier) {
-        MSectionHeader("Безопасность")
+        MSectionHeader("Security")
         MCard {
             MInfoRow(
-                "Почта",
+                "Email",
                 when {
-                    details.emailIsSynthetic -> "Не указана"
-                    details.email.isEmpty() -> "Не указана"
+                    details.emailIsSynthetic -> "Not provided"
+                    details.email.isEmpty() -> "Not provided"
                     details.emailVerified -> details.email
-                    else -> details.email + " · не подтверждена"
+                    else -> details.email + " · unverified"
                 },
                 valueColor = if (!details.emailIsSynthetic && details.email.isNotEmpty() && !details.emailVerified) colors.warning else colors.fg,
             )
             MInfoRow(
-                "Двухфакторка",
-                if (details.twoFactorEnabled) "Включена" else "Выключена",
+                "Two-factor authentication",
+                if (details.twoFactorEnabled) "Enabled" else "Disabled",
                 valueColor = if (details.twoFactorEnabled) colors.accentText else colors.fgSubtle,
             )
             Spacer(Modifier.height(10.dp))
-            MSecondaryButton("Пароль и почта", onClick = onSite, icon = MIcons.externalLink, size = MButtonSize.Small)
+            MSecondaryButton("Password and email", onClick = onSite, icon = MIcons.externalLink, size = MButtonSize.Small)
         }
     }
 }
@@ -554,25 +547,25 @@ private fun SecurityCard(details: AccountDetails, onSite: () -> Unit, modifier: 
 private fun SessionsCard(state: UiState, busy: Boolean, onRevoke: () -> Unit, modifier: Modifier = Modifier) {
     val colors = millida
     Column(modifier) {
-        MSectionHeader("Входы")
+        MSectionHeader("Sessions")
         MCard(contentPadding = 6.dp) {
             state.sessions.take(SESSIONS_SHOWN).forEachIndexed { index, session ->
                 if (index > 0) MDivider()
                 MListRow(
-                    title = session.device.ifEmpty { "Неизвестное устройство" },
+                    title = session.device.ifEmpty { "Unknown device" },
                     subtitle = listOf(session.place, session.lastSeen.take(10)).filter { it.isNotEmpty() }.joinToString(" · ")
                         .ifEmpty { null },
                     icon = MIcons.monitor,
                     plate = false,
                     trailing = {
-                        if (session.current) MBadge("Этот", color = colors.accentText, background = colors.accentSoft)
+                        if (session.current) MBadge("This device", color = colors.accentText, background = colors.accentSoft)
                     },
                 )
             }
             if (state.sessions.size > 1) {
                 Spacer(Modifier.height(8.dp))
                 MDangerButton(
-                    "Закрыть другие",
+                    "Sign out other sessions",
                     onClick = onRevoke,
                     enabled = !busy,
                     icon = MIcons.logout,
@@ -589,16 +582,16 @@ private fun OfflineEntry(nick: String, onNick: (String) -> Unit, onPlay: () -> U
     MField(
         value = nick,
         onValueChange = onNick,
-        placeholder = "Ник, 3–16 знаков",
+        placeholder = "Username, 3–16 characters",
         leadingIcon = MIcons.user,
         imeAction = ImeAction.Done,
         onImeAction = onPlay,
     )
     Spacer(Modifier.height(8.dp))
-    Text("Только на серверах Millida", style = MillidaType.small, color = colors.fgFaint)
+    Text("Only on Millida servers", style = MillidaType.small, color = colors.fgFaint)
     Spacer(Modifier.height(14.dp))
     MPrimaryButton(
-        "Играть без лицензии",
+        "Play offline",
         onClick = onPlay,
         enabled = nick.isNotBlank(),
         modifier = Modifier.fillMaxWidth(),
@@ -619,15 +612,15 @@ internal fun ColumnScope.AccountEntrySection(
 ) {
     val colors = millida
     MCard {
-        Text("Войди, чтобы играть", style = MillidaType.sectionTitle, color = colors.fg)
+        Text("Sign in to play", style = MillidaType.sectionTitle, color = colors.fg)
         Spacer(Modifier.height(14.dp))
-        MPrimaryButton("Войти через Millida", onClick = onMillida, icon = MIcons.login, modifier = Modifier.fillMaxWidth())
+        MPrimaryButton("Sign in with Millida", onClick = onMillida, icon = MIcons.login, modifier = Modifier.fillMaxWidth())
         Spacer(Modifier.height(8.dp))
-        MSecondaryButton("Лицензия Microsoft", onClick = onMicrosoft, icon = MIcons.key, modifier = Modifier.fillMaxWidth())
+        MSecondaryButton("Microsoft account", onClick = onMicrosoft, icon = MIcons.key, modifier = Modifier.fillMaxWidth())
     }
     Spacer(Modifier.height(10.dp))
     MCard {
-        MSectionTitle("БЕЗ ЛИЦЕНЗИИ")
+        MSectionTitle("OFFLINE ACCOUNT")
         Spacer(Modifier.height(10.dp))
         OfflineEntry(nick = offlineNick, onNick = onOfflineNick, onPlay = onOffline)
     }
@@ -639,21 +632,13 @@ private fun AddAccountOptions(
     onMillida: () -> Unit,
     onMicrosoft: () -> Unit,
     onOffline: () -> Unit,
-    onBuy: () -> Unit,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         if (!hasMillida) {
-            AddAccountRow("Аккаунт Millida", "Друзья, ник и баланс", MIcons.key, onClick = onMillida)
+            AddAccountRow("Millida account", "Friends and profile", MIcons.key, onClick = onMillida)
         }
-        AddAccountRow("Лицензия Microsoft", "Лицензионные серверы, свой скин", MIcons.shield, onClick = onMicrosoft)
-        AddAccountRow("Офлайн-аккаунт", "Только ник, без лицензии", MIcons.user, onClick = onOffline)
-        AddAccountRow(
-            "Купить лицензию",
-            "Ключ Minecraft на Blups",
-            MIcons.menuBag,
-            onClick = onBuy,
-            external = true,
-        )
+        AddAccountRow("Microsoft account", "Licensed servers and your skin", MIcons.shield, onClick = onMicrosoft)
+        AddAccountRow("Offline account", "Use a player name without signing in", MIcons.user, onClick = onOffline)
     }
 }
 
@@ -664,13 +649,12 @@ private fun AddAccountOptions(
  */
 @Composable
 internal fun AccountAddSheet(state: UiState, model: LauncherViewModel, onDismiss: () -> Unit) {
-    val context = LocalContext.current
     var offline by rememberSaveable { mutableStateOf(false) }
     val before = remember { state.accounts.size }
     LaunchedEffect(state.accounts.size) {
         if (state.accounts.size > before) onDismiss()
     }
-    MBottomSheet(onDismiss = onDismiss, title = if (offline) "Игра без лицензии" else "Добавить аккаунт") {
+    MBottomSheet(onDismiss = onDismiss, title = if (offline) "Offline play" else "Add account") {
         if (offline) {
             OfflineEntry(
                 nick = state.offlineNick,
@@ -683,7 +667,6 @@ internal fun AccountAddSheet(state: UiState, model: LauncherViewModel, onDismiss
                 onMillida = model::loginMillida,
                 onMicrosoft = model::loginMicrosoft,
                 onOffline = { offline = true },
-                onBuy = { model.openLinkOrNotice(context, BUY_LICENSE_URL) },
             )
         }
     }

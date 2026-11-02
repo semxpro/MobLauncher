@@ -46,7 +46,7 @@ internal fun plainText(raw: String): String {
 }
 
 internal fun compactCount(value: Long): String = when {
-    value >= 1_000_000 -> String.format(Locale.ROOT, "%.1f", value / 1_000_000.0).replace('.', ',').removeSuffix(",0") + " млн"
-    value >= 1_000 -> "${value / 1_000} тыс."
+    value >= 1_000_000 -> String.format(Locale.ROOT, "%.1f", value / 1_000_000.0).removeSuffix(".0") + "M"
+    value >= 1_000 -> "${value / 1_000}K"
     else -> value.coerceAtLeast(0).toString()
 }

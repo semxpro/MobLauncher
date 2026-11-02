@@ -54,13 +54,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.millida.launcher.LauncherViewModel
-import net.millida.launcher.Screen
-import net.millida.launcher.WARDROBE_PURCHASE
 import net.millida.launcher.UiState
 import net.millida.launcher.core.account.AccountKind
 import net.millida.launcher.core.cosmetics.CosmeticSections
 import net.millida.launcher.core.cosmetics.Outfit
-import net.millida.launcher.core.rubies.WardrobeBill
 import net.millida.launcher.core.skins.ShowcaseKind
 import net.millida.launcher.core.skins.SkinCatalog
 import net.millida.launcher.core.skins.TextureKind
@@ -74,8 +71,6 @@ import net.millida.launcher.ui.character.ConfirmAsk
 import net.millida.launcher.ui.character.Fitting
 import net.millida.launcher.ui.character.FittingBar
 import net.millida.launcher.ui.character.StageCollapse
-import net.millida.launcher.ui.character.TryOnPurchase
-import net.millida.launcher.ui.character.TryOnPurchaseDialog
 import net.millida.launcher.ui.character.WearTarget
 import net.millida.launcher.ui.character.WideSectionBar
 import net.millida.launcher.ui.character.characterLookOf
@@ -119,11 +114,6 @@ fun SkinsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = M
     val mojangCapes by model.mojangCapes.state.collectAsState()
     val wardrobe = model.cosmeticWardrobe
     val cosmetics by wardrobe.state.collectAsState()
-    val shop by model.shop.state.collectAsState()
-    var purchase by remember { mutableStateOf<TryOnPurchase?>(null) }
-    val tryOnBill = remember(cosmetics.fitting, cosmetics.owned) { WardrobeBill.of(cosmetics.fitting, cosmetics.owned) }
-    val billed = state.millidaSignedIn && !tryOnBill.isEmpty
-    LaunchedEffect(billed) { if (billed) model.shop.refreshBalance() }
     val account = state.account
     val target = wearTargetOf(state)
     val look = characterLookOf(state, licence, target)
@@ -340,7 +330,13 @@ fun SkinsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = M
     val wide = LocalWideLayout.current
     val shownTabs = remember(cosmetics.catalog.items) {
         val present = CosmeticSections.of(cosmetics.catalog.items.map { it.slot }.toSet()).map { it.key }.toSet()
-        CharacterTab.entries.filter { it.section == null || it.section in present }
+        CharacterTab.entries.filter {
+            it in setOf(CharacterTab.SKIN, CharacterTab.CAPE, CharacterTab.LOOKS, CharacterTab.REWARDS, CharacterTab.IMPORT) &&
+                (it.section == null || it.section in present)
+        }
+    }
+    LaunchedEffect(shownTabs, tab) {
+        if (tab !in shownTabs) tab = CharacterTab.SKIN
     }
     val stage: @Composable (Modifier) -> Unit = { placement ->
         CharacterStage(
@@ -416,19 +412,6 @@ fun SkinsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = M
                 )
             }
         }
-        if (fitting == null && cosmetics.fitting.isNotEmpty()) {
-            CosmeticFittingBar(
-                fitting = cosmetics.fitting,
-                bill = tryOnBill,
-                signedIn = state.millidaSignedIn,
-                buying = shop.isBusy(WARDROBE_PURCHASE),
-                canBuy = cosmetics.busy.isEmpty(),
-                onClear = wardrobe::clearFitting,
-                onBuy = { purchase = TryOnPurchase.of(tryOnBill, shop.balance) },
-                onSignIn = model::loginMillida,
-                onShop = { model.open(Screen.SHOP) },
-            )
-        }
     }
 
     if (wide) {
@@ -486,16 +469,6 @@ fun SkinsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = M
             wardrobePane()
             fittingBars()
         }
-    }
-
-    purchase?.let { prompt ->
-        TryOnPurchaseDialog(
-            prompt = prompt,
-            onBuy = { bill -> model.buyTryOn(bill.items) },
-            onTopUp = model.shop::topUp,
-            onPacks = { model.open(Screen.SHOP) },
-            onDismiss = { purchase = null },
-        )
     }
 
     editingOutfit?.let { outfit ->

@@ -119,7 +119,7 @@ private fun peerOf(state: UiState, target: ChatTarget): ChatPeer = when (target)
     is ChatTarget.Dm -> {
         val friend = state.friends.firstOrNull { it.userId == target.userId }
         val dialog = state.dialogs.firstOrNull { it.kind == DialogKind.DM && it.id == target.userId }
-        val title = friend?.shownName() ?: dialog?.title?.takeIf { it.isNotEmpty() } ?: "Переписка"
+        val title = friend?.shownName() ?: dialog?.title?.takeIf { it.isNotEmpty() } ?: "Conversation"
         ChatPeer(
             title = title,
             subtitle = friend?.statusLine() ?: dialog?.subtitle.orEmpty(),
@@ -132,8 +132,8 @@ private fun peerOf(state: UiState, target: ChatTarget): ChatPeer = when (target)
     is ChatTarget.Room -> {
         val dialog = state.dialogs.firstOrNull { it.kind == DialogKind.ROOM && it.id == target.roomId }
         ChatPeer(
-            title = dialog?.title?.takeIf { it.isNotEmpty() } ?: "Группа",
-            subtitle = dialog?.subtitle?.takeIf { it.isNotEmpty() } ?: "Группа",
+            title = dialog?.title?.takeIf { it.isNotEmpty() } ?: "Group",
+            subtitle = dialog?.subtitle?.takeIf { it.isNotEmpty() } ?: "Group",
             avatarUrl = null,
             friend = null,
             room = true,
@@ -188,8 +188,8 @@ private fun threadRows(lines: List<ChatLine>, room: Boolean): List<ChatLineRow> 
 fun ChatScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Modifier) {
     val target = state.chatTarget
     if (!state.millidaSignedIn) {
-        MScreen(modifier = modifier, title = "Переписка", onBack = { model.back() }) {
-            item(key = "gate") { MSignInGate(onSignIn = model::loginMillida, title = "Сообщения — после входа") }
+        MScreen(modifier = modifier, title = "Conversation", onBack = { model.back() }) {
+            item(key = "gate") { MSignInGate(onSignIn = model::loginMillida, title = "Sign in to view messages") }
         }
         return
     }
@@ -198,12 +198,12 @@ fun ChatScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
         return
     }
     if (target == null) {
-        MScreen(modifier = modifier, title = "Переписка", onBack = { model.back() }) {
+        MScreen(modifier = modifier, title = "Conversation", onBack = { model.back() }) {
             item(key = "none") {
                 MEmptyState(
                     icon = MIcons.chat,
-                    title = "Переписка не выбрана",
-                    actionText = "К друзьям",
+                    title = "No conversation selected",
+                    actionText = "Go to friends",
                     onAction = { model.open(Screen.FRIENDS) },
                     actionIcon = MIcons.friends,
                 )
@@ -245,7 +245,7 @@ private fun ChatThread(
     var recorder by remember(target) { mutableStateOf<VoiceRecorder?>(null) }
     var recMs by remember(target) { mutableLongStateOf(0L) }
     var recBars by remember(target) { mutableStateOf(emptyList<Float>()) }
-    var uploadLabel by remember { mutableStateOf("Отправляем картинку") }
+    var uploadLabel by remember { mutableStateOf("Sending image") }
     var inviting by remember(target) { mutableStateOf(false) }
 
     LaunchedEffect(target) { model.social.ensureThread(target) }
@@ -264,7 +264,7 @@ private fun ChatThread(
         if (uri != null) {
             val quoted = replyTo
             replyTo = null
-            uploadLabel = "Отправляем картинку"
+            uploadLabel = "Sending image"
             model.social.sendImage({ readChatImage(context.applicationContext, uri) }, quoted)
         }
     }
@@ -286,16 +286,16 @@ private fun ChatThread(
         val take = try {
             active.stop()
         } catch (failed: VoiceRecordFailure) {
-            model.notice(failed.message ?: "Запись не получилась — попробуй ещё раз", isError = !failed.tooShort)
+            model.notice(failed.message ?: "Recording failed. Try again.", isError = !failed.tooShort)
             return
         }
         val quoted = replyTo
         replyTo = null
-        uploadLabel = "Отправляем голосовое"
+        uploadLabel = "Sending voice message"
         val job = model.social.sendVoice({ take.read() }, take.durationMs, take.peaks, quoted)
         if (job == null) {
             take.discard()
-            model.notice("Дождись, пока уйдёт прошлое вложение, и запиши снова", isError = true)
+            model.notice("Wait for the previous attachment to finish uploading, then record again.", isError = true)
         } else {
             job.invokeOnCompletion { take.discard() }
         }
@@ -316,7 +316,7 @@ private fun ChatThread(
                     onLimit = { stopRecording(keep = true) },
                 )
             } catch (failed: VoiceRecordFailure) {
-                model.notice(failed.message ?: "Микрофон не включился", isError = true)
+                model.notice(failed.message ?: "Could not start the microphone.", isError = true)
                 null
             }
         }
@@ -341,7 +341,7 @@ private fun ChatThread(
             }
             chat.olderError != null || (!chat.hasMore && !chat.olderLoading) -> {
                 seeking = null
-                model.notice("Исходное сообщение уже недоступно", isError = true)
+                model.notice("The original message is no longer available.", isError = true)
             }
             !chat.olderLoading -> model.social.loadOlder()
         }
@@ -397,7 +397,7 @@ private fun ChatThread(
 
     fun sendInvite(address: String, name: String, version: String?) {
         if (!ServerInvites.isServerAddr(address)) {
-            model.notice("Не похоже на адрес сервера", isError = true)
+            model.notice("This does not look like a server address.", isError = true)
             return
         }
         inviting = false
@@ -434,7 +434,7 @@ private fun ChatThread(
                 }
                 chat.lines.isEmpty() && !headed && typingText == null -> MEmptyState(
                     icon = MIcons.chat,
-                    title = if (peer.room) "Пока тихо — начни разговор" else "Напиши первым",
+                    title = if (peer.room) "It's quiet here — start a conversation" else "Send the first message",
                     modifier = Modifier.align(Alignment.Center),
                 )
                 else -> LazyColumn(
@@ -452,7 +452,7 @@ private fun ChatThread(
                                     val address = card.serverIp.orEmpty().trim()
                                     model.playOnAddress(
                                         address,
-                                        card.serverName?.takeIf { it.isNotBlank() } ?: "Сервер ${peer.title}",
+                                        card.serverName?.takeIf { it.isNotBlank() } ?: "${peer.title}'s server",
                                     )
                                 },
                             )
@@ -471,7 +471,7 @@ private fun ChatThread(
                             MessageBubble(
                                 line = row.line,
                                 author = row.author,
-                                peerName = if (peer.room) "Участник" else peer.title,
+                                peerName = if (peer.room) "Member" else peer.title,
                                 grouped = row.grouped,
                                 read = read,
                                 onMenu = { menuFor = row.line },
@@ -523,21 +523,21 @@ private fun ChatThread(
                     MIconButton(
                         MIcons.arrowDown,
                         onClick = { scope.launch { listState.animateScrollToItem(rows.lastIndex + lead) } },
-                        label = "К последним",
+                        label = "Jump to latest",
                     )
                 }
             }
         }
-        val quote = editing?.let { ComposerQuote(MIcons.edit, "Изменение сообщения", it.text) }
+        val quote = editing?.let { ComposerQuote(MIcons.edit, "Editing message", it.text) }
             ?: replyTo?.let { reply ->
                 ComposerQuote(
                     MIcons.reply,
-                    if (reply.me) "Ответ на своё сообщение" else "Ответ",
+                    if (reply.me) "Replying to your message" else "Reply",
                     CallLogs.parse(reply.text)?.let { CallLogs.title(it, reply.me) } ?: reply.text.ifEmpty {
                         when {
-                            reply.attachment?.kind == "voice" -> "Голосовое сообщение"
-                            reply.attachment != null -> "Картинка"
-                            else -> "Сообщение"
+                            reply.attachment?.kind == "voice" -> "Voice message"
+                            reply.attachment != null -> "Image"
+                            else -> "Message"
                         }
                     },
                 )
@@ -583,7 +583,7 @@ private fun ChatThread(
                 {
                     menuFor = null
                     clipboard.setText(AnnotatedString(text))
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) model.notice("Текст скопирован")
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) model.notice("Text copied")
                 }
             } else {
                 null
@@ -619,7 +619,7 @@ private fun ChatThread(
                         val failure = pictureFailure { copyChatPicture(context, url) }
                         when {
                             failure != null -> model.notice(failure, isError = true)
-                            Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU -> model.notice("Картинка скопирована")
+                            Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU -> model.notice("Image copied")
                         }
                     }
                 }
@@ -658,9 +658,9 @@ private fun ChatThread(
 
     deleting?.let { message ->
         MConfirmDialog(
-            title = "Удалить сообщение?",
-            text = "Сообщение исчезнет и у собеседника.",
-            confirm = "Удалить",
+            title = "Delete message?",
+            text = "The message will also be deleted for the other person.",
+            confirm = "Delete",
             onConfirm = {
                 deleting = null
                 if (editing?.id == message.id) {
@@ -722,9 +722,9 @@ private fun ChatTopBar(peer: ChatPeer, divider: Boolean, onBack: (() -> Unit)?, 
             }
         }
         Spacer(Modifier.width(8.dp))
-        MPrimaryButton("Позвать играть", onClick = onInvite, icon = MIcons.server, size = MButtonSize.Small)
+        MPrimaryButton("Invite to play", onClick = onInvite, icon = MIcons.server, size = MButtonSize.Small)
         Spacer(Modifier.width(8.dp))
-        MIconButton(MIcons.phone, onClick = onCall, label = "Позвонить")
+        MIconButton(MIcons.phone, onClick = onCall, label = "Call")
     }
 }
 
@@ -732,7 +732,7 @@ private val MESSAGES_SIDE_WIDTH = 300.dp
 private val MESSAGES_GAP = 12.dp
 
 /**
- * The desktop's «Сообщения» (`screens/Messages.tsx`): the strip on top, the
+ * The desktop's Messages screen: the strip on top, the
  * chats on a plate down the left - personal ones and groups in one list by
  * the last message, a search that also finds friends to start a chat with -
  * and the open conversation filling the rest. Coming in without a chat
@@ -794,7 +794,7 @@ private fun WideMessages(state: UiState, model: LauncherViewModel, target: ChatT
                 MField(
                     value = query,
                     onValueChange = { query = it },
-                    placeholder = "Поиск",
+                    placeholder = "Search",
                     modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 8.dp),
                     leadingIcon = MIcons.search,
                     clearable = true,
@@ -833,7 +833,7 @@ private fun WideMessages(state: UiState, model: LauncherViewModel, target: ChatT
                     if (others.isNotEmpty()) {
                         item(key = "cap:friends") {
                             Text(
-                                "Друзья",
+                                "Friends",
                                 modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 10.dp, bottom = 4.dp),
                                 style = MillidaType.small.copy(fontWeight = FontWeight.Bold),
                                 color = colors.fgSubtle,
@@ -847,7 +847,7 @@ private fun WideMessages(state: UiState, model: LauncherViewModel, target: ChatT
                         item(key = "blank") {
                             if (needle.isNotEmpty()) {
                                 Text(
-                                    "Никого не нашли",
+                                    "No one found",
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 16.dp),
                                     style = MillidaType.small,
                                     color = colors.fgFaint,
@@ -855,8 +855,8 @@ private fun WideMessages(state: UiState, model: LauncherViewModel, target: ChatT
                             } else {
                                 MEmptyState(
                                     icon = MIcons.chat,
-                                    title = "Переписок нет",
-                                    actionText = "Друзья",
+                                    title = "No conversations",
+                                    actionText = "Friends",
                                     onAction = { model.open(Screen.FRIENDS) },
                                     actionIcon = MIcons.friends,
                                 )
@@ -877,7 +877,7 @@ private fun WideMessages(state: UiState, model: LauncherViewModel, target: ChatT
                 } else if (!loading) {
                     MEmptyState(
                         icon = MIcons.chat,
-                        title = "Выбери чат слева",
+                        title = "Select a chat on the left",
                         modifier = Modifier.align(Alignment.Center),
                     )
                 }

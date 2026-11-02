@@ -36,7 +36,7 @@ class HubFeedTest {
             listOf("ONEBLOCK", "SKYWARS", "BEDWARS", "HIDE_SEEK"),
             modes.map { it.code },
         )
-        assertEquals("название кода — как на сайте", "Прятки", modes.last().title)
+        assertEquals("mode names are in English", "Hide and Seek", modes.last().title)
         assertEquals("дробный онлайн округляется, а не роняет разбор", 31, modes.last().online)
         assertEquals("неизвестный код читается словами", "Some mode", Hub.modeTitle("SOME_MODE"))
         assertTrue("пустой ответ — пустой список", Hub.modes(null).isEmpty())
@@ -46,12 +46,12 @@ class HubFeedTest {
     fun `онлайн коротко и только живой`() {
         val cases = listOf(
             19 to null,
-            20 to "20 играют",
-            999 to "999 играют",
-            1_000 to "1 тыс играют",
-            1_500 to "1,5 тыс играют",
-            9_999 to "10 тыс играют",
-            163_400 to "163 тыс играют",
+            20 to "20 playing",
+            999 to "999 playing",
+            1_000 to "1k playing",
+            1_500 to "1.5k playing",
+            9_999 to "10k playing",
+            163_400 to "163k playing",
         )
         cases.forEach { (online, expected) -> assertEquals("онлайн $online", expected, Hub.onlineLabel(online)) }
         assertNull("нет числа — нет строки", Hub.onlineLabel(null))
@@ -64,10 +64,10 @@ class HubFeedTest {
         val cases = listOf(
             health("unknown", 99, "2026-10-02T11:59:00Z") to null,
             health("ok", null, null) to null,
-            health("ok", 97, "2026-10-02T10:00:00Z") to "OK|Работает|запускали 2 ч назад|97|false",
-            health("ok", null, "2026-10-02T11:58:00Z") to "OK|Работает|запускали только что|null|false",
-            health("warn", 61, null) to "WARN|Бывают сбои||61|true",
-            health("warn", null, "2026-09-29T12:00:00Z") to "WARN|Бывают сбои|запускали 3 дн назад|null|true",
+            health("ok", 97, "2026-10-02T10:00:00Z") to "OK|Operational|Last active 2 h ago|97|false",
+            health("ok", null, "2026-10-02T11:58:00Z") to "OK|Operational|Last active just now|null|false",
+            health("warn", 61, null) to "WARN|Issues reported||61|true",
+            health("warn", null, "2026-09-29T12:00:00Z") to "WARN|Issues reported|Last active 3 d ago|null|true",
         )
         cases.forEach { (input, expected) ->
             val line = Hub.healthLine(input, now)

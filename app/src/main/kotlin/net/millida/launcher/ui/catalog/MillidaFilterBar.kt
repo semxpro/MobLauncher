@@ -18,7 +18,6 @@ import net.millida.launcher.core.catalog.MillidaFacet
 import net.millida.launcher.core.catalog.MillidaFacets
 import net.millida.launcher.core.catalog.MillidaFilters
 import net.millida.launcher.core.catalog.MillidaSort
-import net.millida.launcher.core.friends.ruPlural
 import net.millida.launcher.ui.MBottomSheet
 import net.millida.launcher.ui.MChip
 import net.millida.launcher.ui.MEmptyState
@@ -28,11 +27,12 @@ import net.millida.launcher.ui.MListRow
 import net.millida.launcher.ui.MillidaType
 import net.millida.launcher.ui.groupDigits
 import net.millida.launcher.ui.millida
+import java.util.Locale
 
 private enum class FilterSheet { SORT, VERSION, CATEGORY }
 
 internal fun materials(count: Int): String =
-    "${groupDigits(count.toLong())} ${ruPlural(count.toLong(), "материал", "материала", "материалов")}"
+    "${String.format(Locale.US, "%,d", count)} ${if (count == 1) "item" else "items"}"
 
 /** The site's filter column folded into chips: sort, game version and categories, then the result count. */
 @Composable

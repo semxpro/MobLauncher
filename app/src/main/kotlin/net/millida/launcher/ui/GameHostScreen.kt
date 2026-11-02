@@ -87,12 +87,12 @@ import kotlin.random.Random
 private const val TIP_MS = 5_000L
 
 private val TIPS = listOf(
-    "Держи палец на месте — так копают блоки",
-    "Коснись хотбара внизу, чтобы взять слот",
-    "Проведи по хотбару — слоты листаются",
-    "Кнопки двигаются: Меню → Настроить управление",
-    "Клавиатура, мышь и геймпад тоже работают",
-    "Esc ставит игру на паузу и закрывает чат",
+    "Hold your finger in place to mine blocks.",
+    "Tap the hotbar at the bottom to select a slot.",
+    "Swipe the hotbar to switch slots.",
+    "Move buttons in Menu → Customize controls.",
+    "Keyboard, mouse, and gamepad are also supported.",
+    "Press Esc to pause the game and close chat.",
 )
 
 private class SurfaceRef {
@@ -380,7 +380,7 @@ fun GameHostScreen(model: GameLaunchModel, onLeave: () -> Unit, onRelaunch: () -
                         }
                         draft = next
                     },
-                    placeholder = "Текст для игры",
+                    placeholder = "Message in game",
                     modifier = Modifier.weight(1f),
                     imeAction = ImeAction.Send,
                     onImeAction = ::submitTyping,
@@ -389,7 +389,7 @@ fun GameHostScreen(model: GameLaunchModel, onLeave: () -> Unit, onRelaunch: () -
                 )
                 Spacer(Modifier.width(8.dp))
                 MButton(
-                    text = "Ввод",
+                    text = "Send",
                     onClick = ::submitTyping,
                     variant = MButtonVariant.Primary,
                     size = MButtonSize.Small,
@@ -402,7 +402,7 @@ fun GameHostScreen(model: GameLaunchModel, onLeave: () -> Unit, onRelaunch: () -
                         draft = ""
                         typing = false
                     },
-                    label = "Закрыть",
+                    label = "Close",
                 )
             }
         }
@@ -496,7 +496,7 @@ private fun CursorMark(position: Offset) {
 @Composable
 private fun LoadingScreen(state: GameUiState, onExit: () -> Unit) {
     val colors = millida
-    val note = if (state.booting) "Игра загружается" else state.note
+    val note = if (state.booting) "Loading game" else state.note
     val progress = when {
         state.closing || state.booting || state.stage <= 0 -> null
         else -> state.stage / LAUNCH_STAGES.toFloat()
@@ -545,7 +545,7 @@ private fun LoadingScreen(state: GameUiState, onExit: () -> Unit) {
         }
         if (!state.closing) {
             MTextButton(
-                "Выйти",
+                "Exit",
                 onClick = onExit,
                 modifier = Modifier.align(Alignment.TopEnd),
                 icon = MIcons.close,
@@ -638,12 +638,12 @@ private fun PauseMenu(
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             if (confirmExit) {
-                Text("Выйти из игры?", style = MillidaType.dialogTitle, color = colors.fg)
+                Text("Exit game?", style = MillidaType.dialogTitle, color = colors.fg)
                 Text(
                     if (packLayer) {
-                        "Игра закроется сразу — сначала выйди в главное меню игры, чтобы мир сохранился"
+                        "The game will close immediately. Return to the in-game main menu first to save your world."
                     } else {
-                        "Игра сохранит мир и закроется"
+                        "The game will save your world and close."
                     },
                     style = MillidaType.body,
                     color = colors.fgMuted,
@@ -653,12 +653,12 @@ private fun PauseMenu(
                     horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    MTextButton("Отмена", onClick = onCancelExit)
-                    MDangerButton("Выйти", onClick = onConfirmExit, icon = MIcons.logout, size = MButtonSize.Medium)
+                    MTextButton("Cancel", onClick = onCancelExit)
+                    MDangerButton("Exit", onClick = onConfirmExit, icon = MIcons.logout, size = MButtonSize.Medium)
                 }
             } else {
                 Row(verticalAlignment = Alignment.Bottom) {
-                    Text("Пауза", style = MillidaType.dialogTitle, color = colors.fg)
+                    Text("Paused", style = MillidaType.dialogTitle, color = colors.fg)
                     if (buildName.isNotEmpty()) {
                         Spacer(Modifier.width(10.dp))
                         Text(
@@ -672,33 +672,33 @@ private fun PauseMenu(
                     }
                 }
                 MPrimaryButton(
-                    "Продолжить",
+                    "Resume",
                     onClick = onResume,
                     modifier = Modifier.fillMaxWidth(),
                     icon = MIcons.play,
                     size = MButtonSize.Large,
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    MSecondaryButton("Пауза игры", onClick = onGamePause, modifier = Modifier.weight(1f), icon = MIcons.pause)
-                    MSecondaryButton("Чат", onClick = onChat, modifier = Modifier.weight(1f), icon = MIcons.chat)
+                    MSecondaryButton("Pause game", onClick = onGamePause, modifier = Modifier.weight(1f), icon = MIcons.pause)
+                    MSecondaryButton("Chat", onClick = onChat, modifier = Modifier.weight(1f), icon = MIcons.chat)
                 }
                 if (onFriends != null) {
-                    MSecondaryButton("Чат друзей", onClick = onFriends, modifier = Modifier.fillMaxWidth(), icon = MIcons.friends)
+                    MSecondaryButton("Friends chat", onClick = onFriends, modifier = Modifier.fillMaxWidth(), icon = MIcons.friends)
                 }
                 MSecondaryButton(
-                    "Настроить управление",
+                    "Customize controls",
                     onClick = onControls,
                     modifier = Modifier.fillMaxWidth(),
                     icon = MIcons.settings,
                 )
                 // Some packs never hand the cursor back or never take it: the mode can be forced by hand.
                 MTextButton(
-                    if (lookMode) "Режим курсора" else "Режим обзора",
+                    if (lookMode) "Cursor mode" else "Look mode",
                     onClick = onToggleMode,
                     modifier = Modifier.fillMaxWidth(),
                 )
                 MDangerButton(
-                    "Выйти",
+                    "Exit",
                     onClick = onExit,
                     modifier = Modifier.fillMaxWidth(),
                     icon = MIcons.logout,
@@ -725,10 +725,10 @@ private fun LegacyHudNote(onRestore: () -> Unit, onDismiss: () -> Unit, modifier
     ) {
         MIcon(MIcons.info, size = 16.dp, color = colors.accentText)
         Spacer(Modifier.width(10.dp))
-        Text("Новое управление", style = MillidaType.body, color = colors.fg, maxLines = 1)
+        Text("New controls", style = MillidaType.body, color = colors.fg, maxLines = 1)
         Spacer(Modifier.width(8.dp))
-        MTextButton("Вернуть старое", onClick = onRestore, icon = MIcons.refresh)
-        MIconButton(MIcons.close, onClick = onDismiss, label = "Закрыть")
+        MTextButton("Restore defaults", onClick = onRestore, icon = MIcons.refresh)
+        MIconButton(MIcons.close, onClick = onDismiss, label = "Close")
     }
 }
 
@@ -768,9 +768,9 @@ private fun FinishedPanel(
     var showLog by remember { mutableStateOf(false) }
     val failed = state.error != null
     val title = when {
-        !failed -> "Игра закрылась"
-        state.started -> "Игра вылетела"
-        else -> "Игра не запустилась"
+        !failed -> "Game closed"
+        state.started -> "Game crashed"
+        else -> "Game did not start"
     }
     val reason = state.cause ?: state.error
     val logHeight = (LocalConfiguration.current.screenHeightDp * 0.4f).dp
@@ -828,21 +828,21 @@ private fun FinishedPanel(
 
             MButtonRow {
                 if (failed) {
-                    MPrimaryButton("Ещё раз", onClick = onRelaunch, icon = MIcons.refresh)
-                    MSecondaryButton("Отправить отчёт", onClick = { model.shareReport() }, icon = MIcons.share)
+                    MPrimaryButton("Try again", onClick = onRelaunch, icon = MIcons.refresh)
+                    MSecondaryButton("Share report", onClick = { model.shareReport() }, icon = MIcons.share)
                 } else {
-                    MPrimaryButton("В лаунчер", onClick = onLeave, icon = MIcons.back)
-                    MSecondaryButton("Ещё раз", onClick = onRelaunch, icon = MIcons.refresh)
+                    MPrimaryButton("Back to launcher", onClick = onLeave, icon = MIcons.back)
+                    MSecondaryButton("Try again", onClick = onRelaunch, icon = MIcons.refresh)
                 }
                 if (log.isNotBlank()) {
                     MTextButton(
-                        if (showLog) "Скрыть лог" else "Лог",
+                        if (showLog) "Hide log" else "Log",
                         onClick = { showLog = !showLog },
                         icon = if (showLog) MIcons.chevronUp else MIcons.list,
                     )
                 }
                 if (failed) {
-                    MTextButton("В лаунчер", onClick = onLeave, icon = MIcons.back)
+                    MTextButton("Back to launcher", onClick = onLeave, icon = MIcons.back)
                 }
             }
 
@@ -863,10 +863,10 @@ private fun FinishedPanel(
                         )
                     }
                     MTextButton(
-                        "Скопировать лог",
+                        "Copy log",
                         onClick = {
                             clipboard.setText(AnnotatedString(log))
-                            model.showNotice("Лог скопирован")
+                            model.showNotice("Log copied")
                         },
                         icon = MIcons.copy,
                     )
@@ -883,8 +883,8 @@ internal fun TouchControlsSwitch() {
     val prefs = remember { Prefs(context) }
     var on by remember { mutableStateOf(prefs.touchControlsWithKeyboard) }
     MSwitchRow(
-        "Кнопки на экране с клавиатурой и мышью",
-        "Не прятать управление, когда подключены клавиатура или мышь",
+        "On-screen controls with a keyboard and mouse",
+        "Keep controls visible when a keyboard or mouse is connected",
         on,
     ) { next ->
         prefs.touchControlsWithKeyboard = next

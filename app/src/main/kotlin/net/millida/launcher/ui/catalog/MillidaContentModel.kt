@@ -187,7 +187,7 @@ class MillidaContentModel(
             } catch (error: Throwable) {
                 if (seq != listSeq.get()) return@launch
                 mutable.update { it.copy(loadingMore = false) }
-                host.notice("Каталог Millida не догрузился: ${host.errorText(error).lowerFirst()}", true)
+                host.notice("Could not load the Millida catalog: ${host.errorText(error).lowerFirst()}", true)
             }
         }
     }
@@ -236,23 +236,27 @@ class MillidaContentModel(
 
     /** The row's button: sign-in and purchase come first, the file is chosen for the build next. */
     fun install(card: MillidaCard) {
+        if (card.paid || card.premium) {
+            host.notice("Paid content is not available.", true)
+            return
+        }
         val kind = mutable.value.kind ?: return
         val target = readyTarget(kind) ?: return
         if (card.slug in mutable.value.jobs) return
-        if (card.paid && shelf.state.value.access[card.slug] != true) {
-            shelf.buyThen(card.slug, card.title, card.pricing, card.priceKopecks ?: 0) { prepare(card.slug, card.title, kind, target.id, null) }
-            return
-        }
         prepare(card.slug, card.title, kind, target.id, null)
     }
 
     /** A link from the site: the item is already read, the player confirms the build it goes into. */
     fun askFromLink(item: MillidaItem, kind: MillidaKind) {
+        if (MillidaPaid.isPaid(item.pricing, item.priceKopecks)) {
+            host.notice("Paid content is not available.", true)
+            return
+        }
         val target = readyTarget(kind) ?: return
         val title = MillidaCatalog.displayName(item.title)
         val pick = MillidaFiles.pickFile(item.files, target.gameVersion, target.loader, kind)
         if (pick == null && !MillidaPaid.isPaid(item.pricing, item.priceKopecks)) {
-            host.notice("У «$title» пока нет файла — открой его на сайте", true)
+            host.notice("“$title” does not have a file yet. Open it on the website.", true)
             return
         }
         mutable.update {
@@ -267,9 +271,8 @@ class MillidaContentModel(
     fun confirmAsk() {
         val ask = mutable.value.ask ?: return
         mutable.update { it.copy(ask = null) }
-        if (ask.paid && shelf.state.value.access[ask.slug] != true) {
-            val price = ask.priceKopecks ?: 0
-            shelf.buyThen(ask.slug, ask.title, ask.pricing, price) { prepare(ask.slug, ask.title, ask.kind, ask.targetId, null) }
+        if (ask.paid) {
+            host.notice("Paid content is not available.", true)
             return
         }
         prepare(ask.slug, ask.title, ask.kind, ask.targetId, ask.pick)
@@ -282,7 +285,7 @@ class MillidaContentModel(
     private fun prepare(slug: String, title: String, kind: MillidaKind, targetId: String, confirmed: MillidaFilePick?) {
         val target = host.profiles.firstOrNull { it.id == targetId }
         if (target == null) {
-            host.notice("Сборки больше нет — выбери другую и поставь заново", true)
+            host.notice("This build is no longer available. Choose another build and reinstall it.", true)
             return
         }
         if (confirmed != null) {
@@ -295,7 +298,7 @@ class MillidaContentModel(
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (error: Throwable) {
-                host.notice("Каталог не ответил — повтори: ${host.errorText(error).lowerFirst()}", true)
+                host.notice("The catalog did not respond. Try again: ${host.errorText(error).lowerFirst()}", true)
                 return@launch
             }
             val modrinth = MillidaCatalog.modrinthSlugOf(item.sourceUrl)
@@ -314,7 +317,7 @@ class MillidaContentModel(
             }
             val pick = MillidaFiles.pickFile(item.files, target.gameVersion, target.loader, kind)
             if (pick == null) {
-                host.notice("У «$title» пока нет файла", true)
+                host.notice("“$title” does not have a file yet.", true)
                 return@launch
             }
             if (!pick.fits) {
@@ -364,7 +367,7 @@ class MillidaContentModel(
                 )
                 host.notice(
                     if (kind == MillidaKind.WORLD) {
-                        "Карта «$placed» → «${target.name}»: заходи в одиночную игру"
+                        "Map “$placed” added to “${target.name}”. Open it in single-player."
                     } else {
                         "${kind.noun} → «${target.name}»: $placed"
                     },
@@ -390,7 +393,7 @@ class MillidaContentModel(
     private fun failed(error: Throwable, slug: String, title: String) {
         when (val verdict = MillidaPaid.verdict(error.message)) {
             PaidVerdict.LOGIN -> {
-                host.notice("Войди в аккаунт Millida — покупки хранятся в нём", true)
+                host.notice("Sign in to Millida. Purchases are linked to your account.", true)
                 host.signIn()
             }
             PaidVerdict.NO_ACCESS -> {
@@ -398,7 +401,7 @@ class MillidaContentModel(
                 host.notice(MillidaPaid.verdictText(verdict).orEmpty(), true)
             }
             else -> host.notice(
-                MillidaPaid.verdictText(verdict) ?: "«$title» не поставился: ${host.errorText(error).lowerFirst()}",
+                MillidaPaid.verdictText(verdict) ?: "Could not install “$title”: ${host.errorText(error).lowerFirst()}",
                 true,
             )
         }
@@ -409,11 +412,11 @@ class MillidaContentModel(
     private fun readyTarget(kind: MillidaKind): Profile? {
         val target = target()
         if (target == null) {
-            host.notice("Сначала создай сборку — ${kind.noun.lowercase()} ставится в неё", true)
+            host.notice("Create a build first. ${kind.noun} will be installed into it.", true)
             return null
         }
         if (kind.loaderBound && target.loader == LoaderKind.VANILLA) {
-            host.notice("В ванильной сборке моды не работают — выбери сборку с загрузчиком", true)
+            host.notice("Mods do not work in a vanilla build. Choose a build with a mod loader.", true)
             return null
         }
         return target

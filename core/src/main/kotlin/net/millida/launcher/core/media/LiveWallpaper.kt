@@ -21,11 +21,11 @@ data class LiveWallpaper(val id: String, val name: String, val kind: LiveWallpap
         const val FOLDER = "wallpapers"
 
         val ALL: List<LiveWallpaper> = listOf(
-            LiveWallpaper("pixels", "Сцена", LiveWallpaperKind.SCENE),
-            LiveWallpaper("bg1", "Вишнёвая роща", LiveWallpaperKind.VIDEO),
-            LiveWallpaper("bg2", "Уютная пещера", LiveWallpaperKind.VIDEO),
-            LiveWallpaper("bg3", "Солнечный город", LiveWallpaperKind.VIDEO),
-            LiveWallpaper("bg4", "У камина", LiveWallpaperKind.VIDEO),
+            LiveWallpaper("pixels", "Pixel scene", LiveWallpaperKind.SCENE),
+            LiveWallpaper("bg1", "Cherry grove", LiveWallpaperKind.VIDEO),
+            LiveWallpaper("bg2", "Cozy cave", LiveWallpaperKind.VIDEO),
+            LiveWallpaper("bg3", "Sunny city", LiveWallpaperKind.VIDEO),
+            LiveWallpaper("bg4", "By the fireplace", LiveWallpaperKind.VIDEO),
         )
 
         /** An id another build stored and this one does not know means the static background. */

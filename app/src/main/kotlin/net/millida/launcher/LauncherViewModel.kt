@@ -174,11 +174,10 @@ import java.util.concurrent.atomic.AtomicLong
  */
 enum class Screen {
     HOME, BUILD, SERVERS, CATALOG, ACCOUNT, MORE, SETTINGS, SKINS, HOSTING, HOSTING_MANAGE,
-    BEDROCK, PACKS, FRIENDS, CHAT, CABINET, SCREENSHOTS, SHOP,
-    PREMIUM,
+    BEDROCK, PACKS, FRIENDS, CHAT, CABINET, SCREENSHOTS,
 }
 
-val rootTabs: List<Screen> = listOf(Screen.HOME, Screen.CATALOG, Screen.SKINS, Screen.SHOP, Screen.MORE)
+val rootTabs: List<Screen> = listOf(Screen.HOME, Screen.CATALOG, Screen.SKINS, Screen.MORE)
 
 val Screen.isRoot: Boolean get() = this in rootTabs
 
@@ -186,11 +185,9 @@ fun rootTabOf(screen: Screen): Screen = when (screen) {
     Screen.HOME, Screen.BUILD -> Screen.HOME
     Screen.CATALOG -> Screen.CATALOG
     Screen.SKINS -> Screen.SKINS
-    Screen.SHOP -> Screen.SHOP
     Screen.MORE, Screen.ACCOUNT, Screen.SERVERS, Screen.FRIENDS, Screen.CHAT, Screen.HOSTING,
     Screen.HOSTING_MANAGE, Screen.CABINET, Screen.PACKS, Screen.SCREENSHOTS, Screen.BEDROCK,
     Screen.SETTINGS -> Screen.MORE
-    Screen.PREMIUM -> Screen.MORE
 }
 
 /** A part of the app that loads on its own, so its wait and its failure stay inside it. */
@@ -630,19 +627,11 @@ class LauncherViewModel(application: Application) : AndroidViewModel(application
                 }
         }
         viewModelScope.launch {
-            combine(appResumed, state.map { it.millidaSignedIn }) { resumed, signedIn -> resumed to signedIn }
-                .distinctUntilChanged()
-                .collectLatest { (resumed, signedIn) ->
-                    if (!signedIn) shop.prime(false) else if (resumed) shop.prime(true)
-                }
-        }
-        viewModelScope.launch {
             state.map { it.millidaSignedIn }
                 .distinctUntilChanged()
                 .drop(1)
                 .collect {
                     millidaShelf.signInChanged()
-                    premium.signInChanged()
                     aiBuilder.loadQuota()
                 }
         }
@@ -660,7 +649,6 @@ class LauncherViewModel(application: Application) : AndroidViewModel(application
     fun setResumed(resumed: Boolean) {
         appResumed.value = resumed
         if (resumed) millidaShelf.onResumed()
-        if (resumed) premium.onResumed()
         if (resumed) installReadyUpdate(manual = false)
         ambient.onResumed(resumed)
     }
@@ -803,7 +791,6 @@ class LauncherViewModel(application: Application) : AndroidViewModel(application
         if (screen == Screen.PACKS && state.value.myPacks.isEmpty()) loadMyPacks()
         if (screen == Screen.SKINS && state.value.textureLibrary.isEmpty()) loadTextures()
         if (screen == Screen.HOSTING && state.value.hosted.isEmpty()) refreshHosted()
-        if (screen == Screen.SHOP) shop.open(state.value.millidaSignedIn)
     }
 
     /**

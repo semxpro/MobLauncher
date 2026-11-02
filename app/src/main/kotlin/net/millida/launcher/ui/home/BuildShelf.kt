@@ -78,7 +78,7 @@ internal fun LazyListScope.buildShelves(
     val loose = grouped[""].orEmpty()
     item(key = "shelf:mine", contentType = "shelf") {
         BuildShelf(
-            title = "Мои сборки",
+            title = "My builds",
             builds = loose,
             lobby = lobby,
             activeId = activeId,
@@ -174,7 +174,7 @@ private fun BuildCard(
                 interactionSource = interaction,
                 indication = null,
                 role = Role.Button,
-                onLongClickLabel = "Меню сборки",
+                onLongClickLabel = "Build menu",
                 onLongClick = onMenu,
                 onClick = onSelect,
             ),
@@ -231,7 +231,7 @@ private fun MoreButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
     Box(
         modifier
             .size(44.dp)
-            .clickable(interaction, indication = null, role = Role.Button, onClickLabel = "Меню сборки", onClick = onClick),
+            .clickable(interaction, indication = null, role = Role.Button, onClickLabel = "Build menu", onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         Box(
@@ -275,7 +275,7 @@ private fun NewBuildTile(onCreate: () -> Unit, modifier: Modifier = Modifier) {
             }
         }
         Text(
-            "Новая сборка",
+            "New build",
             modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 9.dp, bottom = 12.dp),
             style = MillidaType.rowTitle.copy(fontSize = 14.5.sp),
             color = colors.fg,
@@ -295,22 +295,22 @@ internal fun BuildMenuSheet(
 ) {
     MBottomSheet(onDismiss = onDismiss, title = profile.name) {
         MListRow(
-            title = "Играть",
+            title = "Play",
             subtitle = loaderLine(profile),
             icon = MIcons.play,
             onClick = onPlay,
             plate = false,
         )
         MListRow(
-            title = "Открыть",
-            subtitle = "Моды, миры, настройки",
+            title = "Open",
+            subtitle = "Mods, worlds, settings",
             icon = MIcons.menuGear,
             onClick = onOpen,
             plate = false,
         )
         Spacer(Modifier.height(14.dp))
         MDangerButton(
-            text = "Удалить",
+            text = "Delete",
             onClick = onDelete,
             modifier = Modifier.fillMaxWidth(),
             icon = MIcons.menuTrash,

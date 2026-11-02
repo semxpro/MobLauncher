@@ -202,21 +202,9 @@ class MillidaShelfModel(
         }
         listJob = scope.launch {
             try {
-                val (listing, premium) = withContext(Dispatchers.IO) {
-                    val page = api.listing(SECTION, query, 1, filters)
-                    val paidPacks = try {
-                        api.premiumPacks()
-                    } catch (cancelled: CancellationException) {
-                        throw cancelled
-                    } catch (error: Exception) {
-                        Log.w(LOG_TAG, "платные сборки не загрузились: ${error.message}")
-                        emptyList()
-                    }
-                    page to paidPacks
-                }
+                val listing = withContext(Dispatchers.IO) { api.listing(SECTION, query, 1, filters) }
                 if (seq != listSeq.get()) return@launch
-                val pinnable = if (filters.active) premium.filter { pack -> listing.items.any { it.slug == pack.slug } } else premium
-                val items = MillidaCatalog.forPhone(MillidaCatalog.pinShowcase(listing.items, pinnable, query))
+                val items = MillidaCatalog.forPhone(listing.items).filterNot { it.paid || it.premium }
                 mutable.update { it.copy(items = items, page = listing.page, pages = listing.pages, total = listing.total, loading = false) }
                 loadAccess(items)
             } catch (cancelled: CancellationException) {
@@ -237,7 +225,7 @@ class MillidaShelfModel(
             try {
                 val next = withContext(Dispatchers.IO) { api.listing(SECTION, current.query, current.page + 1, current.filters) }
                 if (seq != listSeq.get()) return@launch
-                val fitting = MillidaCatalog.forPhone(next.items)
+                val fitting = MillidaCatalog.forPhone(next.items).filterNot { it.paid || it.premium }
                 mutable.update { state ->
                     val shown = state.items.mapTo(HashSet()) { it.slug }
                     state.copy(
@@ -253,7 +241,7 @@ class MillidaShelfModel(
             } catch (error: Throwable) {
                 if (seq != listSeq.get()) return@launch
                 mutable.update { it.copy(loadingMore = false) }
-                host.notice("Сборки Millida не догрузились: ${host.errorText(error).lowerFirst()}", true)
+                host.notice("Could not load more Millida builds: ${host.errorText(error).lowerFirst()}", true)
             }
         }
     }
@@ -315,6 +303,10 @@ class MillidaShelfModel(
     // --- Detail ---
 
     fun open(card: MillidaCard) {
+        if (card.paid || card.premium) {
+            host.notice("Paid packs are not available.", true)
+            return
+        }
         mutable.update { it.copy(detail = MillidaDetail(card.slug, card.title, card = card)) }
         loadDetail()
     }
@@ -351,7 +343,7 @@ class MillidaShelfModel(
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (error: Throwable) {
-                host.notice("«${link.slug}» не открылся: ${host.errorText(error).lowerFirst()}", true)
+                host.notice("Could not open “${link.slug}”: ${host.errorText(error).lowerFirst()}", true)
                 return@launch
             }
             val title = MillidaCatalog.displayName(item.title)
@@ -432,7 +424,7 @@ class MillidaShelfModel(
                 container.packApi.catalogPack(detail.slug)
             } catch (missing: HttpError) {
                 if (missing.code != 404) throw missing
-                throw IOException("В каталоге Millida нет «${detail.slug}» — проверь ссылку на сайте", missing)
+                throw IOException("“${detail.slug}” is not in the Millida catalog. Check the website link.", missing)
             }
         } else {
             null
@@ -447,12 +439,16 @@ class MillidaShelfModel(
     fun primary() {
         val detail = mutable.value.detail ?: return
         if (detail.loading) return
+        if (detail.paid || detail.premium) {
+            host.notice("Paid packs are not available.", true)
+            return
+        }
         detail.phoneRefusal?.let { text ->
             mutable.update { it.copy(refusal = PhoneRefusal(detail.title, text)) }
             return
         }
         if ((detail.paid || detail.ownPack) && !host.signedIn) {
-            host.notice("Войди в аккаунт Millida — сборки каталога ставятся на аккаунт", true)
+            host.notice("Sign in to Millida to install catalog builds to your account.", true)
             host.signIn()
             return
         }
@@ -468,8 +464,12 @@ class MillidaShelfModel(
      * opens the sheet first, because a pack is gigabytes and deserves one look.
      */
     fun primary(card: MillidaCard) {
+        if (card.paid || card.premium) {
+            host.notice("Paid packs are not available.", true)
+            return
+        }
         if ((card.paid || card.launcherOnly || card.premium) && !host.signedIn) {
-            host.notice("Войди в аккаунт Millida — сборки каталога ставятся на аккаунт", true)
+            host.notice("Sign in to Millida to install catalog builds to your account.", true)
             host.signIn()
             return
         }
@@ -487,6 +487,10 @@ class MillidaShelfModel(
             val card = mutable.value.items.firstOrNull { it.slug == slug }
             if (card != null) open(card) else mutable.update { it.copy(detail = MillidaDetail(slug, slug)) }
             if (card == null) loadDetail()
+            return
+        }
+        if (detail.paid || detail.premium) {
+            host.notice("Paid packs are not available.", true)
             return
         }
         detail.phoneRefusal?.let { text ->
@@ -520,7 +524,7 @@ class MillidaShelfModel(
             if (idle) closeAfterStart(slug)
             return
         }
-        host.notice("Файла сборки «${detail.title}» нет на зеркале Millida — открой её на сайте", true)
+        host.notice("“${detail.title}” is not available on the Millida mirror. Open it on the website.", true)
         host.openExternal(sitePage(slug))
     }
 
@@ -543,7 +547,7 @@ class MillidaShelfModel(
      */
     fun installAndPlay(slug: String, title: String, reveal: () -> Unit, play: (Profile) -> Unit) {
         if (!host.signedIn) {
-            host.notice("Войди в аккаунт Millida — сборки каталога ставятся на аккаунт", true)
+            host.notice("Sign in to Millida to install catalog builds to your account.", true)
             host.signIn()
             return
         }
@@ -593,7 +597,7 @@ class MillidaShelfModel(
      */
     fun buyThen(slug: String, title: String, pricing: Pricing, priceKopecks: Long, onOwned: () -> Unit) {
         if (!host.signedIn) {
-            host.notice("Войди в аккаунт Millida — покупки хранятся в нём", true)
+            host.notice("Sign in to Millida. Purchases are linked to your account.", true)
             host.signIn()
             return
         }
@@ -646,7 +650,7 @@ class MillidaShelfModel(
         val ask = mutable.value.buy ?: return
         if (ask.busy) return
         if (ask.step == BuyStep.FUNDS) {
-            if (!host.openExternal(MillidaPaid.WALLET_URL)) host.notice("Не открылся кошелёк — пополни его на millida.net", true)
+            if (!host.openExternal(MillidaPaid.WALLET_URL)) host.notice("Could not open the wallet. Top up at millida.net.", true)
             return
         }
         mutable.update { it.copy(buy = ask.copy(busy = true)) }
@@ -661,14 +665,14 @@ class MillidaShelfModel(
                 }
                 val attempt = buyKey ?: MillidaCatalog.newIdempotencyKey().also { buyKey = it }
                 withContext(Dispatchers.IO) { api.buy(ask.slug, attempt, ask.priceKopecks) }
-                owned(ask.slug, "Куплено")
+                owned(ask.slug, "Purchased")
             } catch (cancelled: CancellationException) {
                 mutable.update { it.copy(buy = it.buy?.copy(busy = false)) }
                 throw cancelled
             } catch (error: Throwable) {
                 mutable.update { it.copy(buy = it.buy?.copy(busy = false)) }
                 if (MillidaPaid.transient(error)) {
-                    host.notice("Millida не ответила — повтори, второй раз не спишем", true)
+                    host.notice("Millida did not respond. Try again; you will not be charged twice.", true)
                     return@launch
                 }
                 buyKey = null
@@ -682,7 +686,7 @@ class MillidaShelfModel(
             PaidVerdict.LOGIN -> {
                 afterOwned.remove(ask.slug)
                 mutable.update { it.copy(buy = null) }
-                host.notice("Войди в аккаунт Millida — покупки хранятся в нём", true)
+                host.notice("Sign in to Millida. Purchases are linked to your account.", true)
                 host.signIn()
             }
             PaidVerdict.FUNDS -> {
@@ -693,11 +697,11 @@ class MillidaShelfModel(
                 refreshAccess(ask.slug)
                 mutable.update { it.copy(buy = it.buy?.copy(repriced = true)) }
             }
-            PaidVerdict.OWNED -> owned(ask.slug, "Уже куплено")
+            PaidVerdict.OWNED -> owned(ask.slug, "Already purchased")
             else -> {
                 afterOwned.remove(ask.slug)
                 mutable.update { it.copy(buy = null) }
-                val fallback = if (ask.pricing == Pricing.SUBSCRIPTION) "Не удалось оформить подписку" else "Не удалось купить"
+                val fallback = if (ask.pricing == Pricing.SUBSCRIPTION) "Could not start the subscription" else "Could not complete the purchase"
                 host.notice(MillidaPaid.verdictText(verdict) ?: "$fallback: ${host.errorText(error).lowerFirst()}", true)
             }
         }
@@ -713,11 +717,11 @@ class MillidaShelfModel(
 
     private fun openPayment(url: String): Boolean {
         if (!MillidaPaid.isPaymentUrl(url)) {
-            host.notice("Ссылка на оплату не прошла проверку — оплати на millida.net", true)
+            host.notice("The payment link could not be verified. Complete payment at millida.net.", true)
             return false
         }
         if (!host.openExternal(url)) {
-            host.notice("Не открылась страница оплаты — оплати на millida.net", true)
+            host.notice("Could not open the payment page. Complete payment at millida.net.", true)
             return false
         }
         return true
@@ -756,7 +760,7 @@ class MillidaShelfModel(
                     if (open) {
                         val plain = slug.removePrefix(PREMIUM_MARK)
                         mutable.update { it.copy(waiting = it.waiting - slug, access = it.access + (plain to true)) }
-                        host.notice("Подписка оформлена", false)
+                        host.notice("Subscription started.", false)
                         if (mutable.value.purchases != null) loadPurchases()
                         afterOwned.remove(slug)?.invoke()
                     }
@@ -802,7 +806,7 @@ class MillidaShelfModel(
             try {
                 withContext(Dispatchers.IO) { api.redeem(ask.slug, code) }
                 mutable.update { it.copy(key = null, access = it.access + (ask.slug to true)) }
-                host.notice("Ключ принят — ставим сборку", false)
+                host.notice("Key accepted. Installing build.", false)
                 installOwnPack(ask.slug, ask.title)
             } catch (cancelled: CancellationException) {
                 mutable.update { it.copy(key = it.key?.copy(busy = false)) }
@@ -817,7 +821,7 @@ class MillidaShelfModel(
     fun buyOnSellerPage() {
         val ask = mutable.value.key ?: return
         val link = MillidaPaid.packBuyLink(ask.buyUrl, ask.slug) ?: return
-        if (!host.openExternal(link)) host.notice("Не открылась страница продавца — купи сборку на millida.net", true)
+        if (!host.openExternal(link)) host.notice("Could not open the seller page. Get the build at millida.net.", true)
     }
 
     fun subscribePlan(plan: PremiumPlan) {
@@ -837,7 +841,7 @@ class MillidaShelfModel(
                 throw cancelled
             } catch (error: Throwable) {
                 mutable.update { it.copy(key = it.key?.copy(busy = false)) }
-                host.notice("Оплата не открылась: ${host.errorText(error).lowerFirst()}", true)
+                host.notice("Could not open the payment page: ${host.errorText(error).lowerFirst()}", true)
             }
         }
     }
@@ -872,7 +876,7 @@ class MillidaShelfModel(
     }
 
     fun openOnSite(section: String, slug: String) {
-        if (!host.openExternal("https://millida.net/$section/$slug")) host.notice("Не открылся сайт — зайди на millida.net", true)
+        if (!host.openExternal("https://millida.net/$section/$slug")) host.notice("Could not open the website. Visit millida.net.", true)
     }
 
     fun waiting(slug: String): Boolean = slug in mutable.value.waiting

@@ -52,8 +52,6 @@ private fun accentTone(accent: Color): WaveTone = WaveTone(
 )
 
 private fun toneOf(screen: Screen, accent: Color): WaveTone = when (screen) {
-    Screen.SHOP -> WaveTone(MillidaPixel.shopBand, MillidaPixel.shopPlate)
-    Screen.PREMIUM -> WaveTone(MillidaPixel.dailyBand, MillidaPixel.dailyPlate)
     Screen.SKINS -> WaveTone(MillidaPixel.wardrobeBand, MillidaPixel.wardrobePlate)
     Screen.FRIENDS, Screen.CHAT -> WaveTone(MillidaPixel.socialWave, MillidaPixel.socialWaveFlash)
     Screen.HOSTING, Screen.HOSTING_MANAGE -> WaveTone(MillidaPixel.hostingWave, MillidaPixel.hostingWaveFlash)

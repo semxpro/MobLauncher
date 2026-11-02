@@ -71,12 +71,12 @@ internal fun LazyListScope.millidaShelf(
     onPrimary: (MillidaCard) -> Unit,
     onMore: () -> Unit,
     onRetry: () -> Unit,
-    onPurchases: () -> Unit,
     onFilters: (MillidaFilters) -> Unit,
     onShowAll: () -> Unit,
 ) {
+    val freeItems = shelf.items.filterNot { it.paid || it.premium }
     item(key = "millida-head") {
-        MSectionHeader(title = "Сборки Millida", action = "Мои покупки", onAction = onPurchases)
+        MSectionHeader(title = "Millida builds")
     }
     item(key = "millida-filters") {
         MillidaFilterBar(
@@ -87,15 +87,15 @@ internal fun LazyListScope.millidaShelf(
         )
     }
     when {
-        shelf.items.isEmpty() && shelf.loading -> items(3, key = { "millida-skeleton-$it" }) { MSkeletonRow() }
-        shelf.items.isEmpty() && shelf.error != null -> item(key = "millida-error") {
+        freeItems.isEmpty() && shelf.loading -> items(3, key = { "millida-skeleton-$it" }) { MSkeletonRow() }
+        freeItems.isEmpty() && shelf.error != null -> item(key = "millida-error") {
             MErrorCard(message = shelf.error, onRetry = onRetry)
         }
-        shelf.items.isEmpty() -> item(key = "millida-empty") {
+        freeItems.isEmpty() -> item(key = "millida-empty") {
             CatalogEmpty(searching = shelf.query.isNotBlank() || shelf.filters.active, onShowAll = onShowAll)
         }
     }
-    items(shelf.items, key = { "millida:${it.slug}" }, contentType = { "millida-card" }) { card ->
+    items(freeItems, key = { "millida:${it.slug}" }, contentType = { "millida-card" }) { card ->
         MillidaPackCard(
             card = card,
             bought = shelf.open(card),
@@ -110,10 +110,10 @@ internal fun LazyListScope.millidaShelf(
     when {
         shelf.loadingMore -> item(key = "millida-more-loading") { MSkeletonRow() }
         shelf.more -> item(key = "millida-more") {
-            MTextButton(text = "Показать ещё", onClick = onMore, modifier = Modifier.fillMaxWidth(), color = millida.accentText)
+            MTextButton(text = "Show more", onClick = onMore, modifier = Modifier.fillMaxWidth(), color = millida.accentText)
         }
     }
-    item(key = "foreign-head") { MSectionHeader(title = "Modrinth и CurseForge") }
+    item(key = "foreign-head") { MSectionHeader(title = "Modrinth and CurseForge") }
 }
 
 @Composable
@@ -146,7 +146,7 @@ private fun MillidaPackCard(
             Column(Modifier.weight(1f)) {
                 Text(card.title, style = MillidaType.rowTitle, color = colors.fg, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 if (card.author.isNotBlank()) {
-                    Text("от ${card.author}", style = MillidaType.small, color = colors.fgFaint, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text("by ${card.author}", style = MillidaType.small, color = colors.fgFaint, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
                 if (card.summary.isNotBlank()) {
                     Spacer(Modifier.height(4.dp))
@@ -169,7 +169,7 @@ private fun MillidaPackCard(
             }
             Spacer(Modifier.width(8.dp))
             when {
-                job != null -> MButton(text = percentText(job.progress) ?: "Ставим", onClick = {}, size = MButtonSize.Small, loading = true)
+                job != null -> MButton(text = percentText(job.progress) ?: "Installing", onClick = {}, size = MButtonSize.Small, loading = true)
                 locked -> MPrimaryButton(
                     text = if (waiting) "Ждём оплату" else MillidaPaid.buyLabel(card.pricing),
                     onClick = onPrimary,
@@ -178,7 +178,7 @@ private fun MillidaPackCard(
                     size = MButtonSize.Small,
                 )
                 else -> MPrimaryButton(
-                    text = "Установить",
+                    text = "Install",
                     onClick = onPrimary,
                     enabled = !busy,
                     icon = MIcons.download,
@@ -218,6 +218,7 @@ internal fun MillidaDetailSheet(
     onSite: () -> Unit,
 ) {
     val colors = millida
+    val paidUnavailable = detail.paid || detail.premium
     MBottomSheet(onDismiss = onDismiss) {
         detail.cover?.takeIf { it.isNotBlank() }?.let { cover ->
             MRemoteImage(
@@ -237,7 +238,7 @@ internal fun MillidaDetailSheet(
                 Text(detail.title, style = MillidaType.dialogTitle, color = colors.fg, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 if (detail.author.isNotBlank()) {
                     Spacer(Modifier.height(2.dp))
-                    Text("от ${detail.author}", style = MillidaType.small, color = colors.fgFaint, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text("by ${detail.author}", style = MillidaType.small, color = colors.fgFaint, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
                 Spacer(Modifier.height(6.dp))
                 Row(
@@ -245,7 +246,7 @@ internal fun MillidaDetailSheet(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    PriceBadges(detail.paid, bought, MillidaPaid.priceTag(detail.pricing, detail.priceKopecks), detail.premium)
+                    if (!paidUnavailable) PriceBadges(false, bought, "", false)
                     if (detail.game.isNotBlank()) MBadge(detail.game, colors.fgMuted, colors.surface2)
                     if (detail.loader.isNotBlank()) MBadge(loaderName(detail.loader), colors.fgMuted, colors.surface2)
                     if (detail.sizeBytes > 0) MBadge(humanSize(detail.sizeBytes), colors.fgMuted, colors.surface2)
@@ -259,12 +260,14 @@ internal fun MillidaDetailSheet(
             Text(detail.summary, style = MillidaType.body, color = colors.fgMuted)
         }
         Spacer(Modifier.height(10.dp))
-        MTextButton(
-            text = "Открыть на сайте",
-            onClick = onSite,
-            modifier = Modifier.fillMaxWidth(),
-            trailingIcon = MIcons.externalLink,
-        )
+        if (!paidUnavailable) {
+            MTextButton(
+                text = "Open website",
+                onClick = onSite,
+                modifier = Modifier.fillMaxWidth(),
+                trailingIcon = MIcons.externalLink,
+            )
+        }
     }
 }
 
@@ -291,9 +294,10 @@ internal fun MillidaItemPage(
     modifier: Modifier = Modifier,
 ) {
     val colors = millida
+    val paidUnavailable = detail.paid || detail.premium
     val downloads = detail.card?.downloads ?: 0
     ItemPageFrame(
-        section = "Сборки Millida",
+        section = "Millida builds",
         cover = detail.cover?.takeIf { it.isNotBlank() },
         iconUrl = detail.icon ?: detail.cover,
         fallbackIcon = MIcons.chest,
@@ -307,19 +311,19 @@ internal fun MillidaItemPage(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (downloads > 0) DownloadsFact(downloads)
-                PriceBadges(detail.paid, bought, MillidaPaid.priceTag(detail.pricing, detail.priceKopecks), detail.premium)
+                if (!paidUnavailable) PriceBadges(false, bought, "", false)
             }
         },
         action = { MillidaDetailAction(detail, bought, waiting, signedIn, job, busy, onPrimary, onKey, onRetry) },
         aside = {
-            ItemAsideCard("Работает с") {
+            ItemAsideCard("Works with") {
                 MButtonRow {
                     if (detail.game.isNotBlank()) MBadge(detail.game, colors.fgMuted, colors.surface2)
                     if (detail.loader.isNotBlank()) MBadge(loaderName(detail.loader), colors.fgMuted, colors.surface2)
                     if (detail.sizeBytes > 0) MBadge(humanSize(detail.sizeBytes), colors.fgMuted, colors.surface2)
                 }
                 Spacer(Modifier.height(10.dp))
-                MTextButton(text = "На millida.net", onClick = onSite, icon = MIcons.externalLink)
+                if (!paidUnavailable) MTextButton(text = "Open website", onClick = onSite, icon = MIcons.externalLink)
             }
         },
         modifier = modifier,
@@ -328,7 +332,7 @@ internal fun MillidaItemPage(
             when {
                 detail.summary.isNotBlank() -> Text(detail.summary, style = MillidaType.body, color = colors.fgMuted)
                 detail.loading -> MSkeletonRow()
-                else -> Text("Без описания", style = MillidaType.body, color = colors.fgFaint)
+                else -> Text("No description", style = MillidaType.body, color = colors.fgFaint)
             }
         }
     }
@@ -363,15 +367,16 @@ private fun MillidaDetailAction(
             }
             detail.error != null -> MErrorCard(message = detail.error, onRetry = onRetry)
             refusal != null -> PhoneOnlyNote(refusal)
-            job != null -> MBusyCard(label = "Ставим «${job.title}»", progress = job.progress, note = job.stage)
+            job != null -> MBusyCard(label = "Installing “${job.title}”", progress = job.progress, note = job.stage)
+            detail.paid || detail.premium -> MListRow(title = "Paid packs are not available", icon = MIcons.lock)
             else -> {
                 val needsSignIn = (detail.paid || detail.ownPack) && !signedIn
                 MPrimaryButton(
                     text = when {
-                        needsSignIn -> "Войти"
+                        needsSignIn -> "Sign in"
                         locked && waiting -> "Ждём оплату"
                         locked -> MillidaPaid.buyLabel(detail.pricing)
-                        else -> "Установить"
+                        else -> "Install"
                     },
                     onClick = onPrimary,
                     modifier = Modifier.fillMaxWidth(),
@@ -400,7 +405,7 @@ internal fun PhoneOnlyNote(text: String) {
             MIcon(MIcons.monitor, size = 20.dp, color = colors.warning)
             Spacer(Modifier.width(10.dp))
             Column(Modifier.weight(1f)) {
-                Text("Только на ПК", style = MillidaType.rowTitle, color = colors.fg)
+                Text("PC only", style = MillidaType.rowTitle, color = colors.fg)
                 Spacer(Modifier.height(4.dp))
                 Text(text, style = MillidaType.small, color = colors.fgMuted)
             }
@@ -411,10 +416,10 @@ internal fun PhoneOnlyNote(text: String) {
 @Composable
 internal fun PhoneRefusalDialog(refusal: PhoneRefusal, onDismiss: () -> Unit) {
     MDialog(
-        title = "Только на ПК",
+        title = "PC only",
         onDismiss = onDismiss,
         body = { Text(refusal.text, style = MillidaType.body, color = millida.fgMuted) },
-        actions = { MPrimaryButton(text = "Понятно", onClick = onDismiss) },
+        actions = { MPrimaryButton(text = "Got it", onClick = onDismiss) },
     )
 }
 

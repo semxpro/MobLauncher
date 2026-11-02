@@ -26,7 +26,6 @@ import net.millida.launcher.LauncherViewModel
 import net.millida.launcher.Screen
 import net.millida.launcher.UiState
 import net.millida.launcher.core.account.AccountKind
-import net.millida.launcher.core.portal.asRubles
 import net.millida.launcher.ui.media.shotsCount
 import net.millida.launcher.ui.settings.stepIn
 
@@ -54,7 +53,7 @@ fun MoreScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
     LaunchedEffect(Unit) { model.loadShotsCount() }
 
     val friends = HubEntry(
-        title = "Друзья",
+        title = "Friends",
         subtitle = friendsLine(state),
         icon = MIcons.users,
         screen = Screen.FRIENDS,
@@ -62,50 +61,50 @@ fun MoreScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
         alert = state.incomingRequests > 0,
     )
     val servers = HubEntry(
-        title = "Серверы",
-        subtitle = if (state.serversTotal > 0) "Серверов: ${state.serversTotal}" else "Топ серверов",
+        title = "Servers",
+        subtitle = if (state.serversTotal > 0) "Servers: ${state.serversTotal}" else "Top servers",
         icon = MIcons.map,
         screen = Screen.SERVERS,
     )
     val hosting = HubEntry(
-        title = "Хостинг",
-        subtitle = if (state.hosted.isNotEmpty()) "Моих: ${state.hosted.size}" else "Свой сервер",
+        title = "Hosting",
+        subtitle = if (state.hosted.isNotEmpty()) "My servers: ${state.hosted.size}" else "Your server",
         icon = MIcons.server,
         screen = Screen.HOSTING,
     )
     val cabinet = HubEntry(
-        title = "Кабинет",
-        subtitle = "Награды и новости",
+        title = "Rewards",
+        subtitle = "Achievements and news",
         icon = MIcons.trophy,
         screen = Screen.CABINET,
     )
     val packs = HubEntry(
-        title = "Коды сборок",
-        subtitle = if (state.myPacks.isNotEmpty()) "Моих: ${state.myPacks.size}" else "По коду или файлом",
+        title = "Build codes",
+        subtitle = if (state.myPacks.isNotEmpty()) "My builds: ${state.myPacks.size}" else "By code or file",
         icon = MIcons.chest,
         screen = Screen.PACKS,
     )
     val shots = HubEntry(
-        title = "Скриншоты",
-        subtitle = state.shotsAll?.takeIf { it > 0 }?.let(::shotsCount) ?: "Из игры",
+        title = "Screenshots",
+        subtitle = state.shotsAll?.takeIf { it > 0 }?.let(::shotsCount) ?: "From your game",
         icon = MIcons.image,
         screen = Screen.SCREENSHOTS,
     )
     val bedrock = HubEntry(
         title = "Bedrock",
-        subtitle = if (state.bedrockBridgeReady || state.bedrockOfficialReady) "Готов к игре" else "Порт 19132",
+        subtitle = if (state.bedrockBridgeReady || state.bedrockOfficialReady) "Ready to play" else "Port 19132",
         icon = MIcons.blocks,
         screen = Screen.BEDROCK,
     )
     val settings = HubEntry(
-        title = "Настройки",
-        subtitle = "Звук, тема, память",
+        title = "Settings",
+        subtitle = "Sound, theme, memory",
         icon = MIcons.settings,
         screen = Screen.SETTINGS,
     )
     val open: (HubEntry) -> Unit = { entry -> model.open(entry.screen) }
 
-    MScreen(modifier = modifier, title = "Ещё", spacing = HUB_GAP) {
+    MScreen(modifier = modifier, title = "More", spacing = HUB_GAP) {
         item(key = "more-account") {
             AccountPlate(state, onOpen = { model.open(Screen.ACCOUNT) }, modifier = stepIn())
         }
@@ -133,13 +132,6 @@ fun MoreScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
                 SlotTile(settings, open, Modifier.weight(1f))
             }
         }
-        item(key = "more-premium") {
-            SlotTile(
-                HubEntry(title = "Премиум", subtitle = "Платные сборки", icon = MIcons.crown, screen = Screen.PREMIUM),
-                open,
-                stepIn(),
-            )
-        }
         item(key = "more-version") {
             Text(
                 "Millida Mobile ${state.appVersion}",
@@ -157,12 +149,12 @@ fun MoreScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
 private fun friendsLine(state: UiState): String {
     val online = state.friends.count { it.online || it.playing }
     return when {
-        !state.millidaSignedIn -> "Нужен вход"
-        state.incomingRequests > 0 -> "Заявки: ${state.incomingRequests}"
-        state.unreadMessages > 0 -> "Новые: ${state.unreadMessages}"
-        online > 0 -> "В сети: $online"
-        state.friends.isNotEmpty() -> "Друзей: ${state.friends.size}"
-        else -> "Позови в игру"
+        !state.millidaSignedIn -> "Sign in required"
+        state.incomingRequests > 0 -> "Requests: ${state.incomingRequests}"
+        state.unreadMessages > 0 -> "Unread: ${state.unreadMessages}"
+        online > 0 -> "Online: $online"
+        state.friends.isNotEmpty() -> "Friends: ${state.friends.size}"
+        else -> "Invite friends to play"
     }
 }
 
@@ -181,7 +173,7 @@ private fun AccountPlate(state: UiState, onOpen: () -> Unit, modifier: Modifier)
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
                 Text(
-                    nick ?: "Гость",
+                    nick ?: "Guest",
                     style = MillidaType.pixel.copy(fontSize = 17.sp, lineHeight = 20.sp),
                     color = colors.fg,
                     maxLines = 1,
@@ -189,14 +181,9 @@ private fun AccountPlate(state: UiState, onOpen: () -> Unit, modifier: Modifier)
                 )
                 Spacer(Modifier.height(4.dp))
                 when {
-                    expired -> PlateLine("Вход истёк — войди заново", colors.danger)
-                    portal != null -> Row(verticalAlignment = Alignment.CenterVertically) {
-                        MIcon(MIcons.wallet, size = 14.dp)
-                        Spacer(Modifier.width(6.dp))
-                        PlateLine(portal.balanceKopecks.asRubles(), colors.fgSubtle)
-                    }
+                    expired -> PlateLine("Session expired — sign in again", colors.danger)
                     account != null -> PlateLine(kindLine(account.kind), colors.fgSubtle)
-                    else -> PlateLine("Войди или добавь аккаунт", colors.accentText)
+                    else -> PlateLine("Sign in or add an account", colors.accentText)
                 }
             }
             Spacer(Modifier.width(10.dp))
@@ -217,9 +204,9 @@ private fun PlateLine(text: String, color: Color) {
 }
 
 private fun kindLine(kind: AccountKind): String = when (kind) {
-    AccountKind.MILLIDA -> "Аккаунт Millida"
-    AccountKind.MICROSOFT -> "Лицензия Microsoft"
-    AccountKind.OFFLINE -> "Игра без входа"
+    AccountKind.MILLIDA -> "Millida account"
+    AccountKind.MICROSOFT -> "Microsoft account"
+    AccountKind.OFFLINE -> "Offline play"
 }
 
 @Composable

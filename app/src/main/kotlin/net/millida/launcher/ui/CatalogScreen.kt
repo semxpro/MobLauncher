@@ -70,7 +70,6 @@ import net.millida.launcher.ui.catalog.AiBuilderSheet
 import net.millida.launcher.ui.catalog.MillidaDetailSheet
 import net.millida.launcher.ui.catalog.MillidaItemPage
 import net.millida.launcher.ui.catalog.MillidaShelfModel
-import net.millida.launcher.ui.catalog.PurchasesSheet
 import net.millida.launcher.ui.catalog.millidaContentShelf
 import net.millida.launcher.ui.catalog.millidaShelf
 
@@ -152,7 +151,7 @@ fun CatalogScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
         MField(
             value = cs.query,
             onValueChange = catalog::setQuery,
-            placeholder = "Поиск по разделу «${cs.tab.label}»",
+            placeholder = "Search ${cs.tab.label}",
             leadingIcon = MIcons.search,
             clearable = true,
             imeAction = ImeAction.Search,
@@ -174,21 +173,21 @@ fun CatalogScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
     val scopeLine: @Composable () -> Unit = {
         if (kind != null && target != null) {
             MChip(
-                text = "Для «${target.name}» · ${CatalogModel.buildLabel(kind, target)}",
+                text = "For “${target.name}” · ${CatalogModel.buildLabel(kind, target)}",
                 selected = true,
                 onClick = { picking = true },
                 icon = MIcons.box,
             )
         } else if (cs.tab == CatalogTab.MAPS && target != null) {
             MChip(
-                text = "Для «${target.name}» · ${target.gameVersion}",
+                text = "For “${target.name}” · ${target.gameVersion}",
                 selected = true,
                 onClick = { picking = true },
                 icon = MIcons.box,
             )
         } else if (kind == null && cs.tab.foreign) {
             Text(
-                "Fabric, Quilt, Forge и NeoForge · каждая встаёт отдельной сборкой",
+                "Fabric, Quilt, Forge, and NeoForge · each uses a separate build",
                 style = MillidaType.small,
                 color = millida.fgFaint,
                 maxLines = 1,
@@ -215,12 +214,12 @@ fun CatalogScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
         )
     }
     val aiRow: @Composable () -> Unit = {
-        MListRow(title = "Собрать с ИИ", icon = MIcons.sparkle, onClick = aiBuilder::open)
+        MListRow(title = "Build with AI", icon = MIcons.sparkle, onClick = aiBuilder::open)
     }
     val results: LazyListScope.() -> Unit = {
         cs.modpack?.let { job ->
             item(key = "modpack-job") {
-                MBusyCard(label = "Ставим «${job.title}»", progress = job.progress, note = job.stage)
+                MBusyCard(label = "Installing “${job.title}”", progress = job.progress, note = job.stage)
             }
         }
         if (showsMillida) {
@@ -231,7 +230,6 @@ fun CatalogScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                 onPrimary = shelf::primary,
                 onMore = shelf::loadMore,
                 onRetry = shelf::reload,
-                onPurchases = shelf::openPurchases,
                 onFilters = shelf::setFilters,
                 onShowAll = {
                     catalog.setQuery("")
@@ -248,7 +246,6 @@ fun CatalogScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                 onInstall = content::install,
                 onMore = content::loadMore,
                 onRetry = content::reload,
-                onPurchases = shelf::openPurchases,
                 onFilters = content::setFilters,
                 onShowAll = {
                     catalog.setQuery("")
@@ -271,16 +268,16 @@ fun CatalogScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
             noMods -> item(key = "no-mods") {
                 MEmptyState(
                     icon = MIcons.box,
-                    title = "Сборка без модов",
-                    actionText = "Выбрать сборку",
+                    title = "Build has no mods",
+                    actionText = "Choose build",
                     onAction = { picking = true },
                 )
             }
             needsBuild -> item(key = "no-build") {
                 MEmptyState(
                     icon = MIcons.chest,
-                    title = "Сначала нужна сборка",
-                    actionText = "Готовые сборки",
+                    title = "Create a build first",
+                    actionText = "Browse builds",
                     onAction = { catalog.setTab(CatalogTab.MODPACKS) },
                     actionIcon = MIcons.chest,
                 )
@@ -294,8 +291,8 @@ fun CatalogScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                 val searching = cs.query.isNotBlank()
                 MEmptyState(
                     icon = if (searching) MIcons.search else cs.tab.icon,
-                    title = if (searching) "Ничего не нашлось" else "Здесь пока пусто",
-                    actionText = if (searching) "Показать весь раздел" else null,
+                    title = if (searching) "No results found" else "Nothing here yet",
+                    actionText = if (searching) "Show entire section" else null,
                     onAction = if (searching) ({ catalog.setQuery("") }) else null,
                     primary = false,
                 )
@@ -318,7 +315,7 @@ fun CatalogScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                     installed = intoBuild && cs.installed.find(item) != null,
                     job = cs.jobs[item.key],
                     modpackJob = cs.modpack?.takeIf { it.key == item.key },
-                    installLabel = if (intoBuild) "В сборку" else "Установить",
+                    installLabel = if (intoBuild) "Add to build" else "Install",
                     installIcon = if (intoBuild) MIcons.plus else MIcons.download,
                     onNewBuild = cs.tab.kind
                         ?.let { contentKind -> MillidaKind.entries.firstOrNull { it.content == contentKind }?.id }
@@ -414,7 +411,7 @@ fun CatalogScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
     } else {
         MScreen(
             modifier = modifier.imePadding(),
-            title = "Каталог",
+            title = "Catalog",
             listState = listState,
         ) {
             item(key = "search") { searchField() }
@@ -503,18 +500,6 @@ fun CatalogScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
         )
     }
 
-    if (ms.purchasesOpen) {
-        PurchasesSheet(
-            shelf = ms,
-            signedIn = state.millidaSignedIn,
-            onSignIn = model::loginMillida,
-            onRetry = shelf::loadPurchases,
-            onOpen = shelf::openPurchase,
-            onSite = { purchase -> purchase.section?.let { shelf.openOnSite(it, purchase.slug) } },
-            onDismiss = shelf::closePurchases,
-        )
-    }
-
     cs.dependencies?.let { ask ->
         DependencySheet(
             ask = ask,
@@ -526,9 +511,9 @@ fun CatalogScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
 
     removing?.let { item ->
         MConfirmDialog(
-            title = "Удалить «${item.title}»?",
-            text = target?.let { "Файл уйдёт из сборки «${it.name}»" },
-            confirm = "Удалить",
+            title = "Remove “${item.title}”?",
+            text = target?.let { "The file will be removed from “${it.name}”." },
+            confirm = "Remove",
             onConfirm = {
                 removing = null
                 catalog.remove(item)
@@ -547,7 +532,7 @@ internal fun CatalogCard(
     installed: Boolean = false,
     job: ItemJob? = null,
     modpackJob: ModpackJob? = null,
-    installLabel: String = "Поставить",
+    installLabel: String = "Install",
     icon: MillidaIcon = MIcons.box,
     cover: String? = null,
     onRemove: (() -> Unit)? = null,
@@ -581,7 +566,7 @@ internal fun CatalogCard(
                 )
                 if (item.author.isNotBlank()) {
                     Text(
-                        "от ${item.author}",
+                        "by ${item.author}",
                         style = MillidaType.small,
                         color = colors.fgFaint,
                         maxLines = 1,
@@ -611,7 +596,7 @@ internal fun CatalogCard(
             ) {
                 DownloadsFact(item.downloads)
                 if (installed) {
-                    MBadge("Установлено", colors.accentText, colors.accentSoft, icon = MIcons.check)
+                    MBadge("Installed", colors.accentText, colors.accentSoft, icon = MIcons.check)
                 } else {
                     MBadge(item.source.label, colors.info, colors.infoSoft)
                 }
@@ -619,18 +604,18 @@ internal fun CatalogCard(
             Spacer(Modifier.width(8.dp))
             when {
                 modpackJob != null -> MButton(
-                    text = percentOf(modpackJob.progress) ?: "Ставим",
+                    text = percentOf(modpackJob.progress) ?: "Installing",
                     onClick = {},
                     size = MButtonSize.Small,
                     loading = true,
                 )
                 job != null -> MButton(
-                    text = if (job.action == ItemAction.REMOVE) "Удаляем" else percentOf(job.progress) ?: "Ставим",
+                    text = if (job.action == ItemAction.REMOVE) "Removing" else percentOf(job.progress) ?: "Installing",
                     onClick = {},
                     size = MButtonSize.Small,
                     loading = true,
                 )
-                installed && onRemove != null -> MDangerButton(text = "Удалить", onClick = onRemove, icon = MIcons.trash)
+                installed && onRemove != null -> MDangerButton(text = "Remove", onClick = onRemove, icon = MIcons.trash)
                 installed -> Unit
                 else -> MPrimaryButton(
                     text = installLabel,
@@ -643,7 +628,7 @@ internal fun CatalogCard(
         }
         if (onNewBuild != null && job == null && modpackJob == null && !installed) {
             Spacer(Modifier.height(8.dp))
-            MSecondaryButton(text = "Новая сборка", onClick = onNewBuild, modifier = Modifier.fillMaxWidth(), size = MButtonSize.Small)
+            MSecondaryButton(text = "New build", onClick = onNewBuild, modifier = Modifier.fillMaxWidth(), size = MButtonSize.Small)
         }
         if (modpackJob != null || job?.action == ItemAction.INSTALL) {
             Spacer(Modifier.height(10.dp))
@@ -669,7 +654,7 @@ private fun PackFilters(
     onLoader: (LoaderKind) -> Unit,
 ) {
     MCard(contentPadding = 12.dp) {
-        MSectionTitle("ВЕРСИЯ")
+        MSectionTitle("VERSION")
         Spacer(Modifier.height(8.dp))
         MButtonRow {
             CatalogModel.PACK_VERSIONS.forEach { option ->
@@ -677,7 +662,7 @@ private fun PackFilters(
             }
         }
         Spacer(Modifier.height(14.dp))
-        MSectionTitle("ЗАГРУЗЧИК")
+        MSectionTitle("LOADER")
         Spacer(Modifier.height(8.dp))
         MButtonRow {
             ModpackLoader.PHONE_LOADERS.forEach { option ->

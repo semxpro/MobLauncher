@@ -105,16 +105,12 @@ fun HostingBuySheet(
 
     LaunchedEffect(Unit) {
         hosting.loadPlans()
-        hosting.loadBalance()
     }
     LaunchedEffect(choosingMap, mapQuery) {
         if (choosingMap) hosting.searchMaps(mapQuery)
     }
 
-    val topUp: () -> Unit = {
-        hosting.awaitTopUp()
-        model.openLinkOrNotice(context, model.topUpUrl())
-    }
+    val unavailable: () -> Unit = { model.notice("This hosting plan is not available for free.", isError = true) }
 
     fun order(plan: HostingPlan) {
         if (upgrade) {
@@ -125,7 +121,7 @@ fun HostingBuySheet(
                     feedback.play(UiSoundEvent.Achievement)
                     onDismiss()
                 },
-                onNoFunds = topUp,
+                onNoFunds = unavailable,
             )
         } else {
             if (plan.free) gatePlan = plan
@@ -139,23 +135,20 @@ fun HostingBuySheet(
                     onDismiss()
                     model.openHostedServer(server.id)
                 },
-                onNoFunds = topUp,
+                onNoFunds = unavailable,
             )
         }
     }
 
-    val downgrade: (HostingPlan) -> Boolean = { plan -> upgrade && (plan.free || plan.priceKopecks < currentPriceKopecks) }
+    val downgrade: (HostingPlan) -> Boolean = { plan -> upgrade && !plan.free && plan.priceKopecks < currentPriceKopecks }
     val taken: (HostingPlan) -> Boolean = { plan ->
         (currentCode.isNotEmpty() && plan.code == currentCode) || (!upgrade && plan.free && freeServer != null) || downgrade(plan)
     }
-    val open = panel.plans.filterNot(taken)
+    val freePlans = panel.plans.filter { it.free }
+    val open = freePlans.filterNot(taken)
     val mainCode = when {
-        upgrade -> {
-            val higher = open.filter { it.priceKopecks > currentPriceKopecks }
-            (higher.firstOrNull { it.featured } ?: higher.minByOrNull { it.priceKopecks })?.code
-        }
-        road == HostingBuyRoad.Paid -> (open.firstOrNull { !it.free && it.featured } ?: open.firstOrNull { !it.free } ?: open.firstOrNull())?.code
-        road == HostingBuyRoad.Free -> (open.firstOrNull { it.free } ?: open.firstOrNull())?.code
+        upgrade -> open.firstOrNull()?.code
+        road == HostingBuyRoad.Paid || road == HostingBuyRoad.Free -> open.firstOrNull()?.code
         else -> open.firstOrNull()?.code
     }
     val dueOf: (HostingPlan) -> Long = { plan ->
@@ -226,18 +219,16 @@ fun HostingBuySheet(
             Spacer(Modifier.height(16.dp))
         }
 
-        BalanceRow(panel.balanceKopecks, onTopUp = topUp)
-        Spacer(Modifier.height(12.dp))
-
         val plansError = panel.plansError
         when {
-            panel.plans.isEmpty() && plansError != null -> MErrorCard(plansError, onRetry = { hosting.loadPlans(force = true) })
-            panel.plans.isEmpty() -> Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            freePlans.isEmpty() && plansError != null -> MErrorCard(plansError, onRetry = { hosting.loadPlans(force = true) })
+            freePlans.isEmpty() && panel.plans.isEmpty() -> Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 repeat(3) { MSkeleton(height = 150.dp) }
             }
+            freePlans.isEmpty() -> MErrorCard("No free hosting plans are available.", onRetry = { hosting.loadPlans(force = true) })
 
             else -> Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                panel.plans.forEach { plan ->
+                freePlans.forEach { plan ->
                     val current = currentCode.isNotEmpty() && plan.code == currentCode
                     val blocked = when {
                         current -> null
@@ -255,7 +246,7 @@ fun HostingBuySheet(
                         busy = panel.buying == plan.code,
                         locked = panel.buying != null,
                         onPick = {
-                            if (plan.free && !upgrade) {
+                            if (plan.free) {
                                 order(plan)
                             } else {
                                 confirm = plan
@@ -318,32 +309,6 @@ fun HostingBuySheet(
             )
             Spacer(Modifier.height(4.dp))
         }
-    }
-}
-
-@Composable
-private fun BalanceRow(balanceKopecks: Long?, onTopUp: () -> Unit) {
-    val colors = millida
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .heightIn(min = 52.dp)
-            .pixelSurface(colors.inset, MillidaCut.control, colors.wellFrame())
-            .padding(start = 12.dp, end = 4.dp, top = 2.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        MIcon(MIcons.wallet, size = 20.dp)
-        Spacer(Modifier.width(10.dp))
-        Column(Modifier.weight(1f)) {
-            Text("Баланс Millida", style = MillidaType.small.copy(fontSize = 11.5.sp), color = colors.fgSubtle, maxLines = 1)
-            Text(
-                balanceKopecks?.let(::hostingRubles) ?: "—",
-                style = MillidaType.pixel,
-                color = colors.fg,
-                maxLines = 1,
-            )
-        }
-        MTextButton("Пополнить", onClick = onTopUp, icon = MIcons.plus, color = colors.accentText)
     }
 }
 

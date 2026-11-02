@@ -5,9 +5,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -29,16 +27,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import net.millida.launcher.LauncherViewModel
-import net.millida.launcher.ShopSection
 import net.millida.launcher.UiState
 import net.millida.launcher.core.account.Account
 import net.millida.launcher.core.account.AccountKind
 import net.millida.launcher.core.media.UiSoundEvent
 import net.millida.launcher.ui.AccountAddSheet
 import net.millida.launcher.ui.MAvatar
-import net.millida.launcher.ui.MBottomSheet
 import net.millida.launcher.ui.MButtonSize
 import net.millida.launcher.ui.MConfirmDialog
 import net.millida.launcher.ui.MDivider
@@ -53,7 +48,6 @@ import net.millida.launcher.ui.millida
 import net.millida.launcher.ui.pixelSurface
 import net.millida.launcher.ui.plateFrame
 import net.millida.launcher.ui.rememberPressed
-import net.millida.launcher.ui.shop.PlusOffer
 import net.millida.launcher.ui.social.avatarFor
 import net.millida.launcher.ui.swallowTaps
 
@@ -62,8 +56,8 @@ internal val ACCOUNT_MENU_WIDTH = 300.dp
 /**
  * The desktop's account menu (`AccountMenu.tsx`) under the lobby's account
  * plate: the accounts to switch between with a way out of each, then
- * «Millida Plus» and «Добавить аккаунт». The account screen with the nick,
- * the links and the privacy stays behind «Ещё», as on the phone.
+ * "Add account". The account screen with the nickname, links, and privacy
+ * remains behind "More", as on the phone.
  */
 @Composable
 internal fun LobbyAccountMenu(
@@ -74,10 +68,8 @@ internal fun LobbyAccountMenu(
     modifier: Modifier = Modifier,
 ) {
     val colors = millida
-    val shop by model.shop.state.collectAsStateWithLifecycle()
     var removing by remember { mutableStateOf<Account?>(null) }
     var adding by remember { mutableStateOf(false) }
-    var plusOpen by remember { mutableStateOf(false) }
     val active = state.account
     val expired = state.sessionExpired
 
@@ -91,14 +83,14 @@ internal fun LobbyAccountMenu(
             .padding(12.dp),
     ) {
         Text(
-            "АККАУНТЫ",
+            "ACCOUNTS",
             modifier = Modifier.padding(start = 6.dp, top = 2.dp, bottom = 10.dp),
             style = MillidaType.caption.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.05.em),
             color = colors.fgSubtle,
         )
         if (state.accounts.isEmpty()) {
             Text(
-                "Пока нет аккаунтов",
+                "No accounts yet",
                 modifier = Modifier.padding(8.dp),
                 style = MillidaType.small,
                 color = colors.fgFaint,
@@ -117,29 +109,15 @@ internal fun LobbyAccountMenu(
                         onClose()
                         if (account.kind == AccountKind.MICROSOFT) model.loginMicrosoft() else model.loginMillida()
                     } else if (!current) {
-                        model.notice("Активный аккаунт: ${account.nick}")
+                        model.notice("Active account: ${account.nick}")
                     }
                 },
                 onRemove = { removing = account },
             )
         }
         MDivider(Modifier.padding(horizontal = 4.dp, vertical = 8.dp))
-        if (state.millidaSignedIn) {
-            MSecondaryButton(
-                "Millida Plus",
-                onClick = {
-                    if (shop.plus.data == null) model.shop.retry(ShopSection.PLUS)
-                    if (shop.daily.data == null) model.shop.retry(ShopSection.DAILY)
-                    plusOpen = true
-                },
-                modifier = Modifier.fillMaxWidth(),
-                icon = MIcons.crown,
-                size = MButtonSize.Small,
-            )
-            Spacer(Modifier.height(6.dp))
-        }
         MSecondaryButton(
-            "Добавить аккаунт",
+            "Add account",
             onClick = { adding = true },
             modifier = Modifier.fillMaxWidth(),
             icon = MIcons.plus,
@@ -149,13 +127,13 @@ internal fun LobbyAccountMenu(
 
     removing?.let { target ->
         MConfirmDialog(
-            title = "Выйти из аккаунта «${target.nick}»?",
+            title = "Remove account “${target.nick}”?",
             text = if (target.kind == AccountKind.MILLIDA) {
-                "Друзья, кошелёк и скины будут недоступны до нового входа"
+                "Friends and skins will be unavailable until you sign in again"
             } else {
-                "Вернуть можно новым входом"
+                "You can add the account again by signing in"
             },
-            confirm = "Выйти",
+            confirm = "Remove",
             onConfirm = {
                 removing = null
                 model.removeAccount(target)
@@ -168,17 +146,6 @@ internal fun LobbyAccountMenu(
         AccountAddSheet(state, model, onDismiss = { adding = false })
     }
 
-    if (plusOpen) {
-        MBottomSheet(onDismiss = { plusOpen = false }, title = "Подписка PLUS") {
-            PlusOffer(
-                plus = shop.plus.data,
-                daily = shop.daily.data,
-                busy = shop.isBusy("plus"),
-                onSubscribe = model.shop::subscribePlus,
-                onManage = model.shop::managePlus,
-            )
-        }
-    }
 }
 
 @Composable
@@ -217,7 +184,7 @@ private fun AccountMenuRow(
                 overflow = TextOverflow.Ellipsis,
             )
             Text(
-                if (lost) "Войти заново" else accountKindLabel(account.kind),
+                if (lost) "Sign in again" else accountKindLabel(account.kind),
                 style = MillidaType.small.copy(fontSize = 11.sp, fontWeight = if (lost) FontWeight.Bold else FontWeight.Normal),
                 color = if (lost) colors.danger else colors.fgSubtle,
                 maxLines = 1,
@@ -228,7 +195,7 @@ private fun AccountMenuRow(
         MIconButton(
             MIcons.trash,
             onClick = onRemove,
-            label = "Выйти из аккаунта ${account.nick}",
+            label = "Remove account ${account.nick}",
             background = Color.Transparent,
         )
     }

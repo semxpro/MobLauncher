@@ -43,12 +43,12 @@ import java.util.concurrent.atomic.AtomicLong
 import kotlin.math.roundToInt
 
 enum class CatalogTab(val label: String, val section: CatalogSection) {
-    MODS("Моды", CatalogSection.MOD),
-    MODPACKS("Сборки", CatalogSection.MODPACK),
-    RESOURCE_PACKS("Ресурс-паки", CatalogSection.RESOURCE_PACK),
-    SHADERS("Шейдеры", CatalogSection.SHADER),
-    DATA_PACKS("Дата-паки", CatalogSection.DATA_PACK),
-    MAPS("Карты", CatalogSection.WORLD);
+    MODS("Mods", CatalogSection.MOD),
+    MODPACKS("Modpacks", CatalogSection.MODPACK),
+    RESOURCE_PACKS("Resource packs", CatalogSection.RESOURCE_PACK),
+    SHADERS("Shaders", CatalogSection.SHADER),
+    DATA_PACKS("Data packs", CatalogSection.DATA_PACK),
+    MAPS("Maps", CatalogSection.WORLD);
 
     val kind: ContentKind? get() = section.kind
 

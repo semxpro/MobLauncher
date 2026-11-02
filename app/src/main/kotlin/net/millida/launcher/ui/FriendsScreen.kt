@@ -74,14 +74,14 @@ private const val TOP_RANKS = 3
 
 private const val OFFLINE_HOURS_SHARE = 0.55f
 
-/** "Сейчас" groups by where friends are; "Часы" ranks them by hours played, the desktop sort switch. */
-private enum class FriendsView(val title: String) { NOW("Сейчас"), HOURS("Часы") }
+/** "Now" groups friends by their current activity; "Hours" sorts by play time. */
+private enum class FriendsView(val title: String) { NOW("Now"), HOURS("Hours") }
 
 private fun FriendsTab.title(): String = when (this) {
-    FriendsTab.FRIENDS -> "Друзья"
-    FriendsTab.MESSAGES -> "Чаты"
-    FriendsTab.REQUESTS -> "Заявки"
-    FriendsTab.INVITE -> "Пригласить"
+    FriendsTab.FRIENDS -> "Friends"
+    FriendsTab.MESSAGES -> "Chats"
+    FriendsTab.REQUESTS -> "Requests"
+    FriendsTab.INVITE -> "Invite"
 }
 
 private fun String.norm(): String = trim().lowercase()
@@ -141,14 +141,14 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
     val offline = visible.filter { !it.online && !it.playing }
     val folded = needle.isEmpty() && !showOffline && offline.size > OFFLINE_FOLD
     val subtitle = if (state.millidaSignedIn && friends.isNotEmpty()) {
-        "В сети ${friends.count { it.online }} из ${friends.size}"
+        "${friends.count { it.online }} of ${friends.size} online"
     } else {
         null
     }
 
     fun copyNick(nick: String) {
         clipboard.setText(AnnotatedString(nick))
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) model.notice("Ник скопирован: $nick")
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) model.notice("Username copied: $nick")
     }
 
     fun copyInvite(text: String, done: String) {
@@ -170,7 +170,7 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
         MField(
             value = query,
             onValueChange = { query = it },
-            placeholder = "Ник друга",
+            placeholder = "Friend's username",
             modifier = placement,
             imeAction = ImeAction.Go,
             onImeAction = { if (candidate != null && visible.isEmpty()) addFromSearch(candidate) },
@@ -182,7 +182,7 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
 
     MScreen(
         modifier = modifier,
-        title = "Друзья",
+        title = "Friends",
         subtitle = subtitle,
         onBack = { model.back() },
         actions = {
@@ -193,7 +193,7 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
     ) {
         if (!state.millidaSignedIn) {
             item(key = "gate") {
-                MSignInGate(onSignIn = model::loginMillida, title = "Играй вместе с друзьями")
+                MSignInGate(onSignIn = model::loginMillida, title = "Play with your friends")
             }
             return@MScreen
         }
@@ -203,7 +203,7 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                 options = FriendsTab.entries,
                 selected = social.tab,
                 onSelect = { model.social.setTab(it) },
-                label = { if (it == FriendsTab.FRIENDS && friends.isNotEmpty()) "Друзья (${friends.size})" else it.title() },
+                label = { if (it == FriendsTab.FRIENDS && friends.isNotEmpty()) "Friends (${friends.size})" else it.title() },
                 badge = {
                     when (it) {
                         FriendsTab.FRIENDS -> 0
@@ -253,14 +253,14 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             MEmptyState(
                                 icon = MIcons.users,
-                                title = "Добавь первого друга",
-                                actionText = "Ввести ник",
+                                title = "Add your first friend",
+                                actionText = "Enter username",
                                 onAction = { runCatching { search.requestFocus() } },
                                 actionIcon = MIcons.search,
                             )
                             if (findableNick != null) {
                                 Text(
-                                    "Тебя найдут по нику $findableNick",
+                                    "Friends can find you by the username $findableNick",
                                     style = MillidaType.small,
                                     color = millida.fgFaint,
                                     textAlign = TextAlign.Center,
@@ -271,7 +271,7 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                 } else if (friends.isNotEmpty() && visible.isEmpty() && candidate == null) {
                     item(key = "nobody") {
                         Text(
-                            "Никого не нашли",
+                            "No one found",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 24.dp),
@@ -301,7 +301,7 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                                 {
                                     model.playOnAddress(
                                         address,
-                                        friend.serverName?.takeIf { it.isNotBlank() } ?: "Сервер ${friend.shownName()}",
+                                        friend.serverName?.takeIf { it.isNotBlank() } ?: "${friend.shownName()}'s server",
                                     )
                                 }
                             },
@@ -324,13 +324,13 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                 if (view == FriendsView.HOURS) {
                     friendRows(visible.sortedByDescending { social.hours[it.userId] ?: -1L }, ranked = true)
                 } else {
-                    section("Играют сейчас", "playing", playing)
-                    section("В сети", "online", online)
+                    section("Playing now", "playing", playing)
+                    section("Online", "online", online)
                     section(
-                        "Не в сети",
+                        "Offline",
                         "offline",
                         offline,
-                        action = if (folded) "Показать всех" else null,
+                        action = if (folded) "Show all" else null,
                         onAction = if (folded) ({ showOffline = true }) else null,
                         rows = !folded,
                     )
@@ -345,17 +345,17 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                     }
                 }
                 if (needle.isEmpty() && blocked.isNotEmpty()) {
-                    item(key = "cap:blocked") { SocialCaption("Заблокированные · ${blocked.size}", Modifier.animateItem()) }
+                    item(key = "cap:blocked") { SocialCaption("Blocked · ${blocked.size}", Modifier.animateItem()) }
                     items(blocked, key = { "blocked:" + it.blockedId }) { entry ->
                         PersonCard(
-                            nick = entry.nickname.ifEmpty { "Игрок" },
+                            nick = entry.nickname.ifEmpty { "Player" },
                             avatarUrl = entry.avatarUrl,
-                            status = "Заблокирован",
+                            status = "Blocked",
                             modifier = Modifier.animateItem(),
                             faded = true,
                         ) {
                             MSecondaryButton(
-                                "Разблокировать",
+                                "Unblock",
                                 onClick = { model.social.unblock(entry) },
                                 size = MButtonSize.Small,
                                 loading = blockKey(entry.blockedId) in social.pending,
@@ -370,18 +370,18 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                             MListRow(
                                 title = findableNick,
                                 modifier = Modifier.animateItem(),
-                                subtitle = "Твой ник для друзей",
+                                subtitle = "Your username for friends",
                                 leading = { MAvatar(url = avatarFor(findableNick), size = 40.dp) },
                                 trailing = {
-                                    MTextButton("Скопировать", onClick = { copyNick(findableNick) }, icon = MIcons.copy)
+                                    MTextButton("Copy", onClick = { copyNick(findableNick) }, icon = MIcons.copy)
                                 },
                             )
                         } else {
                             MListRow(
-                                title = "Ник служебный — друзья тебя не найдут",
+                                title = "This username is reserved, so friends cannot find you",
                                 modifier = Modifier.animateItem(),
                                 trailing = {
-                                    MTextButton("Задать ник", onClick = { model.openLinkOrNotice(context, SITE_PROFILE_URL) }, icon = MIcons.user)
+                                    MTextButton("Set username", onClick = { model.openLinkOrNotice(context, SITE_PROFILE_URL) }, icon = MIcons.user)
                                 },
                             )
                         }
@@ -398,8 +398,8 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                     item(key = "empty") {
                         MEmptyState(
                             icon = MIcons.chat,
-                            title = "Переписок нет",
-                            actionText = "К друзьям",
+                            title = "No conversations",
+                            actionText = "Go to friends",
                             onAction = { model.social.setTab(FriendsTab.FRIENDS) },
                             actionIcon = MIcons.friends,
                             primary = false,
@@ -422,27 +422,27 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                 if (nothing && loading) {
                     items(3, key = { "skeleton:$it" }) { MSkeletonRow() }
                 } else if (nothing && failure == null) {
-                    item(key = "empty") { MEmptyState(icon = MIcons.inbox, title = "Заявок нет") }
+                    item(key = "empty") { MEmptyState(icon = MIcons.inbox, title = "No requests") }
                 }
                 if (incoming.isNotEmpty()) {
-                    item(key = "cap:incoming") { SocialCaption("Входящие · ${incoming.size}", Modifier.animateItem()) }
+                    item(key = "cap:incoming") { SocialCaption("Incoming · ${incoming.size}", Modifier.animateItem()) }
                     items(incoming, key = { "in:" + it.id }) { request ->
                         val busy = requestKey(request.id) in social.pending
                         PersonCard(
                             nick = request.nickname,
                             avatarUrl = request.avatarUrl,
-                            status = "Хочет в друзья",
+                            status = "Wants to be friends",
                             modifier = Modifier.animateItem(),
                         ) {
                             MPrimaryButton(
-                                "Принять",
+                                "Accept",
                                 onClick = { model.social.accept(request.id) },
                                 icon = MIcons.check,
                                 size = MButtonSize.Small,
                                 loading = busy,
                             )
                             MSecondaryButton(
-                                "Отклонить",
+                                "Decline",
                                 onClick = { model.social.decline(request.id) },
                                 enabled = !busy,
                                 size = MButtonSize.Small,
@@ -451,16 +451,16 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                     }
                 }
                 if (outgoing.isNotEmpty()) {
-                    item(key = "cap:outgoing") { SocialCaption("Отправленные · ${outgoing.size}", Modifier.animateItem()) }
+                    item(key = "cap:outgoing") { SocialCaption("Sent · ${outgoing.size}", Modifier.animateItem()) }
                     items(outgoing, key = { "out:" + it.id }) { request ->
                         PersonCard(
                             nick = request.nickname,
                             avatarUrl = request.avatarUrl,
-                            status = "Ждёт ответа",
+                            status = "Awaiting response",
                             modifier = Modifier.animateItem(),
                         ) {
                             MSecondaryButton(
-                                "Отменить",
+                                "Cancel",
                                 onClick = { model.social.cancel(request.id) },
                                 icon = MIcons.close,
                                 size = MButtonSize.Small,
@@ -517,9 +517,9 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
 
     removing?.let { friend ->
         MConfirmDialog(
-            title = "Убрать ${friend.shownName()} из друзей?",
-            text = "Переписка останется, вернуть можно новой заявкой",
-            confirm = "Убрать",
+            title = "Remove ${friend.shownName()} from your friends?",
+            text = "Your conversation will remain. You can add them again with a new request.",
+            confirm = "Remove",
             onConfirm = {
                 removing = null
                 model.social.remove(friend.userId)
@@ -530,9 +530,9 @@ fun FriendsScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
 
     blocking?.let { friend ->
         MConfirmDialog(
-            title = "Заблокировать ${friend.shownName()}?",
-            text = "Пропадёт из друзей и не сможет писать",
-            confirm = "Заблокировать",
+            title = "Block ${friend.shownName()}?",
+            text = "They will be removed from your friends and will not be able to message you.",
+            confirm = "Block",
             onConfirm = {
                 blocking = null
                 model.social.block(friend.userId)
@@ -551,10 +551,10 @@ private fun AddFriendCard(nick: String, busy: Boolean, onAdd: () -> Unit, modifi
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
                 Text(nick, style = MillidaType.rowTitle, color = colors.fg, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Text("Отправим заявку", style = MillidaType.small, color = colors.fgSubtle, maxLines = 1)
+                Text("A friend request will be sent", style = MillidaType.small, color = colors.fgSubtle, maxLines = 1)
             }
             Spacer(Modifier.width(8.dp))
-            MPrimaryButton("Добавить", onClick = onAdd, size = MButtonSize.Small, loading = busy)
+            MPrimaryButton("Add", onClick = onAdd, size = MButtonSize.Small, loading = busy)
         }
     }
 }
@@ -572,20 +572,20 @@ private fun FriendMenu(
 ) {
     MBottomSheet(onDismiss = onDismiss, title = friend.shownName()) {
         if (onInvite != null) {
-            MListRow("Позвать играть", icon = MIcons.server, onClick = onInvite, plate = false, trailing = {})
+            MListRow("Invite to play", icon = MIcons.server, onClick = onInvite, plate = false, trailing = {})
         }
         MListRow(
-            "Позвонить",
-            subtitle = "Откроется на сайте Millida",
+            "Call",
+            subtitle = "Opens on the Millida website",
             icon = MIcons.phone,
             onClick = onCall,
             plate = false,
             trailing = {},
         )
-        MListRow("Профиль", icon = MIcons.user, onClick = onProfile, plate = false, trailing = {})
-        MListRow("Скопировать ник", icon = MIcons.copy, onClick = onCopy, plate = false, trailing = {})
-        MListRow("Убрать из друзей", icon = MIcons.trash, onClick = onRemove, plate = false, trailing = {})
-        MListRow("Заблокировать", icon = MIcons.ban, onClick = onBlock, plate = false, trailing = {})
+        MListRow("Profile", icon = MIcons.user, onClick = onProfile, plate = false, trailing = {})
+        MListRow("Copy username", icon = MIcons.copy, onClick = onCopy, plate = false, trailing = {})
+        MListRow("Remove friend", icon = MIcons.trash, onClick = onRemove, plate = false, trailing = {})
+        MListRow("Block", icon = MIcons.ban, onClick = onBlock, plate = false, trailing = {})
     }
 }
 
@@ -701,23 +701,23 @@ internal fun FriendCard(
                 }
             }
             Spacer(Modifier.width(8.dp))
-            MIconButton(MIcons.more, onClick = onMenu, enabled = !busy, label = "Ещё")
+            MIconButton(MIcons.more, onClick = onMenu, enabled = !busy, label = "More")
         }
         Spacer(Modifier.height(12.dp))
         MButtonRow {
             if (onJoin != null) {
-                MPrimaryButton("Зайти", onClick = onJoin, icon = MIcons.login, size = MButtonSize.Small)
+                MPrimaryButton("Join", onClick = onJoin, icon = MIcons.login, size = MButtonSize.Small)
             } else if (onInvite != null) {
-                MPrimaryButton("Позвать играть", onClick = onInvite, icon = MIcons.server, size = MButtonSize.Small, loading = inviting)
+                MPrimaryButton("Invite to play", onClick = onInvite, icon = MIcons.server, size = MButtonSize.Small, loading = inviting)
             }
-            MSecondaryButton("Написать", onClick = onWrite, icon = MIcons.chat, size = MButtonSize.Small)
+            MSecondaryButton("Message", onClick = onWrite, icon = MIcons.chat, size = MButtonSize.Small)
         }
     }
 }
 
 /**
  * Hosting is sold through friends: someone without a server of their own sees
- * one row here; with a server there is no row, "Позвать играть" on each friend
+ * one row here; with a server there is no row, "Invite to play" on each friend
  * does the rest (src/components/friends/PlayTogether.tsx).
  */
 @Composable
@@ -728,7 +728,7 @@ private fun PlayTogetherCard(onCreate: () -> Unit, modifier: Modifier = Modifier
             MIcon(MIcons.server, size = 22.dp, color = colors.accentText)
             Spacer(Modifier.width(12.dp))
             Text(
-                "Играйте вместе на своём сервере",
+                "Play together on your server",
                 modifier = Modifier.weight(1f),
                 style = MillidaType.rowTitle,
                 color = colors.fg,
@@ -737,6 +737,6 @@ private fun PlayTogetherCard(onCreate: () -> Unit, modifier: Modifier = Modifier
             )
         }
         Spacer(Modifier.height(12.dp))
-        MPrimaryButton("Создать сервер", onClick = onCreate, icon = MIcons.server, size = MButtonSize.Small)
+        MPrimaryButton("Create server", onClick = onCreate, icon = MIcons.server, size = MButtonSize.Small)
     }
 }

@@ -88,7 +88,7 @@ private const val REVEAL_FRAMES = 30
 /** How far from the edges of its scroll area a highlighted element is kept: the hole's pad plus air. */
 val TourScrollMargin: Dp = HOLE_PAD + 8.dp
 
-enum class TourTarget { PLAY, BUILDS, CHARACTER, WARDROBE, SHOP, SERVER, FRIENDS, ACCOUNT, SETTINGS }
+enum class TourTarget { PLAY, BUILDS, CHARACTER, WARDROBE, SERVER, FRIENDS, ACCOUNT, SETTINGS }
 
 @Immutable
 class TourStep(val target: TourTarget?, val title: String, val text: String)

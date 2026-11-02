@@ -61,17 +61,17 @@ private const val WEEK_SIZE = 3
 /** What the hub sections under the lobby need, gathered once by the home screen. */
 internal class HubFeed(
     val hub: HubState,
-    val exclusives: List<PremiumPack>,
-    val free: List<PremiumPack>,
-    val plan: PremiumTier?,
-    val premiumWait: Boolean,
+    val exclusives: List<PremiumPack> = emptyList(),
+    val free: List<PremiumPack> = emptyList(),
+    val plan: PremiumTier? = null,
+    val premiumWait: Boolean = false,
     /** OneBlock's own pack may start on this phone; without it the event is not offered. */
     val ownPlayable: Boolean,
 )
 
 internal class HubActions(
     val playOwn: () -> Unit,
-    val openPack: (PremiumPack) -> Unit,
+    val openPack: (PremiumPack) -> Unit = {},
     val openCatalog: () -> Unit,
     val openMode: (HubMode) -> Unit,
     val createVersion: (String) -> Unit,
@@ -79,10 +79,7 @@ internal class HubActions(
 )
 
 /**
- * The «Во что играем» sections, in the desktop hub's order, after the lobby's
- * own blocks: the card to try today, the hero of the day, «Рекомендуем»,
- * «Режимы» and, for a player without builds, the popular versions. [party]
- * is the place reserved for playing together with friends.
+ * The free play modes and popular game versions beneath the lobby.
  */
 internal fun LazyListScope.hubSections(
     feed: HubFeed,
@@ -93,17 +90,8 @@ internal fun LazyListScope.hubSections(
     if (party != null) {
         item(key = "hub:party", contentType = "hub-party") { party() }
     }
-    item(key = "hub:recommend", contentType = "hub-recommend") {
-        RecommendCard(feed, actions)
-    }
-    item(key = "hub:hero", contentType = "hub-hero") {
-        HeroOfDay(feed, actions)
-    }
-    item(key = "hub:foryou", contentType = "hub-shelf") {
-        ForYouShelf(feed, actions)
-    }
     item(key = "hub:modes", contentType = "hub-modes") {
-        ModesSection(feed.hub, feed.ownPlayable, actions)
+        ModesSection(feed.hub, actions)
     }
     if (!hasBuilds && feed.hub.popular.isNotEmpty()) {
         item(key = "hub:popular", contentType = "hub-popular") {
@@ -145,7 +133,7 @@ private fun RecommendCard(feed: HubFeed, actions: HubActions) {
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
                 Text(
-                    if (own) "Эксклюзивный ивент" else "Попробуй сегодня",
+                    if (own) "Featured event" else "Try it today",
                     style = MillidaType.caption,
                     color = if (own) colors.warning else colors.accentText,
                     maxLines = 1,
@@ -312,31 +300,29 @@ private fun ForYouShelf(feed: HubFeed, actions: HubActions) {
 
 /** «Режимы»: the own event as a banner, the busiest modes, «Остальные» opens the rest in place. */
 @Composable
-private fun ModesSection(hub: HubState, ownPlayable: Boolean, actions: HubActions) {
+private fun ModesSection(hub: HubState, actions: HubActions) {
     var all by rememberSaveable { mutableStateOf(false) }
     val modes = hub.modes
     Column(Modifier.fillMaxWidth()) {
-        MSectionHeader("Режимы")
+        MSectionHeader("Game modes")
         when {
-            modes == null && hub.modesFailed -> MErrorCard("Режимы не загрузились", onRetry = actions.retry)
+            modes == null && hub.modesFailed -> MErrorCard("Game modes could not be loaded", onRetry = actions.retry)
             modes == null -> Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 MSkeleton(height = 150.dp, modifier = Modifier.weight(1f))
                 MSkeleton(height = 150.dp, modifier = Modifier.weight(1f))
             }
-            modes.isEmpty() -> MErrorCard("Режимов пока нет", onRetry = actions.retry)
+            modes.isEmpty() -> MErrorCard("No game modes are available", onRetry = actions.retry)
             else -> {
-                val own = modes.firstOrNull { it.code == Hub.OWN_MODE }?.takeIf { ownPlayable }
                 val rest = modes.filter { it.code != Hub.OWN_MODE }
                 val shown = if (all) rest else rest.take(MODES_SHOWN - 1)
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    if (own != null) OneBlockBanner(online = hub.ownOnline ?: own.online, onPlay = actions.playOwn)
                     PairRows(shown) { mode, modifier ->
                         ModeTile(mode, hub.art[mode.code], onClick = { actions.openMode(mode) }, modifier = modifier)
                     }
                     val hidden = rest.size - (MODES_SHOWN - 1)
                     if (hidden > 0) {
                         MTextButton(
-                            text = if (all) "Свернуть" else "Остальные · ${modesCount(hidden)}",
+                            text = if (all) "Show less" else "More · ${modesCount(hidden)}",
                             onClick = { all = !all },
                             modifier = Modifier.fillMaxWidth(),
                             icon = if (all) MIcons.chevronUp else MIcons.grid,
@@ -351,10 +337,9 @@ private fun ModesSection(hub: HubState, ownPlayable: Boolean, actions: HubAction
 private fun modesCount(count: Int): String {
     val tail = count % 100
     val word = when {
-        tail in 11..14 -> "режимов"
-        count % 10 == 1 -> "режим"
-        count % 10 in 2..4 -> "режима"
-        else -> "режимов"
+        tail in 11..14 -> "modes"
+        count % 10 == 1 -> "mode"
+        else -> "modes"
     }
     return "$count $word"
 }
@@ -363,7 +348,7 @@ private fun modesCount(count: Int): String {
 @Composable
 private fun PopularVersions(versions: List<PopularVersion>, onCreate: (String) -> Unit) {
     Column(Modifier.fillMaxWidth()) {
-        MSectionHeader("Популярные версии")
+        MSectionHeader("Popular versions")
         MButtonRow {
             versions.forEach { version ->
                 MChip(

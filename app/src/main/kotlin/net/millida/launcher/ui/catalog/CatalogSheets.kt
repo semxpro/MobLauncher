@@ -29,7 +29,7 @@ internal fun TargetPickerSheet(
     onDismiss: () -> Unit,
 ) {
     val colors = millida
-    MBottomSheet(onDismiss = onDismiss, title = "Куда ставить") {
+    MBottomSheet(onDismiss = onDismiss, title = "Choose install location") {
         profiles.forEachIndexed { index, profile ->
             if (index > 0) MDivider()
             MListRow(
@@ -60,9 +60,9 @@ internal fun DependencySheet(
 ) {
     val colors = millida
     val plan = ask.plan
-    MBottomSheet(onDismiss = onDismiss, title = "Нужно ещё кое-что") {
+    MBottomSheet(onDismiss = onDismiss, title = "Additional files required") {
         Text(
-            "«${plan.title}» без этого не запустится",
+            "“${plan.title}” cannot launch without these files.",
             style = MillidaType.body,
             color = colors.fgMuted,
         )
@@ -81,7 +81,7 @@ internal fun DependencySheet(
         }
         if (plan.unresolved.isNotEmpty()) {
             Spacer(Modifier.height(12.dp))
-            MSectionTitle("НЕ НАШЛОСЬ")
+            MSectionTitle("NOT FOUND")
             Spacer(Modifier.height(6.dp))
             plan.unresolved.forEach { missing ->
                 Text(
@@ -95,14 +95,14 @@ internal fun DependencySheet(
         if (plan.satisfied.isNotEmpty()) {
             Spacer(Modifier.height(10.dp))
             Text(
-                "Уже стоит: ${plan.satisfied.joinToString(", ")}",
+                "Already installed: ${plan.satisfied.joinToString(", ")}",
                 style = MillidaType.small,
                 color = colors.fgFaint,
             )
         }
         Spacer(Modifier.height(18.dp))
         MPrimaryButton(
-            text = if (plan.missing.size > 1) "Поставить всё" else "Поставить",
+            text = if (plan.missing.size > 1) "Install all" else "Install",
             onClick = onInstall,
             modifier = Modifier.fillMaxWidth(),
             enabled = plan.missing.isNotEmpty(),
@@ -111,6 +111,6 @@ internal fun DependencySheet(
             loading = installing,
         )
         Spacer(Modifier.height(6.dp))
-        MTextButton(text = "Не надо", onClick = onDismiss, modifier = Modifier.fillMaxWidth())
+        MTextButton(text = "Cancel", onClick = onDismiss, modifier = Modifier.fillMaxWidth())
     }
 }

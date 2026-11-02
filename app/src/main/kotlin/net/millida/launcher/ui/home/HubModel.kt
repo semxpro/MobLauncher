@@ -70,10 +70,6 @@ class HubModel(
     private var turned = false
 
     fun ensureLoaded() {
-        if (!turned) {
-            turned = true
-            turn()
-        }
         if (loaded) return
         loaded = true
         load()
@@ -82,7 +78,7 @@ class HubModel(
     fun retry() = load()
 
     private fun load() {
-        mutable.update { it.copy(modesFailed = false, catalogFailed = false) }
+        mutable.update { it.copy(modesFailed = false) }
         if (mutable.value.art.isEmpty()) {
             scope.launch {
                 val art = withContext(Dispatchers.IO) { readArt() }
@@ -98,17 +94,6 @@ class HubModel(
             } catch (error: Exception) {
                 Log.w(LOG_TAG, "режимы не загрузились: ${error.message}")
                 mutable.update { it.copy(modesFailed = true) }
-            }
-        }
-        scope.launch {
-            try {
-                val packs = withContext(Dispatchers.IO) { hub.catalogPacks() }
-                mutable.update { it.copy(catalog = packs, catalogFailed = false) }
-            } catch (cancelled: CancellationException) {
-                throw cancelled
-            } catch (error: Exception) {
-                Log.w(LOG_TAG, "сборки каталога не загрузились: ${error.message}")
-                mutable.update { it.copy(catalogFailed = true) }
             }
         }
         scope.launch {

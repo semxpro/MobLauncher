@@ -33,11 +33,6 @@ import net.millida.launcher.core.cabinet.Achievement
 import net.millida.launcher.core.cabinet.AchievementsPage
 import net.millida.launcher.core.cabinet.MILLIDA_SITE
 import net.millida.launcher.core.cabinet.NewsItem
-import net.millida.launcher.core.cabinet.WalletBalance
-import net.millida.launcher.core.cabinet.WalletOperation
-import net.millida.launcher.core.cabinet.amountText
-import net.millida.launcher.core.cabinet.availableText
-import net.millida.launcher.core.cabinet.kopecksAsRubles
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
@@ -46,7 +41,6 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-private const val OPERATIONS_SHOWN = 10
 private const val AWARDS_SHOWN = 6
 private const val NEWS_SHOWN = 5
 
@@ -58,7 +52,6 @@ private val DIGITS = Regex("^\\d+$")
 @Composable
 fun CabinetScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    var allOperations by rememberSaveable { mutableStateOf(false) }
     var allAwards by rememberSaveable { mutableStateOf(false) }
     var allNews by rememberSaveable { mutableStateOf(false) }
 
@@ -68,14 +61,13 @@ fun CabinetScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
 
     val refreshing = state.isLoading(Area.CABINET)
     val failure = state.errorOf(Area.CABINET)
-    val loading = refreshing || (state.wallet == null && failure == null)
-    val operations = state.walletHistory
+    val loading = refreshing
     val awards = state.achievements.shownAchievements()
     val news = state.newsFeed
 
     MScreen(
         modifier = modifier,
-        title = "Кабинет",
+        title = "Rewards",
         subtitle = (state.portal?.nickname?.takeIf { it.isNotBlank() } ?: state.details?.nickname?.takeIf { it.isNotBlank() })
             ?.takeIf { state.millidaSignedIn },
         onBack = { model.back() },
@@ -85,13 +77,13 @@ fun CabinetScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
                     MIcons.refresh,
                     onClick = { model.retry(Area.CABINET) },
                     enabled = !refreshing,
-                    label = "Обновить",
+                    label = "Refresh",
                 )
             }
         },
     ) {
         if (!state.millidaSignedIn) {
-            item(key = "gate") { MSignInGate(onSignIn = model::loginMillida, title = "Кошелёк и награды — после входа") }
+            item(key = "gate") { MSignInGate(onSignIn = model::loginMillida, title = "Sign in to view rewards and news") }
             return@MScreen
         }
 
@@ -101,43 +93,10 @@ fun CabinetScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
             }
         }
 
-        val wallet = state.wallet
-        if (wallet != null) {
-            item(key = "wallet") {
-                WalletPlate(
-                    wallet = wallet,
-                    onTopUp = { model.openLinkOrNotice(context, model.topUpUrl()) },
-                    modifier = Modifier.animateItem(),
-                )
-            }
-        } else if (loading) {
-            item(key = "wallet-skeleton") { MSkeleton(height = 150.dp) }
-        }
-
-        item(key = "operations-head") {
-            MSectionHeader(
-                "Операции",
-                action = if (!allOperations && operations.size > OPERATIONS_SHOWN) "Все ${operations.size}" else null,
-                onAction = { allOperations = true },
-            )
-        }
-        when {
-            operations.isEmpty() && loading -> items(2, key = { "operation-skeleton:$it" }) { MSkeletonRow() }
-            operations.isEmpty() && failure == null -> item(key = "operations-empty") {
-                MListRow(title = "Операций пока нет", icon = MIcons.wallet)
-            }
-            operations.isNotEmpty() -> item(key = "operations") {
-                OperationsCard(
-                    operations = if (allOperations) operations else operations.take(OPERATIONS_SHOWN),
-                    modifier = Modifier.animateItem(),
-                )
-            }
-        }
-
         item(key = "awards-head") {
             MSectionHeader(
-                "Достижения",
-                action = if (!allAwards && awards.size > AWARDS_SHOWN) "Все ${awards.size}" else null,
+                "Achievements",
+                action = if (!allAwards && awards.size > AWARDS_SHOWN) "All ${awards.size}" else null,
                 onAction = { allAwards = true },
             )
         }
@@ -145,7 +104,7 @@ fun CabinetScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
         when {
             page == null && loading -> items(2, key = { "award-skeleton:$it" }) { MSkeleton(height = 120.dp) }
             awards.isEmpty() && failure == null -> item(key = "awards-empty") {
-                MListRow(title = "Достижений пока нет", icon = MIcons.trophy)
+                MListRow(title = "No achievements yet", icon = MIcons.trophy)
             }
         }
         if (page != null && awards.isNotEmpty()) {
@@ -174,15 +133,15 @@ fun CabinetScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
 
         item(key = "news-head") {
             MSectionHeader(
-                "Новости",
-                action = if (!allNews && news.size > NEWS_SHOWN) "Все ${news.size}" else null,
+                "News",
+                action = if (!allNews && news.size > NEWS_SHOWN) "All ${news.size}" else null,
                 onAction = { allNews = true },
             )
         }
         when {
             news.isEmpty() && loading -> items(2, key = { "news-skeleton:$it" }) { MSkeletonRow() }
             news.isEmpty() && failure == null -> item(key = "news-empty") {
-                MListRow(title = "Новостей пока нет", icon = MIcons.book)
+                MListRow(title = "No news yet", icon = MIcons.book)
             }
         }
         items(
@@ -199,102 +158,13 @@ fun CabinetScreen(state: UiState, model: LauncherViewModel, modifier: Modifier =
 }
 
 @Composable
-private fun WalletPlate(wallet: WalletBalance, onTopUp: () -> Unit, modifier: Modifier = Modifier) {
-    val colors = millida
-    MCard(modifier = modifier) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                Modifier
-                    .size(52.dp)
-                    .pixelSurface(colors.surface2, MillidaCut.control, colors.plateFrame()),
-                contentAlignment = Alignment.Center,
-            ) {
-                MIcon(MIcons.wallet, size = 30.dp)
-            }
-            Spacer(Modifier.width(14.dp))
-            Column(Modifier.weight(1f)) {
-                MSectionTitle("БАЛАНС")
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    wallet.availableText(),
-                    style = MillidaType.pixelLarge,
-                    color = colors.fg,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
-        }
-        if (wallet.withdrawableKopecks > 0 || wallet.heldKopecks > 0) {
-            Spacer(Modifier.height(12.dp))
-            MButtonRow {
-                if (wallet.withdrawableKopecks > 0) {
-                    MBadge(
-                        "К выводу " + wallet.withdrawableKopecks.kopecksAsRubles(),
-                        color = colors.accentText,
-                        background = colors.accentSoft,
-                    )
-                }
-                if (wallet.heldKopecks > 0) {
-                    MBadge(
-                        "В холде " + wallet.heldKopecks.kopecksAsRubles(),
-                        color = colors.warning,
-                        background = colors.warningSoft,
-                        icon = MIcons.clock,
-                    )
-                }
-            }
-        }
-        Spacer(Modifier.height(14.dp))
-        MPrimaryButton(
-            "Пополнить",
-            onClick = onTopUp,
-            modifier = Modifier.fillMaxWidth(),
-            icon = MIcons.externalLink,
-        )
-    }
-}
-
-@Composable
-private fun OperationsCard(operations: List<WalletOperation>, modifier: Modifier = Modifier) {
-    val colors = millida
-    MCard(modifier = modifier, contentPadding = 6.dp) {
-        operations.forEachIndexed { index, operation ->
-            if (index > 0) MDivider()
-            val detail = listOf(momentText(operation.at), operation.subtitle.ifEmpty { operation.description })
-                .filter { it.isNotEmpty() }
-                .joinToString(" · ")
-            MListRow(
-                title = operation.title.ifEmpty { operation.category.ifEmpty { "Операция" } },
-                subtitle = detail.ifEmpty { null },
-                icon = if (operation.incoming) MIcons.arrowDown else MIcons.arrowUp,
-                plate = false,
-                trailing = {
-                    Column(horizontalAlignment = Alignment.End) {
-                        Text(
-                            operation.amountText(),
-                            style = MillidaType.pixel,
-                            color = if (operation.incoming) colors.accentText else colors.danger,
-                            maxLines = 1,
-                        )
-                        if (operation.held) {
-                            Spacer(Modifier.height(4.dp))
-                            MBadge("Холд", color = colors.warning, background = colors.warningSoft)
-                        }
-                    }
-                },
-            )
-        }
-    }
-}
-
-@Composable
 private fun AwardsSummary(page: AchievementsPage, modifier: Modifier = Modifier) {
     val colors = millida
     MCard(modifier = modifier) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
                 Text(
-                    "Получено ${page.unlocked} из ${page.total}",
+                    "${page.unlocked} of ${page.total} unlocked",
                     style = MillidaType.rowTitle,
                     color = colors.fg,
                 )
@@ -302,7 +172,7 @@ private fun AwardsSummary(page: AchievementsPage, modifier: Modifier = Modifier)
                 MProgressBar(if (page.total > 0) page.unlocked.toFloat() / page.total.toFloat() else 0f)
             }
             Spacer(Modifier.width(12.dp))
-            MBadge("${page.points} очк.", color = colors.accentText, background = colors.accentSoft, icon = MIcons.star)
+            MBadge("${page.points} points", color = colors.accentText, background = colors.accentSoft, icon = MIcons.star)
         }
     }
 }
@@ -345,7 +215,7 @@ private fun AwardTile(award: Achievement, modifier: Modifier = Modifier) {
                     Text(award.progressText, style = MillidaType.pixelSmall, color = colors.fgSubtle, maxLines = 1)
                 }
                 unlocked -> Text(
-                    momentText(award.unlockedAt).ifEmpty { "Получено" },
+                    momentText(award.unlockedAt).ifEmpty { "Unlocked" },
                     style = MillidaType.small,
                     color = colors.fgFaint,
                     maxLines = 1,
@@ -371,7 +241,7 @@ private fun NewsCard(post: NewsItem, onOpen: (() -> Unit)?, modifier: Modifier =
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
                 Text(
-                    post.title.ifEmpty { post.sourceName.ifEmpty { "Новость" } },
+                    post.title.ifEmpty { post.sourceName.ifEmpty { "News" } },
                     style = MillidaType.rowTitle,
                     color = colors.fg,
                     maxLines = 2,
@@ -385,7 +255,7 @@ private fun NewsCard(post: NewsItem, onOpen: (() -> Unit)?, modifier: Modifier =
             }
             if (post.isWipe) {
                 Spacer(Modifier.width(8.dp))
-                MBadge("Вайп", color = colors.warning, background = colors.warningSoft)
+                MBadge("World reset", color = colors.warning, background = colors.warningSoft)
             }
         }
         if (post.body.isNotEmpty() && post.body != post.title) {

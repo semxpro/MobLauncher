@@ -35,7 +35,6 @@ import net.millida.launcher.ui.tourTarget
  * width, the desktop's `--ht-art-x` plus a half.
  */
 private enum class TileArt(val path: String, val ratio: Float, val shift: Float) {
-    SHOP("lobby/skins.png", 508f / 512f, 0.22f),
     WARDROBE("lobby/capes.png", 328f / 512f, 0f),
     SERVER("lobby/duo.webp", 1483f / 1000f, -0.02f),
 }
@@ -65,24 +64,19 @@ private class HubTileSpec(
     val onClick: () -> Unit,
 )
 
-/** The three tiles in the desktop's order: shop, my skin, play with friends. */
+/** Keep the lobby focused on character customization and multiplayer. */
 @Composable
 private fun rememberHubTileSpecs(
     hostedCount: Int,
-    shopAlert: Boolean,
-    bonusReady: Boolean,
-    onShop: () -> Unit,
     onCharacter: () -> Unit,
     onHosting: () -> Unit,
 ): List<HubTileSpec> {
     val context = LocalContext.current
     val prefs = remember(context) { Prefs(context) }
     var skinSeen by remember(prefs) { mutableStateOf(prefs.lobbySkinSeen) }
-    val shop = HubTileCopy.of(HubTileCopy.Kind.SHOP, bonusReady, shopAlert, skinSeen, hostedCount)
-    val wardrobe = HubTileCopy.of(HubTileCopy.Kind.WARDROBE, bonusReady, shopAlert, skinSeen, hostedCount)
-    val server = HubTileCopy.of(HubTileCopy.Kind.SERVER, bonusReady, shopAlert, skinSeen, hostedCount)
+    val wardrobe = HubTileCopy.of(HubTileCopy.Kind.WARDROBE, skinSeen, hostedCount)
+    val server = HubTileCopy.of(HubTileCopy.Kind.SERVER, skinSeen, hostedCount)
     return listOf(
-        HubTileSpec(shop, MHeroTone.Shop, TileArt.SHOP, TourTarget.SHOP, onShop),
         HubTileSpec(wardrobe, MHeroTone.Wardrobe, TileArt.WARDROBE, TourTarget.WARDROBE) {
             if (!skinSeen) {
                 prefs.lobbySkinSeen = true
@@ -115,22 +109,18 @@ private val TILE_OVERFLOW = 20.dp
 @Composable
 internal fun HubTiles(
     hostedCount: Int,
-    shopAlert: Boolean,
-    bonusReady: Boolean,
-    onShop: () -> Unit,
     onCharacter: () -> Unit,
     onHosting: () -> Unit,
 ) {
-    val (shop, wardrobe, server) = rememberHubTileSpecs(hostedCount, shopAlert, bonusReady, onShop, onCharacter, onHosting)
+    val (wardrobe, server) = rememberHubTileSpecs(hostedCount, onCharacter, onHosting)
     Column(
         Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            HubTileCard(shop, Modifier.weight(1f), height = 104.dp)
             HubTileCard(wardrobe, Modifier.weight(1f), height = 104.dp)
+            HubTileCard(server, Modifier.weight(1f), height = 104.dp)
         }
-        HubTileCard(server, Modifier, height = 96.dp)
     }
 }
 
@@ -142,9 +132,6 @@ internal fun HubTiles(
 @Composable
 internal fun HubTileColumn(
     hostedCount: Int,
-    shopAlert: Boolean,
-    bonusReady: Boolean,
-    onShop: () -> Unit,
     onCharacter: () -> Unit,
     onHosting: () -> Unit,
     width: Dp,
@@ -153,7 +140,7 @@ internal fun HubTileColumn(
     gap: Dp,
     modifier: Modifier = Modifier,
 ) {
-    val tiles = rememberHubTileSpecs(hostedCount, shopAlert, bonusReady, onShop, onCharacter, onHosting)
+    val tiles = rememberHubTileSpecs(hostedCount, onCharacter, onHosting)
     Column(
         modifier.width(width),
         verticalArrangement = Arrangement.spacedBy(gap),

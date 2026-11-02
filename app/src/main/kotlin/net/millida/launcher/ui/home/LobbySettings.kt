@@ -36,20 +36,20 @@ import net.millida.launcher.ui.settings.SettingHint
 import net.millida.launcher.ui.settings.SettingsSection
 import kotlin.math.roundToInt
 
-/** The lobby's music and its guide, the desktop's «Звук» and «Гайд» rows. */
+/** The lobby's music controls and launcher guide. */
 @Composable
 fun LobbySettingsSection(model: LauncherViewModel, modifier: Modifier = Modifier) {
     val ambient by model.ambient.state.collectAsStateWithLifecycle()
     var volume by remember(ambient.musicVolume) { mutableIntStateOf(ambient.musicVolume) }
 
-    SettingsSection("ЛОББИ", modifier) {
-        MSwitchRow("Музыка сейчас", ambient.nowPlaying.takeIf { ambient.playing }, ambient.musicOn, model.ambient::setMusicOn)
+    SettingsSection("LOBBY", modifier) {
+        MSwitchRow("Lobby music", ambient.nowPlaying.takeIf { ambient.playing }, ambient.musicOn, model.ambient::setMusicOn)
         ambient.musicError?.takeIf { ambient.musicOn }?.let { SettingHint(it, color = millida.warning) }
         if (ambient.musicOn) {
             MDivider()
-            MSwitchRow("Включать при запуске", null, ambient.musicAtStart, model.ambient::setMusicAtStart)
+            MSwitchRow("Play at launch", null, ambient.musicAtStart, model.ambient::setMusicAtStart)
             Spacer(Modifier.height(10.dp))
-            SettingHead("Громкость радио", "$volume%")
+            SettingHead("Music volume", "$volume%")
             MSlider(
                 value = volume / 100f,
                 onValueChange = { volume = (it * 100).roundToInt() },
@@ -58,7 +58,7 @@ fun LobbySettingsSection(model: LauncherViewModel, modifier: Modifier = Modifier
         }
         MDivider()
         MListRow(
-            title = "Гайд по лаунчеру",
+            title = "Launcher guide",
             icon = MIcons.info,
             plate = false,
             onClick = {
@@ -69,16 +69,16 @@ fun LobbySettingsSection(model: LauncherViewModel, modifier: Modifier = Modifier
     }
 }
 
-/** The desktop's «Живые обои» picker: off, the pixel scene, the four clips. */
+/** Live wallpaper picker: off, the pixel scene, and four videos. */
 @Composable
 fun LiveWallpaperSheet(selected: String, onPick: (String) -> Unit, onDismiss: () -> Unit) {
     val colors = millida
-    MBottomSheet(onDismiss = onDismiss, title = "Живые обои") {
+    MBottomSheet(onDismiss = onDismiss, title = "Live wallpaper") {
         val options = listOf<LiveWallpaper?>(null) + LiveWallpaper.ALL
         options.forEach { option ->
             val id = option?.id ?: LiveWallpaper.OFF
             MListRow(
-                title = option?.name ?: "Выкл",
+                title = option?.name ?: "Off",
                 plate = false,
                 onClick = { onPick(id) },
                 leading = { LiveWallpaperThumb(option) },

@@ -62,7 +62,7 @@ internal fun LazyListScope.serverShelf(
     if (servers.isEmpty() && !loading && error == null) return
     item(key = "shelf:servers", contentType = "shelf") {
         Column(Modifier.fillMaxWidth()) {
-            MSectionHeader("Куда пойти играть", action = "Все", onAction = onAll)
+            MSectionHeader("Find a server", action = "All", onAction = onAll)
             Spacer(Modifier.height(4.dp))
             when {
                 servers.isNotEmpty() -> LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -122,7 +122,7 @@ private fun ServerTile(
                     )
                     Spacer(Modifier.width(6.dp))
                     Text(
-                        if (server.up) "${groupDigits(server.online.toLong())} онлайн" else "Не в сети",
+                        if (server.up) "${groupDigits(server.online.toLong())} online" else "Offline",
                         style = MillidaType.small,
                         color = colors.fgSubtle,
                         maxLines = 1,
@@ -133,7 +133,7 @@ private fun ServerTile(
         Spacer(Modifier.height(12.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                versionRangeLabel(server.versionMajors) ?: "Любая версия",
+                versionRangeLabel(server.versionMajors) ?: "Any version",
                 modifier = Modifier.weight(1f),
                 style = MillidaType.pixelSmall,
                 color = colors.fgSubtle,
@@ -143,7 +143,7 @@ private fun ServerTile(
             Spacer(Modifier.width(8.dp))
             if (server.joinAddress.isBlank() && OwnServers.of(server.slug, null) == null) {
                 MButton(
-                    text = "Открыть",
+                    text = "Open",
                     onClick = onOpen,
                     variant = MButtonVariant.Secondary,
                     size = MButtonSize.Small,
@@ -151,7 +151,7 @@ private fun ServerTile(
                 )
             } else {
                 MButton(
-                    text = "Играть",
+                    text = "Play",
                     onClick = onPlay,
                     variant = MButtonVariant.Secondary,
                     size = MButtonSize.Small,
@@ -177,16 +177,16 @@ fun JoinServerSheet(state: UiState, model: LauncherViewModel, onCreateBuild: (St
             MBottomSheet(
                 onDismiss = model.lobby::dismissJoin,
                 title = when {
-                    current != null -> "Версия не совпадает"
-                    prompt.version.isNotEmpty() -> "Нужна сборка ${prompt.version}"
-                    else -> "Сначала создай сборку"
+                    current != null -> "Version mismatch"
+                    prompt.version.isNotEmpty() -> "Build ${prompt.version} required"
+                    else -> "Create a build first"
                 },
             ) {
                 Text(
                     when {
-                        current != null -> "«$server» на $wanted, а «${current.name}» — ${current.gameVersion}"
-                        wanted.isNotEmpty() -> "«$server» работает на $wanted"
-                        else -> "«$server» не сказал свою версию"
+                        current != null -> "“$server” uses $wanted, but “${current.name}” uses ${current.gameVersion}"
+                        wanted.isNotEmpty() -> "“$server” uses $wanted"
+                        else -> "“$server” did not provide its version"
                     },
                     style = MillidaType.body,
                     color = colors.fgMuted,
@@ -194,7 +194,7 @@ fun JoinServerSheet(state: UiState, model: LauncherViewModel, onCreateBuild: (St
                 Spacer(Modifier.height(18.dp))
                 if (prompt.version.isNotEmpty()) {
                     MPrimaryButton(
-                        text = if (current != null) "Создать ${prompt.version}" else "Создать и играть",
+                        text = if (current != null) "Create ${prompt.version}" else "Create and play",
                         onClick = { model.createBuildAndJoin(prompt.version, prompt.address, prompt.serverName) },
                         modifier = Modifier.fillMaxWidth(),
                         icon = MIcons.play,
@@ -202,7 +202,7 @@ fun JoinServerSheet(state: UiState, model: LauncherViewModel, onCreateBuild: (St
                     )
                 } else {
                     MPrimaryButton(
-                        text = "Создать сборку",
+                        text = "Create build",
                         onClick = {
                             model.lobby.dismissJoin()
                             onCreateBuild(prompt.wanted.firstOrNull())
@@ -215,7 +215,7 @@ fun JoinServerSheet(state: UiState, model: LauncherViewModel, onCreateBuild: (St
                 if (current != null) {
                     Spacer(Modifier.height(10.dp))
                     MSecondaryButton(
-                        text = "Всё равно зайти",
+                        text = "Join anyway",
                         onClick = { model.joinServer(current, prompt.address, prompt.serverName) },
                         modifier = Modifier.fillMaxWidth(),
                     )
@@ -224,9 +224,9 @@ fun JoinServerSheet(state: UiState, model: LauncherViewModel, onCreateBuild: (St
         }
         is JoinPlan.Unknown -> {
             val builds = joinableBuilds(state.profiles).sortedByDescending { it.id == plan.build.id }
-            MBottomSheet(onDismiss = model.lobby::dismissJoin, title = "Какой сборкой заходим?") {
+            MBottomSheet(onDismiss = model.lobby::dismissJoin, title = "Which build should we use?") {
                 Text(
-                    "«$server» не сказал свою версию",
+                    "“$server” did not provide its version",
                     style = MillidaType.body,
                     color = colors.fgMuted,
                 )

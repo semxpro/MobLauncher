@@ -44,11 +44,11 @@ class CatalogTextTest {
             Case(-5, "0", "отрицательное от сервера не показывается"),
             Case(0, "0", "ноль"),
             Case(999, "999", "до тысячи как есть"),
-            Case(1_000, "1 тыс.", "тысяча"),
-            Case(15_500, "15 тыс.", "тысячи без дробей"),
-            Case(1_000_000, "1 млн", "ровный миллион без «,0»"),
-            Case(1_240_000, "1,2 млн", "миллионы с одной цифрой после запятой"),
-            Case(12_345_678, "12,3 млн", "русская запятая вместо точки"),
+            Case(1_000, "1K", "thousand"),
+            Case(15_500, "15K", "thousands without decimals"),
+            Case(1_000_000, "1M", "whole millions without decimals"),
+            Case(1_240_000, "1.2M", "millions with one decimal place"),
+            Case(12_345_678, "12.3M", "English decimal separator"),
         ).forEach { case ->
             assertEquals("${case.value}: ${case.why}", case.expected, compactCount(case.value))
         }
@@ -73,14 +73,14 @@ class CatalogTextTest {
     fun `число материалов склоняется`() {
         data class Case(val count: Int, val expected: String)
         listOf(
-            Case(0, "0 материалов"),
-            Case(1, "1 материал"),
-            Case(3, "3 материала"),
-            Case(11, "11 материалов"),
-            Case(21, "21 материал"),
-            Case(1500, "1 500 материалов"),
+            Case(0, "0 items"),
+            Case(1, "1 item"),
+            Case(3, "3 items"),
+            Case(11, "11 items"),
+            Case(21, "21 items"),
+            Case(1500, "1,500 items"),
         ).forEach { case ->
-            assertEquals("${case.count}: склонение и разряды в строке результатов фильтра", case.expected, materials(case.count))
+            assertEquals("${case.count}: item label and grouping", case.expected, materials(case.count))
         }
     }
 }

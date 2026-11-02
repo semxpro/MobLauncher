@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import net.millida.launcher.UiState
 import net.millida.launcher.core.media.UiSoundEvent
-import net.millida.launcher.core.premium.PremiumPack
 import net.millida.launcher.core.profile.PlayTime
 import net.millida.launcher.core.profile.Profile
 import net.millida.launcher.ui.MillidaCut
@@ -85,13 +84,11 @@ internal class WideLobbyActions(
     val onPlay: () -> Unit,
     val onCancel: () -> Unit,
     val onCharacter: () -> Unit,
-    val onShop: () -> Unit,
     val onHosting: () -> Unit,
     val onFriends: () -> Unit,
     val onMessages: () -> Unit,
     val onMore: () -> Unit,
     val onSettings: () -> Unit,
-    val onRecommend: (PremiumPack) -> Unit,
 )
 
 /**
@@ -100,7 +97,7 @@ internal class WideLobbyActions(
  * edge, the separate corner buttons sit top right, and «Сегодня играем» with
  * «Играть» lie in one dock pinned to the bottom. Everything else - the
  * builds, servers and the catalog - is behind the plate, as on the desktop.
- * «Рекомендуем» stands on the right where the window leaves it room, and
+ * Recommendations stand on the right where the window leaves room, and
  * the account plate drops [accountMenu] under the corner buttons.
  */
 @Composable
@@ -110,9 +107,6 @@ internal fun WideLobby(
     look: CharacterLook,
     active: Profile?,
     hostedCount: Int,
-    shopAlert: Boolean,
-    bonusReady: Boolean,
-    recommend: PremiumPack?,
     actions: WideLobbyActions,
     accountMenu: @Composable (maxHeight: Dp, close: () -> Unit, modifier: Modifier) -> Unit,
     modifier: Modifier = Modifier,
@@ -135,7 +129,7 @@ internal fun WideLobby(
         val feet = dockHeight + if (hoursShown) HOURS_ROOM else FEET_GAP
         val figure = (maxHeight - feet - top - TOP_ROW_ROOM).coerceIn(FIGURE_MIN, FIGURE_MAX)
         val tileRoom = maxHeight - top - bottom - EDGE * 2
-        val tileHeight = ((tileRoom - TILE_GAP * 2) / 3 - TILE_OVERFLOW).coerceIn(TILE_MIN, TILE_MAX)
+        val tileHeight = ((tileRoom - TILE_GAP) / 2 - TILE_OVERFLOW).coerceIn(TILE_MIN, TILE_MAX)
         val (startSide, endSide) = when (direction) {
             LayoutDirection.Ltr -> start to end
             LayoutDirection.Rtl -> end to start
@@ -159,9 +153,6 @@ internal fun WideLobby(
         )
         HubTileColumn(
             hostedCount = hostedCount,
-            shopAlert = shopAlert,
-            bonusReady = bonusReady,
-            onShop = actions.onShop,
             onCharacter = actions.onCharacter,
             onHosting = actions.onHosting,
             width = tileWidth,
@@ -172,19 +163,6 @@ internal fun WideLobby(
                 .align(Alignment.TopStart)
                 .padding(start = startSide + EDGE, top = top + EDGE - TILE_OVERFLOW / 2),
         )
-        val bandTop = top + EDGE + CORNER_ROW_HEIGHT + EDGE
-        val band = maxHeight - dockHeight - bandTop
-        val recRoom = maxWidth / 2 - figure * FIGURE_HALF_WIDTH_SHARE - endSide - EDGE
-        if (recommend != null && band >= LOBBY_REC_HEIGHT && recRoom >= LOBBY_REC_MIN_WIDTH) {
-            LobbyRecommend(
-                pack = recommend,
-                width = recRoom.coerceAtMost(LOBBY_REC_WIDTH),
-                onOpen = { actions.onRecommend(recommend) },
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(end = endSide + EDGE, top = bandTop + (band - LOBBY_REC_HEIGHT) / 2),
-            )
-        }
         WideLobbyTopRow(
             state = state,
             onAccount = { menuOpen = !menuOpen },
@@ -245,7 +223,7 @@ internal fun WideLobby(
 /**
  * «Сегодня играем» and «Играть» as one piece on a shared dark plate whose
  * bottom runs off the window edge, the desktop's `.lobby-row`. The plate
- * opens the library; «Играть» only starts the game.
+ * opens the library; Play only starts the game.
  */
 @Composable
 private fun LobbyDock(
@@ -265,7 +243,7 @@ private fun LobbyDock(
         .height(DOCK_ROW)
         .tourTarget(TourTarget.BUILDS)
         .pressShift(progress)
-        .clickable(interaction, indication = null, role = Role.Button, onClickLabel = "Выбрать, во что играть", onClick = actions.onPick)
+        .clickable(interaction, indication = null, role = Role.Button, onClickLabel = "Choose what to play", onClick = actions.onPick)
     Row(
         modifier
             .pixelSurface(

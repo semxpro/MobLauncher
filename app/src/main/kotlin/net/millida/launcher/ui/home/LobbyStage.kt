@@ -129,14 +129,14 @@ internal fun LobbyTopRow(
             onClick = onFriends,
             modifier = Modifier.tourTarget(TourTarget.FRIENDS),
             badge = state.friendsBadge,
-            label = "Друзья",
+            label = "Friends",
         )
         Spacer(Modifier.width(8.dp))
         MIconButton(
             icon = MIcons.settings,
             onClick = onSettings,
             modifier = Modifier.tourTarget(TourTarget.SETTINGS),
-            label = "Настройки",
+            label = "Settings",
         )
     }
 }
@@ -180,16 +180,16 @@ internal fun WideLobbyTopRow(
                 showsLine = density.accountLine,
             )
             if (state.millidaSignedIn) {
-                CornerButton(onClick = onMessages, label = "Сообщения", badge = state.unreadMessages) {
+                CornerButton(onClick = onMessages, label = "Messages", badge = state.unreadMessages) {
                     MIcon(MIcons.chat, size = 22.dp, color = millida.fg)
                 }
             }
-            CornerButton(onClick = onMore, label = "Ещё", badge = 0) {
+            CornerButton(onClick = onMore, label = "More", badge = 0) {
                 MIcon(MIcons.more, size = 22.dp, color = millida.fg)
             }
             CornerButton(
                 onClick = onSettings,
-                label = "Настройки",
+                label = "Settings",
                 badge = 0,
                 modifier = Modifier.tourTarget(TourTarget.SETTINGS),
             ) {
@@ -257,7 +257,7 @@ private fun FriendsCorner(
 ) {
     val colors = millida
     val online = state.friends.filter { it.online || it.playing }
-    CornerButton(onClick = onClick, label = "Друзья, в сети ${online.size}", badge = badge, modifier = modifier) {
+    CornerButton(onClick = onClick, label = "Friends, ${online.size} online", badge = badge, modifier = modifier) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             val faces = online.take(heads).map { it.avatarUrl ?: headAvatarUrl(it.nickname) }
             val shown = faces.ifEmpty { List(heads.coerceAtMost(2)) { null } }
@@ -280,7 +280,7 @@ private fun FriendsCorner(
                     maxLines = 1,
                 )
                 if (caption) {
-                    Text("в сети", style = MillidaType.small, color = colors.fgSubtle, maxLines = 1)
+                    Text("online", style = MillidaType.small, color = colors.fgSubtle, maxLines = 1)
                 }
             }
         }
@@ -340,7 +340,7 @@ private fun AccountPlate(
             .pressShift(progress)
             .heightIn(min = 52.dp)
             .pixelSurface(if (pressed) colors.surface2 else colors.surface, MillidaCut.control, colors.plateFrame())
-            .clickable(interaction, indication = null, role = Role.Button, onClickLabel = "Аккаунт", onClick = onClick)
+            .clickable(interaction, indication = null, role = Role.Button, onClickLabel = "Account", onClick = onClick)
             .padding(start = 6.dp, end = if (showsName) 14.dp else 6.dp, top = 5.dp, bottom = 7.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -353,7 +353,7 @@ private fun AccountPlate(
             Spacer(Modifier.width(10.dp))
             Column {
                 Text(
-                    account?.nick?.takeIf { it.isNotBlank() } ?: "Войти",
+                    account?.nick?.takeIf { it.isNotBlank() } ?: "Sign in",
                     style = MillidaType.rowTitle.copy(fontSize = 16.sp, fontWeight = FontWeight.Black),
                     color = colors.fg,
                     maxLines = 1,
@@ -378,10 +378,10 @@ private fun AccountPlate(
 }
 
 private fun accountLine(account: Account?): String = when (account?.kind) {
-    null -> "Аккаунт не выбран"
-    AccountKind.MILLIDA -> "Аккаунт Millida"
-    AccountKind.MICROSOFT -> "Лицензия Microsoft"
-    AccountKind.OFFLINE -> "Без лицензии"
+    null -> "No account selected"
+    AccountKind.MILLIDA -> "Millida account"
+    AccountKind.MICROSOFT -> "Microsoft license"
+    AccountKind.OFFLINE -> "Offline account"
 }
 
 /**

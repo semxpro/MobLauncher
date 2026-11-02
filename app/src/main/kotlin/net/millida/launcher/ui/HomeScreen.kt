@@ -42,8 +42,6 @@ import net.millida.launcher.ui.home.LobbyTopRow
 import net.millida.launcher.ui.home.WideLobby
 import net.millida.launcher.ui.home.WideLobbyActions
 import net.millida.launcher.ui.home.LobbyAccountMenu
-import net.millida.launcher.ui.home.ONEBLOCK_PACK
-import net.millida.launcher.ui.home.recommendedPack
 import net.millida.launcher.ui.home.LoaderChip
 import net.millida.launcher.ui.home.LoaderGate
 import net.millida.launcher.ui.home.buildShelfCount
@@ -56,14 +54,11 @@ import net.millida.launcher.ui.home.rememberLobbyTourScroll
 import net.millida.launcher.ui.home.serverShelf
 import net.millida.launcher.ui.servers.ServerDetailSheet
 import net.millida.launcher.ui.catalog.CatalogTab
-import net.millida.launcher.core.premium.Premium
 import net.millida.launcher.core.servers.OwnServers
 import net.millida.launcher.ui.home.HubActions
 import net.millida.launcher.ui.home.HubFeed
 import net.millida.launcher.ui.home.ModeServersSheet
 import net.millida.launcher.ui.home.hubSections
-import net.millida.launcher.ui.premium.MillidaShelfSheets
-import net.millida.launcher.ui.premium.PackPageSheet
 import net.millida.launcher.ui.social.LobbyParty
 
 private const val VERSION_PAGE = 24
@@ -72,9 +67,7 @@ private const val VERSION_PAGE = 24
 fun HomeScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Modifier) {
     val lobby by model.lobby.state.collectAsStateWithLifecycle()
     val licence by model.licence.state.collectAsStateWithLifecycle()
-    val shop by model.shop.state.collectAsStateWithLifecycle()
     val hub by model.hub.state.collectAsStateWithLifecycle()
-    val premium by model.premium.state.collectAsStateWithLifecycle()
     val clipboard = LocalClipboardManager.current
     val context = LocalContext.current
     var openedServer by remember { mutableStateOf<RatedServer?>(null) }
@@ -90,7 +83,6 @@ fun HomeScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
     LaunchedEffect(Unit) { model.lobby.loadTopServers() }
     LaunchedEffect(Unit) {
         model.hub.ensureLoaded()
-        model.premium.ensureShowcase()
     }
     val licensedId = state.account?.takeIf { it.kind == AccountKind.MICROSOFT }?.id
     LaunchedEffect(licensedId) {
@@ -152,9 +144,6 @@ fun HomeScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
     val tiles: @Composable () -> Unit = {
         HubTiles(
             hostedCount = state.hosted.size,
-            shopAlert = shop.badge > 0,
-            bonusReady = shop.dailyReady > 0,
-            onShop = { model.open(Screen.SHOP) },
             onCharacter = { model.open(Screen.SKINS) },
             onHosting = { model.open(Screen.HOSTING) },
         )
@@ -182,15 +171,10 @@ fun HomeScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
         hubSections(
             feed = HubFeed(
                 hub = hub,
-                exclusives = Premium.exclusives(premium.showcase?.packs.orEmpty(), hub.catalog.orEmpty()),
-                free = Premium.freePacks(hub.catalog.orEmpty()),
-                plan = premium.plan,
-                premiumWait = premium.showcase == null && premium.error == null,
                 ownPlayable = OwnServers.playable(OwnServers.ONEBLOCK),
             ),
             actions = HubActions(
                 playOwn = playOwn,
-                openPack = model.premium::open,
                 openCatalog = {
                     model.open(Screen.CATALOG)
                     model.catalogModel.setTab(CatalogTab.MODPACKS)
@@ -226,7 +210,7 @@ fun HomeScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
                 )
             },
             actions = {
-                MPrimaryButton("Новая сборка", onClick = { openCreate(null) }, icon = MIcons.plus, size = MButtonSize.Small)
+                MPrimaryButton("New build", onClick = { openCreate(null) }, icon = MIcons.plus, size = MButtonSize.Small)
             },
         ) {
             shelves()
@@ -240,9 +224,6 @@ fun HomeScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
             look = characterLookOf(state, licence),
             active = active,
             hostedCount = state.hosted.size,
-            shopAlert = shop.badge > 0,
-            bonusReady = shop.dailyReady > 0,
-            recommend = recommendedPack(hub),
             accountMenu = { maxHeight, close, placement ->
                 LobbyAccountMenu(state, model, maxHeight = maxHeight, onClose = close, modifier = placement)
             },
@@ -258,13 +239,11 @@ fun HomeScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
                 },
                 onCancel = model::cancelPlay,
                 onCharacter = { model.open(Screen.SKINS) },
-                onShop = { model.open(Screen.SHOP) },
                 onHosting = { model.open(Screen.HOSTING) },
                 onFriends = { model.open(Screen.FRIENDS) },
                 onMessages = { model.open(Screen.CHAT) },
                 onMore = { model.open(Screen.MORE) },
                 onSettings = { model.open(Screen.SETTINGS) },
-                onRecommend = { pack -> if (pack.slug == ONEBLOCK_PACK) playOwn() else model.premium.open(pack) },
             ),
             modifier = modifier,
         )
@@ -300,9 +279,6 @@ fun HomeScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
             onDismiss = model.hub::closeMode,
         )
     }
-    PackPageSheet(model)
-    MillidaShelfSheets(state, model)
-
     openedServer?.let { server ->
         ServerDetailSheet(
             server = server,
@@ -343,9 +319,9 @@ fun HomeScreen(state: UiState, model: LauncherViewModel, modifier: Modifier = Mo
     val deletingProfile = state.profiles.firstOrNull { it.id == deleting }
     if (deletingProfile != null) {
         MConfirmDialog(
-            title = "Удалить сборку?",
-            text = "«${deletingProfile.name}» удалится с модами и мирами. Вернуть нельзя.",
-            confirm = "Удалить",
+            title = "Delete build?",
+            text = "“${deletingProfile.name}” and its mods and worlds will be deleted. This cannot be undone.",
+            confirm = "Delete",
             onConfirm = {
                 deleting = null
                 model.deleteProfile(deletingProfile.id)
@@ -399,14 +375,14 @@ internal fun CreateProfileSheet(
     val entry = source.firstOrNull { it.id == version }
     val gate = loaderGate(loader, entry)
 
-    MBottomSheet(onDismiss = onDismiss, title = "Новая сборка") {
-        MSectionTitle("НАЗВАНИЕ")
+    MBottomSheet(onDismiss = onDismiss, title = "New build") {
+        MSectionTitle("NAME")
         Spacer(Modifier.height(8.dp))
-        MField(name, { name = it }, placeholder = "Например, Выживание с друзьями")
+        MField(name, { name = it }, placeholder = "For example, Survival with friends")
 
         Spacer(Modifier.height(18.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            MSectionTitle("ВЕРСИЯ ИГРЫ", Modifier.weight(1f))
+            MSectionTitle("GAME VERSION", Modifier.weight(1f))
             if (version.isNotEmpty()) {
                 Text(version, style = MillidaType.pixel, color = colors.accentText, maxLines = 1)
             }
@@ -418,11 +394,11 @@ internal fun CreateProfileSheet(
                 query = it
                 shown = VERSION_PAGE
             },
-            placeholder = "Найти версию",
+            placeholder = "Search versions",
             leadingIcon = MIcons.search,
             clearable = true,
         )
-        MSwitchRow("Снапшоты и старые", null, snapshots) {
+        MSwitchRow("Snapshots and older versions", null, snapshots) {
             snapshots = it
             shown = VERSION_PAGE
         }
@@ -430,7 +406,7 @@ internal fun CreateProfileSheet(
         when {
             versionsError != null && (source.isEmpty() || snapshots) -> MErrorCard(versionsError, onRetry = onRetryVersions)
             source.isEmpty() || (versionsLoading && filtered.isEmpty()) -> MSkeleton(height = 96.dp)
-            filtered.isEmpty() -> Text("Такой версии нет", style = MillidaType.body, color = colors.fgSubtle)
+            filtered.isEmpty() -> Text("No matching versions", style = MillidaType.body, color = colors.fgSubtle)
             else -> {
                 MButtonRow {
                     filtered.take(shown).forEach { option ->
@@ -447,7 +423,7 @@ internal fun CreateProfileSheet(
                 if (filtered.size > shown) {
                     Spacer(Modifier.height(4.dp))
                     MTextButton(
-                        text = "Ещё ${minOf(VERSION_PAGE, filtered.size - shown)}",
+                        text = "More ${minOf(VERSION_PAGE, filtered.size - shown)}",
                         onClick = { shown += VERSION_PAGE },
                         icon = MIcons.chevronDown,
                     )
@@ -458,17 +434,17 @@ internal fun CreateProfileSheet(
             Spacer(Modifier.height(10.dp))
             MButtonRow {
                 if (isLegacyVersion(entry)) {
-                    MBadge("Старая версия: может не запуститься", colors.warning, colors.warningSoft, icon = MIcons.alert)
-                    MBadge("Forge до 1.13 не поддерживается", colors.warning, colors.warningSoft, icon = MIcons.alert)
+                    MBadge("Older version: may not launch", colors.warning, colors.warningSoft, icon = MIcons.alert)
+                    MBadge("Forge versions before 1.13 are not supported", colors.warning, colors.warningSoft, icon = MIcons.alert)
                 }
                 if (isNewRenderer(entry)) {
-                    MBadge("Картинка может рваться", colors.warning, colors.warningSoft, icon = MIcons.alert)
+                    MBadge("The image may tear", colors.warning, colors.warningSoft, icon = MIcons.alert)
                 }
             }
         }
 
         Spacer(Modifier.height(18.dp))
-        MSectionTitle("ЗАГРУЗЧИК")
+        MSectionTitle("LOADER")
         Spacer(Modifier.height(8.dp))
         MButtonRow {
             LoaderKind.entries.forEach { kind ->
@@ -483,8 +459,8 @@ internal fun CreateProfileSheet(
 
         Spacer(Modifier.height(22.dp))
         MPrimaryButton(
-            text = "Создать",
-            onClick = { onCreate(name.trim().ifEmpty { "Сборка $version" }, version, loader) },
+            text = "Create",
+            onClick = { onCreate(name.trim().ifEmpty { "Build $version" }, version, loader) },
             modifier = Modifier.fillMaxWidth(),
             enabled = version.isNotEmpty() && gate == LoaderGate.Ready,
             icon = MIcons.plus,

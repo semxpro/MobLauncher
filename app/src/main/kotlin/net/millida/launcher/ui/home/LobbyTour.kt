@@ -22,15 +22,14 @@ import net.millida.launcher.ui.bringIntoTour
 
 /** The desktop guide's steps, in its order, pointed at the phone lobby's own elements. */
 private val LOBBY_STEPS = listOf(
-    TourStep(TourTarget.PLAY, "Кнопка «Играть»", "Нет сборок — создаст первую. Дальше сама скачает игру и запустит"),
-    TourStep(TourTarget.BUILDS, "Твои сборки", "Полка под «Играть»: выбери, во что играешь сегодня"),
-    TourStep(TourTarget.CHARACTER, "Твой персонаж", "Стоит в том, что ты надел. Нажми — скины, плащи и косметика"),
-    TourStep(TourTarget.WARDROBE, "Скины и плащи", "Свой скин, плащ и косметика. Видно на серверах с аккаунтом Millida"),
-    TourStep(TourTarget.SHOP, "Магазин", "Рубины, ежедневный бонус и вещи. «!» — ждёт бесплатный бонус"),
-    TourStep(TourTarget.SERVER, "Свой сервер", "Сервер для друзей, есть бесплатный тариф"),
-    TourStep(TourTarget.FRIENDS, "Друзья", "Кто в сети и где играет. Чат и приглашение — одной кнопкой"),
-    TourStep(TourTarget.ACCOUNT, "Аккаунт", "Переключение аккаунтов и лицензия Minecraft"),
-    TourStep(TourTarget.SETTINGS, "Настройки", "Цвет кнопок, звук и память. Гайд запускается отсюда заново"),
+    TourStep(TourTarget.PLAY, "Play button", "If you have no builds, this creates one, then downloads and launches the game."),
+    TourStep(TourTarget.BUILDS, "Your builds", "Choose what to play from the shelf below Play."),
+    TourStep(TourTarget.CHARACTER, "Your character", "See what you are wearing. Select it to manage skins, capes, and cosmetics."),
+    TourStep(TourTarget.WARDROBE, "Skins and capes", "Choose a skin, cape, or cosmetic. Visible on servers when signed in to Millida."),
+    TourStep(TourTarget.SERVER, "Your server", "Create a free server for friends."),
+    TourStep(TourTarget.FRIENDS, "Friends", "See who is online and what they are playing. Chat and invite with one button."),
+    TourStep(TourTarget.ACCOUNT, "Account", "Switch accounts and check your Minecraft license."),
+    TourStep(TourTarget.SETTINGS, "Settings", "Adjust button colors, sound, and memory. Restart the guide here."),
 )
 
 private val LOBBY_STEPS_NO_BUILDS = LOBBY_STEPS.filter { it.target != TourTarget.BUILDS }
@@ -44,11 +43,11 @@ private val WIDE_LOBBY_STEPS = LOBBY_STEPS.map { step ->
     when (step.target) {
         TourTarget.BUILDS -> TourStep(
             TourTarget.BUILDS,
-            "Что играем сегодня",
-            "Плашка слева от «Играть» открывает библиотеку: свои сборки, версии, режимы и серверы",
+            "What to play today",
+            "The panel to the left of Play opens your library of builds, versions, modes, and servers.",
         )
-        TourTarget.WARDROBE -> TourStep(TourTarget.WARDROBE, "Мой скин", step.text)
-        TourTarget.SERVER -> TourStep(TourTarget.SERVER, "Играть с друзьями", step.text)
+        TourTarget.WARDROBE -> TourStep(TourTarget.WARDROBE, "My skin", step.text)
+        TourTarget.SERVER -> TourStep(TourTarget.SERVER, "Play with friends", step.text)
         else -> step
     }
 }
@@ -124,6 +123,6 @@ private fun lobbyItemIndex(target: TourTarget, wide: Boolean, shelves: Int): Int
         TourTarget.CHARACTER -> 1
         TourTarget.PLAY -> 2
         TourTarget.BUILDS -> 3
-        TourTarget.WARDROBE, TourTarget.SHOP, TourTarget.SERVER -> 3 + shelves
+        TourTarget.WARDROBE, TourTarget.SERVER -> 3 + shelves
     }
 }
