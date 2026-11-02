@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.millida.launcher.core.MillidaLinksTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:24" hostname="codespaces-d0fe97" time="0.005">
-  <properties/>
-  <testcase name="подпись из ссылки не несёт разметку и переводы строк" classname="net.millida.launcher.core.MillidaLinksTest" time="0.001"/>
-  <testcase name="враждебные и кривые адреса отклоняются целиком" classname="net.millida.launcher.core.MillidaLinksTest" time="0.002"/>
-  <testcase name="адреса, которые понимает лаунчер" classname="net.millida.launcher.core.MillidaLinksTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

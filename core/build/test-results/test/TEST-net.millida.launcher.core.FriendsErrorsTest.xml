@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.millida.launcher.core.FriendsErrorsTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:20" hostname="codespaces-d0fe97" time="0.004">
-  <properties/>
-  <testcase name="обёртка сохраняет причину для диагностики" classname="net.millida.launcher.core.FriendsErrorsTest" time="0.0"/>
-  <testcase name="любой сбой друзей превращается в фразу для игрока" classname="net.millida.launcher.core.FriendsErrorsTest" time="0.002"/>
-  <testcase name="ошибка друзей без причины создаётся с текстом" classname="net.millida.launcher.core.FriendsErrorsTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

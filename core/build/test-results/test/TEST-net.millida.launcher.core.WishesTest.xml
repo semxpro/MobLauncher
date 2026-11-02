@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.millida.launcher.core.WishesTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:30" hostname="codespaces-d0fe97" time="0.006">
-  <properties/>
-  <testcase name="докупка округляется до целых рублей" classname="net.millida.launcher.core.WishesTest" time="0.001"/>
-  <testcase name="статус вещи из «Хочу» берётся из магазина, мастерской и каталога" classname="net.millida.launcher.core.WishesTest" time="0.004"/>
-  <testcase name="перевёрнутые карты живут только в своём рынке" classname="net.millida.launcher.core.WishesTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.millida.launcher.core.PackParkingTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:25" hostname="codespaces-d0fe97" time="0.007">
-  <properties/>
-  <testcase name="имя отложенной копии узнаётся при восстановлении" classname="net.millida.launcher.core.PackParkingTest" time="0.001"/>
-  <testcase name="отложенная копия возвращается на место, только если живой копии нет" classname="net.millida.launcher.core.PackParkingTest" time="0.006"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.millida.launcher.core.DownloaderResumeTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:16" hostname="codespaces-d0fe97" time="3.678">
-  <properties/>
-  <testcase name="оборванный файл докачивается с места обрыва" classname="net.millida.launcher.core.DownloaderResumeTest" time="3.678"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

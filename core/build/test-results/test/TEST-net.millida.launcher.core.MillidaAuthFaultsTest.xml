@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.millida.launcher.core.MillidaAuthFaultsTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:24" hostname="codespaces-d0fe97" time="0.071">
-  <properties/>
-  <testcase name="кривой ответ и кривой путь превращаются в IOException" classname="net.millida.launcher.core.MillidaAuthFaultsTest" time="0.013"/>
-  <testcase name="ICE с ответом не JSON уходит на запасной STUN" classname="net.millida.launcher.core.MillidaAuthFaultsTest" time="0.003"/>
-  <testcase name="сбой сети при обновлении входа не выдаётся за истёкший вход" classname="net.millida.launcher.core.MillidaAuthFaultsTest" time="0.055"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

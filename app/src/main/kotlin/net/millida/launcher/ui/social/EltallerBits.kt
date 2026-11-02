@@ -29,11 +29,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import net.millida.launcher.Prefs
 import net.millida.launcher.core.friends.Eltaller
 import net.millida.launcher.ui.MBottomSheet
 import net.millida.launcher.ui.MillidaShape
-import net.millida.launcher.ui.home.AssetImage
 
 /** Emoji sizes of the desktop chat (src/styles/pixel/emoji.css): in a line, alone in a message, in a quote. */
 internal enum class EltSize(val side: TextUnit) {
@@ -46,7 +46,12 @@ private const val PICKER_COLUMNS = 8
 
 @Composable
 internal fun EltImage(id: String, modifier: Modifier = Modifier) {
-    AssetImage(Eltaller.assetPath(id), modifier, scale = ContentScale.Fit)
+    AsyncImage(
+        model = "file:///android_asset/${Eltaller.assetPath(id)}",
+        contentDescription = null,
+        modifier = modifier,
+        contentScale = ContentScale.Fit,
+    )
 }
 
 /**

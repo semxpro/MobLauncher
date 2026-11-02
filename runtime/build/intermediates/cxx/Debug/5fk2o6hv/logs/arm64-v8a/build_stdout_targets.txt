@@ -1,2 +1,0 @@
-ninja: Entering directory `/workspaces/MobLauncher/runtime/.cxx/Debug/5fk2o6hv/arm64-v8a'
-ninja: no work to do.

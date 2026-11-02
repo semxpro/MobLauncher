@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.millida.launcher.core.PortalFlagsTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:26" hostname="codespaces-d0fe97" time="0.32">
-  <properties/>
-  <testcase name="отрицательная сумма пишется со знаком один раз" classname="net.millida.launcher.core.PortalFlagsTest" time="0.014"/>
-  <testcase name="занятый ник не выдаётся за свободный" classname="net.millida.launcher.core.PortalFlagsTest" time="0.096"/>
-  <testcase name="поле, которого нет в ответе, не читается как да" classname="net.millida.launcher.core.PortalFlagsTest" time="0.21"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

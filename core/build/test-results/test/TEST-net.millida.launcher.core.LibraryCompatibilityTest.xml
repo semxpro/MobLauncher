@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.millida.launcher.core.LibraryCompatibilityTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:24" hostname="codespaces-d0fe97" time="0.001">
-  <properties/>
-  <testcase name="версия игры новее пакета объясняется словами" classname="net.millida.launcher.core.LibraryCompatibilityTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

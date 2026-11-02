@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.millida.launcher.core.SafePathTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:28" hostname="codespaces-d0fe97" time="0.003">
-  <properties/>
-  <testcase name="имя файла чистится от опасных символов" classname="net.millida.launcher.core.SafePathTest" time="0.001"/>
-  <testcase name="нормальные пути внутри корня принимаются" classname="net.millida.launcher.core.SafePathTest" time="0.001"/>
-  <testcase name="путь наружу корня отклоняется" classname="net.millida.launcher.core.SafePathTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

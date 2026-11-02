@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.millida.launcher.core.ForgeCdnTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:20" hostname="codespaces-d0fe97" time="0.131">
-  <properties/>
-  <testcase name="собранные адреса проходят проверку хоста сборки" classname="net.millida.launcher.core.ForgeCdnTest" time="0.015"/>
-  <testcase name="файл без downloadUrl с известным sha1 берётся с CDN, а не через download-url" classname="net.millida.launcher.core.ForgeCdnTest" time="0.109"/>
-  <testcase name="адрес файла CurseForge собирается из номера файла и имени" classname="net.millida.launcher.core.ForgeCdnTest" time="0.007"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

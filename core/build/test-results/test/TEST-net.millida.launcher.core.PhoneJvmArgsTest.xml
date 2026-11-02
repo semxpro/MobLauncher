@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.millida.launcher.core.PhoneJvmArgsTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-02T03:19:26" hostname="codespaces-d0fe97" time="0.002">
-  <properties/>
-  <testcase name="модульный флаг двумя словами уходит вместе со значением" classname="net.millida.launcher.core.PhoneJvmArgsTest" time="0.001"/>
-  <testcase name="флаги, с которыми Java телефона не стартует" classname="net.millida.launcher.core.PhoneJvmArgsTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
